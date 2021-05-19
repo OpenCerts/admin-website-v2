@@ -1,0 +1,32 @@
+@tailwind base;
+
+@layer base {
+  h1 {
+    font-size: 40px;
+  }
+  h2 {
+    font-size: 32px;
+  }
+  h3 {
+    font-size: 28px;
+  }
+}
+
+@tailwind components;
+
+@tailwind utilities;
+
+/* https://philipwalton.com/articles/normalizing-cross-browser-flexbox-bugs/ */
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#root > nav {
+  flex-shrink: 0;
+}
+
+#root > main {
+  flex: 1 0 auto;
+}
