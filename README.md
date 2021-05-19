@@ -11,10 +11,9 @@ See also:
 
 ```bash
 npm install
-npm run dev
 npm run lint
 
-npm run start # serves the ui
+npm run dev # serves the ui
 ```
 
 ### Setting up web3
