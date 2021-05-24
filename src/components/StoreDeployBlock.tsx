@@ -20,11 +20,12 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProp> = ({
   setDocumentStoreAddress,
   setDocumentStoreStatus,
 }) => {
-  const [validateStatus, setValidateStatus] = useState("");
   const [deployModal, toggleDeployModal] = useState(false);
-  const [documentStoreName, setDocumentStoreName] = useState("");
   const [deployStatus, setDeployStatus] = useState(false);
+  const [validateStatus, setValidateStatus] = useState("");
+  const [documentStoreName, setDocumentStoreName] = useState("");
   const [deployLogs, setDeployLogs] = useState("");
+
   const validateStorageAddress = (value: string) => {
     if (value === "") {
       setValidateStatus("");
@@ -69,7 +70,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProp> = ({
   return (
     <>
       <div
-        className={`container md:flex max-w-screen-lg px-4 md:mx-auto mt-12`}
+        className={`md:flex max-w-screen-lg px-4 md:mx-auto mt-12`}
       >
         <label className="block md:flex-grow md:max-w-lg md:mr-10 text-left">
           <p>Store Address</p>
