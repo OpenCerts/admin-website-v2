@@ -1,17 +1,19 @@
-import { deploy, deployAndWait } from "@govtechsg/document-store";
-import signale from "signale";
 import { DocumentStoreFactory } from "@govtechsg/document-store";
-import { FunctionComponent } from "react";
 import { getSigner } from "./wallet";
 
 export const deployDocumentStore = async (
-  storeName: string
-): Promise<{ contractAddress: string }>  => {
-  signale.await(`Connecting to Metamask`);
-  const signer = await getSigner();
-  const factory = new DocumentStoreFactory(signer);
-  signale.await(`Sending transaction to pool`);
-  const transaction = await factory.deploy(storeName);
-  signale.await(`Waiting for transaction ${transaction.deployTransaction.hash} to be mined`);
-  return transaction.deployTransaction.wait();
+  storeName: string,
+  log?: Function
+): Promise<{ contractAddress: string } | undefined> => {
+  try {
+    log ? log("Decrypting wallet") : null;
+    const signer = await getSigner();
+    log ? log("Wallet successfully decrypted") : null;
+    const factory = new DocumentStoreFactory(signer);
+    log ? log(`Deploying document store ${storeName}`) : null;
+    const transaction = await factory.deploy(storeName);
+    return transaction.deployTransaction.wait();
+  } catch (e) {
+    log ? log(e.message) : null;
+  }
 };

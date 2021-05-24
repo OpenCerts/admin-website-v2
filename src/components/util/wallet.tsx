@@ -30,3 +30,7 @@ export const getWalletDetails = async (): Promise<WalletDetails> => {
   return wallet;
 };
 
+export const getWalletNetwork = async (): Promise<string> => {
+  const signer = await getSigner();
+  return (await signer.provider.getNetwork()).name;
+};

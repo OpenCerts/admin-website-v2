@@ -16,6 +16,11 @@ const localConfig = {
       display: ["Roboto", "sans-serif"],
       body: ["Roboto", "sans-serif"],
     },
+    width: {
+      fit: "fit-content",
+    },
+    extend: {
+    },
   },
 };
 const finalConfig = _.merge(commonUiConfig, localConfig); // deep merge
