@@ -66,6 +66,7 @@ function App() {
                   onClick={() => {
                     showBlock(blockData["trigger"]);
                   }}
+                  data-testid={`show-${blockData["trigger"]}-btn`}
                   className={block === blockData["trigger"] ? `active` : ""}
                 >
                   {blockData["text"]}

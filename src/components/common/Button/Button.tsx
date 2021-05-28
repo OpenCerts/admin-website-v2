@@ -31,6 +31,7 @@ interface ButtonProp {
   children: React.ReactNode;
   className?: string;
   custom?: string;
+  dataTestId?: string;
   onClick: () => void;
 }
 
@@ -38,10 +39,11 @@ export const Button: FunctionComponent<ButtonProp> = ({
   children,
   className,
   custom,
+  dataTestId,
   onClick,
 }) => {
   return (
-    <button className={`${className} ${css(base, custom)} focus:outline-none`} onClick={()=>{onClick()}}>
+    <button className={`${className} ${css(base, custom)} focus:outline-none`}  data-testid={dataTestId} onClick={()=>{onClick()}}>
       {children}
     </button>
   );
@@ -60,10 +62,11 @@ background-color: #ff6a33;
 export const OrangeButton: FunctionComponent<ButtonProp> = ({
   children,
   className,
+  dataTestId,
   onClick,
 }) => {
   return (
-    <Button className={className} custom={orange} onClick={()=>{onClick()}}>
+    <Button className={className} custom={orange} dataTestId={dataTestId} onClick={()=>{onClick()}}>
       {children}
     </Button>
   );
@@ -81,10 +84,11 @@ background-color: #878787;
 export const GreyButton: FunctionComponent<ButtonProp> = ({
   children,
   className,
+  dataTestId,
   onClick,
 }) => {
   return (
-    <Button className={className} custom={grey} onClick={()=>{onClick()}}>
+    <Button className={className} custom={grey} dataTestId={dataTestId} onClick={()=>{onClick()}}>
       {children}
     </Button>
   );

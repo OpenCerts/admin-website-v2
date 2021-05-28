@@ -13,69 +13,66 @@ interface DocumentStoreAddressProp {
 export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({
   documentStoreAddress,
 }) => {
-  const [certificateHash, setCertificateHash] = useState("");
+  const [processing, setProcessing] = useState(false);
   const [validateStatus, setValidateStatus] = useState("");
-  const [revokeStatus, setRevokeStatus] = useState(false);
-  const [revokeLogs, setRevokeLogs] = useState("");
+
+  const [certificateHash, setCertificateHash] = useState("");
+  const [logs, setLogs] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
   const validateCertificateHash = (value: string) => {
     if (value === "") {
       setValidateStatus("");
+    } else if (isValidCertificateHash(value)) {
+      setCertificateHash(value);
+      setValidateStatus("valid");
     } else {
-      if (isValidCertificateHash(value)) {
-        setCertificateHash(value);
-        setValidateStatus("valid");
-      } else {
-        setCertificateHash("");
-        setValidateStatus("invalid");
-      }
+      setCertificateHash("");
+      setValidateStatus("invalid");
     }
   };
 
   const revokeCertificateHash = async () => {
-    if (
-      certificateHash !== "" &&
-      validateStatus === "valid" &&
-      confirm("Are you sure you want to revoke this hash?")
-    ) {
-      setRevokeStatus(true);
-      const transaction = await revoke(
-        documentStoreAddress,
-        certificateHash,
-        setRevokeLogs
-      );
-      if (transaction) {
-        setSuccessMessage(
-          `Document/Document Batch with hash ${certificateHash} has been revoked on ${documentStoreAddress}`
+    setErrorMessage("");
+    setSuccessMessage("");
+    if (certificateHash !== "" && validateStatus === "valid") {
+      if (confirm("Are you sure you want to revoke this hash?")) {
+        setProcessing(true);
+        const transaction = await revoke(
+          documentStoreAddress,
+          certificateHash,
+          setLogs
         );
+        if (transaction) {
+          setSuccessMessage(
+            `Document/Document Batch with hash ${certificateHash} has been revoked on ${documentStoreAddress}`
+          );
 
-        setRevokeLogs(
-          `Find more details at ${getEtherscanAddress({
-            network: await getWalletNetwork(),
-          })}/tx/${transaction.transactionHash}`
-        );
+          setLogs(
+            `Find more details at ${getEtherscanAddress({
+              network: await getWalletNetwork(),
+            })}/tx/${transaction.transactionHash}`
+          );
+        }
+      } else {
+        setLogs("Revoke certificate hash cancelled.");
       }
-
-      setErrorMessage("");
-      setRevokeStatus(false);
     } else {
       setErrorMessage("*Please enter valid merkle root hash.");
-      setSuccessMessage("");
     }
+    setProcessing(false);
   };
 
   return (
     <>
-      <div
-        className={`container md:flex max-w-screen-lg px-4 md:mx-auto mt-12`}
-      >
-        <label className="block md:flex-grow md:max-w-lg md:mr-10 text-left">
+      <div className={`md:flex max-w-screen-lg px-4 mx-auto mt-12`}>
+        <label className="max-w-lg w-full text-left">
           <p>Certificate hash to revoke</p>
           <TextInput
             className={`${validateStatus} w-full mt-3`}
             placeHolder="0x..."
+            dataTestId="revoke-certificate"
             onChange={validateCertificateHash}
           />
         </label>
@@ -83,25 +80,25 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({
           <OrangeButton
             onClick={() => revokeCertificateHash()}
             className="tw-full inline-flex justify-center text-sm font-medium"
+            dataTestId="revoke-certificate-btn"
           >
-            {revokeStatus && <Spinner className="w-5 h-5 mr-2" />}
+            {processing && <Spinner className="w-5 h-5 mr-2" />}
             <span>Revoke</span>
           </OrangeButton>
         </div>
       </div>
-      <div className={`container max-w-screen-lg px-4 md:mx-auto`}>
-        <p className={"text-red-600"}>{errorMessage}</p>
-        <p className={"text-green-600"}>{successMessage}</p>
+      <div className={`max-w-screen-lg px-4 mx-auto`}>
+      <p className={"text-red-600 break-all"} data-testid="error-message">{errorMessage}</p>
+        <p className={"text-green-600 break-all"} data-testid="success-message">{successMessage}</p>
       </div>
 
       <div className="w-100 h-20 max-w-screen-lg px-4 mt-6 mx-auto ">
         <p className={"my-2 text-sm text-gray-700"}>Status </p>
         <textarea
-          className={
-            "w-full h-16 bg-gray-100 p-2 text-sm resize-none overflow-scroll"
-          }
+          className={"w-full h-16 bg-gray-100 p-2 text-sm resize-none overflow-scroll"}
           disabled
-          value={revokeLogs}
+          data-testid="revoke-log"
+          value={logs}
         />
       </div>
     </>

@@ -9,84 +9,72 @@ import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/util";
 
-interface DocumentStoreAddressProp {
+interface DocumentStoreAddressProps {
   documentStoreAddress: string;
   setDocumentStoreAddress: Function;
   setDocumentStoreStatus: Function;
 }
 
-export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProp> = ({
+export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   documentStoreAddress,
   setDocumentStoreAddress,
   setDocumentStoreStatus,
 }) => {
-  const [deployModal, toggleDeployModal] = useState(false);
-  const [deployStatus, setDeployStatus] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const [validateStatus, setValidateStatus] = useState("");
   const [documentStoreName, setDocumentStoreName] = useState("");
-  const [deployLogs, setDeployLogs] = useState("");
+  const [logs, setLogs] = useState("");
 
   const validateStorageAddress = (value: string) => {
+    setDocumentStoreAddress(value);
     if (value === "") {
       setValidateStatus("");
+    } else if (isAddress(value)) {
+      setDocumentStoreStatus(true);
+      setValidateStatus("valid");
     } else {
-      if (isAddress(value)) {
-        setDocumentStoreStatus(true);
-        setValidateStatus("valid");
-      } else {
-        setDocumentStoreStatus(false);
-        setValidateStatus("invalid");
-      }
+      setDocumentStoreStatus(false);
+      setValidateStatus("invalid");
     }
-    setDocumentStoreAddress(value);
-  };
-
-  const validateStorageName = (value: string) => {
-    setDocumentStoreName(value);
   };
 
   const deployDocumentStore = async () => {
-    if (documentStoreName != "") {
-      setDeployStatus(true);
-      const documentStore = await deploy(documentStoreName, setDeployLogs);
-      if (documentStore) {
-        const documentNetwork = await getWalletNetwork();
-        setDeployLogs(
+    if (documentStoreName !== "") {
+      setProcessing(true);
+      const transaction = await deploy(documentStoreName, setLogs);
+      if (transaction) {
+        const walletNetwork = await getWalletNetwork();
+        setLogs(
           `Document Store Deployed. Find more details at ${getEtherscanAddress({
-            network: documentNetwork,
-          })}/address/${documentStore.contractAddress}`
+            network: walletNetwork,
+          })}/address/${transaction.contractAddress}`
         );
-        setDeployStatus(false);
-        setDocumentStoreAddress(documentStore.contractAddress);
-        validateStorageAddress(documentStore.contractAddress);
-      } else {
-        setDeployStatus(false);
+        validateStorageAddress(transaction.contractAddress);
+        setShowModal(false);
       }
-    } else {
-      setDeployStatus(false);
     }
+    setProcessing(false);
   };
 
   return (
     <>
-      <div
-        className={`md:flex max-w-screen-lg px-4 md:mx-auto mt-12`}
-      >
-        <label className="block md:flex-grow md:max-w-lg md:mr-10 text-left">
+      <div className={`md:flex max-w-screen-lg px-4 mt-12 mx-auto`}>
+        <label className="max-w-lg w-full text-left">
           <p>Store Address</p>
           <TextInput
             className={`${validateStatus} w-full mt-3`}
             placeHolder="Enter existing (0x…), or deploy new instance."
             onChange={validateStorageAddress}
             value={documentStoreAddress}
+            dataTestId="document-store"
           />
         </label>
         <p className="text-center my-4 text-gray-400 md:hidden">Or</p>
-        <div className="w-auto md:w-fit md:ml-auto mt-auto">
+        <div className="md:ml-auto mt-auto">
           <OrangeButton
             onClick={() => {
-              toggleDeployModal(true);
-              setDeployLogs("");
+              setShowModal(true);
               setDocumentStoreName("");
             }}
             className="text-sm w-full font-medium"
@@ -96,46 +84,42 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProp> = ({
         </div>
       </div>
 
-      <Modal toggleOpen={deployModal}>
-        <div className="sm:flex sm:items-start w-100 ">
-          <div className="w-full mt-3 sm:mt-0 sm:text-left">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
-              Deploy Document Store
-            </h3>
-            <div className="w-full mt-10">
-              <TextInput
-                className={"w-full"}
-                onChange={validateStorageName}
-                placeHolder="Name of organisation."
-                value={documentStoreName}
-              />
-            </div>
-          </div>
+      <Modal toggleOpen={showModal}>
+        <div className="sm:items-start w-full">
+          <h3 className="text-lg leading-6 font-medium text-gray-900">
+            Deploy Document Store
+          </h3>
+          <TextInput
+            className={"w-full mt-3"}
+            onChange={(value)=>setDocumentStoreName(value)}
+            placeHolder="Name of organisation."
+            value={documentStoreName}
+          />
         </div>
-        <div className="px-4 pt-5 md:pt-6 pb-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <OrangeButton
-            onClick={deployDocumentStore}
-            className="w-full inline-flex justify-center text-sm font-medium "
-          >
-            {deployStatus && <Spinner className="w-5 h-5 mr-2" />}
-            Deploy
-          </OrangeButton>
+        <div className="sm:flex pt-5">
           <GreyButton
-            onClick={() => toggleDeployModal(false)}
-            className="w-full text-sm font-medium mr-5"
+            onClick={() => setShowModal(false)}
+            className="w-full mr-5 text-sm font-medium"
           >
             Cancel
           </GreyButton>
+          <OrangeButton
+            onClick={deployDocumentStore}
+            className="w-full inline-flex justify-center text-sm font-medium"
+          >
+            {processing && <Spinner className="w-5 h-5 mr-2" />}
+            Deploy
+          </OrangeButton>
         </div>
-        <div className="my-3 w-100 h-20">
+        <div className="w-100 mt-3 text-sm ">
           <hr />
-          <p className={"my-2 text-sm text-gray-700"}>Status </p>
+          <p className={"my-2 text-gray-700"}>Status </p>
           <textarea
             className={
-              "w-full h-16 bg-gray-100 p-2 text-sm resize-none overflow-scroll"
+              "w-full h-16 bg-gray-100 p-2 resize-none overflow-scroll"
             }
             disabled
-            value={deployLogs}
+            value={logs}
           />
         </div>
       </Modal>

@@ -58,7 +58,7 @@ export const Header: FunctionComponent<{}> = () => {
           <>
             <div className="w-auto mb-4 lg:mb-0">
               <p className="font-medium">Current Account</p>
-              <p className=" break-all">{walletAddress}</p>
+              <p className="break-all">{walletAddress}</p>
             </div>
             <BreakLine className="md:hidden" />
             <div className="w-auto md:ml-12 mb-4 lg:mb-0">
@@ -76,7 +76,8 @@ export const Header: FunctionComponent<{}> = () => {
         {!isConnected && (
             <OrangeButton
               onClick={getWalletDetails}
-              className="font-medium"
+              className="text-sm font-medium"
+              dataTestId="connectToWallet"
             >
               Connect Metamask
             </OrangeButton>
