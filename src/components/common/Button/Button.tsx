@@ -1,4 +1,4 @@
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import React, { FunctionComponent } from "react";
 
 const base = css`
@@ -24,7 +24,6 @@ const base = css`
     opacity: 0.5;
     filter: alpha(opacity=50);
   }
-
 `;
 
 interface ButtonProp {
@@ -43,21 +42,25 @@ export const Button: FunctionComponent<ButtonProp> = ({
   onClick,
 }) => {
   return (
-    <button className={`${className} ${css(base, custom)} focus:outline-none`}  data-testid={dataTestId} onClick={()=>{onClick()}}>
+    <button
+      className={`${className} ${css(base, custom)} focus:outline-none`}
+      data-testid={dataTestId}
+      onClick={() => {
+        onClick();
+      }}
+    >
       {children}
     </button>
   );
 };
 
-
-
 const orange = css`
-color: white;
-background-color: #ff6a33;
-:hover{
-  background-color: #DE8B38;
-}
-`
+  color: white;
+  background-color: #ff6a33;
+  :hover {
+    background-color: #de8b38;
+  }
+`;
 
 export const OrangeButton: FunctionComponent<ButtonProp> = ({
   children,
@@ -66,20 +69,26 @@ export const OrangeButton: FunctionComponent<ButtonProp> = ({
   onClick,
 }) => {
   return (
-    <Button className={className} custom={orange} dataTestId={dataTestId} onClick={()=>{onClick()}}>
+    <Button
+      className={className}
+      custom={orange}
+      dataTestId={dataTestId}
+      onClick={() => {
+        onClick();
+      }}
+    >
       {children}
     </Button>
   );
 };
 
-
 const grey = css`
-color: white;
-background-color: #878787;
-:hover{
-  background-color: #616161;
-}
-`
+  color: white;
+  background-color: #878787;
+  :hover {
+    background-color: #616161;
+  }
+`;
 
 export const GreyButton: FunctionComponent<ButtonProp> = ({
   children,
@@ -88,7 +97,14 @@ export const GreyButton: FunctionComponent<ButtonProp> = ({
   onClick,
 }) => {
   return (
-    <Button className={className} custom={grey} dataTestId={dataTestId} onClick={()=>{onClick()}}>
+    <Button
+      className={className}
+      custom={grey}
+      dataTestId={dataTestId}
+      onClick={() => {
+        onClick();
+      }}
+    >
       {children}
     </Button>
   );

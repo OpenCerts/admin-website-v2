@@ -88,14 +88,20 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({
         </div>
       </div>
       <div className={`max-w-screen-lg px-4 mx-auto`}>
-      <p className={"text-red-600 break-all"} data-testid="error-message">{errorMessage}</p>
-        <p className={"text-green-600 break-all"} data-testid="success-message">{successMessage}</p>
+        <p className={"text-red-600 break-all"} data-testid="error-message">
+          {errorMessage}
+        </p>
+        <p className={"text-green-600 break-all"} data-testid="success-message">
+          {successMessage}
+        </p>
       </div>
 
       <div className="w-100 h-20 max-w-screen-lg px-4 mt-6 mx-auto ">
         <p className={"my-2 text-sm text-gray-700"}>Status </p>
         <textarea
-          className={"w-full h-16 bg-gray-100 p-2 text-sm resize-none overflow-scroll"}
+          className={
+            "w-full h-16 bg-gray-100 p-2 text-sm resize-none overflow-scroll"
+          }
           disabled
           data-testid="revoke-log"
           value={logs}

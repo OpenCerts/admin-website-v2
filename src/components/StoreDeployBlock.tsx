@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { Dispatch, FunctionComponent, useState } from "react";
 import { TextInput } from "./common/TextInput";
 import { GreyButton, OrangeButton } from "./common/Button";
 import { Modal } from "./common/Modal";
@@ -11,8 +11,8 @@ import { getEtherscanAddress } from "./util/util";
 
 interface DocumentStoreAddressProps {
   documentStoreAddress: string;
-  setDocumentStoreAddress: Function;
-  setDocumentStoreStatus: Function;
+  setDocumentStoreAddress: Dispatch<string>;
+  setDocumentStoreStatus: Dispatch<boolean>;
 }
 
 export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
@@ -91,7 +91,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           </h3>
           <TextInput
             className={"w-full mt-3"}
-            onChange={(value)=>setDocumentStoreName(value)}
+            onChange={(value) => setDocumentStoreName(value)}
             placeHolder="Name of organisation."
             value={documentStoreName}
           />

@@ -19,8 +19,7 @@ const localConfig = {
     width: {
       fit: "fit-content",
     },
-    extend: {
-    },
+    extend: {},
   },
 };
 const finalConfig = _.merge(commonUiConfig, localConfig); // deep merge

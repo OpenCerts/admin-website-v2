@@ -1,18 +1,14 @@
 import { isValidCertificateHash, getEtherscanAddress } from "./utils";
 
-describe("getEtherscanAddress", () =>{
+describe("getEtherscanAddress", () => {
   it("return etherscan when wallet is mainnet chain", () => {
-    expect(
-      getEtherscanAddress("homestead")
-    ).toBe("https://etherscan.io");
-  })
+    expect(getEtherscanAddress("homestead")).toBe("https://etherscan.io");
+  });
 
   it("return ropsten.etherscan when wallet is in ropsten chain", () => {
-    expect(
-      getEtherscanAddress("ropsten")
-    ).toBe("https://ropsten.etherscan.io");
-  })
-})
+    expect(getEtherscanAddress("ropsten")).toBe("https://ropsten.etherscan.io");
+  });
+});
 
 describe("isValidCertificateHash validator", () => {
   it("should return true for address with correct checksum", () => {

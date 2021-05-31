@@ -1,5 +1,4 @@
 import { css } from "@emotion/css";
-import styled from "@emotion/styled";
 import React, { FunctionComponent } from "react";
 
 const SpinnerStyle = css`

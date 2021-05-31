@@ -28,7 +28,7 @@ export const Modal: FunctionComponent<ModalProp> = ({
           className={`flex self-center md:inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform sm:my-8 sm:align-middle sm:max-w-lg sm:w-full`}
         >
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              {children}
+            {children}
           </div>
         </div>
       </div>

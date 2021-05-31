@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import "./App.css";
 import { Header } from "./components/Header";
 import { IssueBlock } from "./components/IssueBlock";
@@ -24,10 +24,10 @@ const BlockNavigationStyle = styled.div`
   }
 `;
 
-function App() {
+const App: FunctionComponent = () => {
   const [documentStoreAddress, setDocumentStoreAddress] = useState("");
   const [documentStoreStatus, setDocumentStoreStatus] = useState(false);
-  
+
   const blocks = [
     {
       trigger: "issue",
@@ -60,9 +60,10 @@ function App() {
       {documentStoreStatus && (
         <>
           <BlockNavigationStyle className={"container max-w-screen-lg mx-auto"}>
-            {blocks.map((blockData) => {
+            {blocks.map((blockData, index) => {
               return (
                 <a
+                  key={index}
                   onClick={() => {
                     showBlock(blockData["trigger"]);
                   }}
@@ -90,12 +91,8 @@ function App() {
           Please enter valid document store address
         </p>
       )}
-
-      {/* {showContainer === "revoke" && (
-          <RevokeHash documentStoreAddress={documentStoreAddress}/>
-      )} */}
     </div>
   );
-}
+};
 
 export default App;

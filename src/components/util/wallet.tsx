@@ -1,5 +1,5 @@
 declare let window: any;
-import { ethers } from "ethers";
+import { ethers, providers } from "ethers";
 
 export interface WalletDetails {
   address: string;
@@ -7,21 +7,21 @@ export interface WalletDetails {
   network: string;
 }
 
-export const connectWallet = async () => {
+export const connectWallet = async (): Promise<providers.Web3Provider> => {
   await window.ethereum.enable();
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const provider = new providers.Web3Provider(window.ethereum);
   return provider;
 };
 
-export const getSigner = async () => {
-    const provider = await connectWallet();
-    const signer = provider.getSigner();
-    return signer;
-  };
+export const getSigner = async (): Promise<providers.JsonRpcSigner> => {
+  const provider = await connectWallet();
+  const signer = provider.getSigner();
+  return signer;
+};
 
 export const getWalletDetails = async (): Promise<WalletDetails> => {
   const signer = await getSigner();
-  
+
   const wallet: WalletDetails = {
     address: await signer.getAddress(),
     balance: ethers.utils.formatEther(await signer.getBalance()),

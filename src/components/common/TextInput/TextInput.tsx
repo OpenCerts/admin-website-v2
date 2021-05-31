@@ -1,4 +1,4 @@
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import React, { ChangeEvent, FunctionComponent } from "react";
 
@@ -35,9 +35,9 @@ export const TextInput: FunctionComponent<ButtonProp> = ({
   dataTestId,
 }) => {
   const _onChange: (event: ChangeEvent<HTMLInputElement>) => void = ({
-    target: { value },
+    target,
   }) => {
-    return onChange(value === "" ? "" : value);
+    return onChange(target.value === "" ? "" : target.value);
   };
 
   return (

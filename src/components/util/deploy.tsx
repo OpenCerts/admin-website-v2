@@ -1,9 +1,10 @@
 import { DocumentStoreFactory } from "@govtechsg/document-store";
+import { Dispatch } from "react";
 import { getSigner } from "./wallet";
 
 export const deployDocumentStore = async (
   storeName: string,
-  log?: Function
+  log?: Dispatch<string>
 ): Promise<{ contractAddress: string } | undefined> => {
   try {
     log ? log("Decrypting wallet") : null;

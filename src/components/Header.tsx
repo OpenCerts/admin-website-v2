@@ -9,7 +9,7 @@ const BreakLine = styled.div`
   flex-basis: 100%;
 `;
 
-export const Header: FunctionComponent<{}> = () => {
+export const Header: FunctionComponent = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState("-");
   const [walletNetwork, setWalletNetwork] = useState("-");
@@ -26,7 +26,7 @@ export const Header: FunctionComponent<{}> = () => {
       getWalletDetails();
     });
 
-    window.ethereum.on("connect", function (chainId: string) {
+    window.ethereum.on("connect", function () {
       getWalletDetails();
     });
   });
@@ -44,9 +44,7 @@ export const Header: FunctionComponent<{}> = () => {
   }
 
   return (
-    <div
-      className={`shadow-md flex flex-wrap items-center text-sm px-4 py-2 `}
-    >
+    <div className={`shadow-md flex flex-wrap items-center text-sm px-4 py-2 `}>
       <div className="mx-auto my-4 lg:my-0">
         <a href="https://admin.opencerts.io/">
           <img className="img-fluid h-12" src={logo} alt="OpenCert" />
@@ -74,13 +72,13 @@ export const Header: FunctionComponent<{}> = () => {
         )}
 
         {!isConnected && (
-            <OrangeButton
-              onClick={getWalletDetails}
-              className="text-sm font-medium"
-              dataTestId="connectToWallet"
-            >
-              Connect Metamask
-            </OrangeButton>
+          <OrangeButton
+            onClick={getWalletDetails}
+            className="text-sm font-medium"
+            dataTestId="connectToWallet"
+          >
+            Connect Metamask
+          </OrangeButton>
         )}
       </div>
     </div>

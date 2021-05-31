@@ -85,8 +85,12 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({
         </div>
       </div>
       <div className={`max-w-screen-lg px-4 mx-auto`}>
-        <p className={"text-red-600 break-all"} data-testid="error-message">{errorMessage}</p>
-        <p className={"text-green-600 break-all"} data-testid="success-message">{successMessage}</p>
+        <p className={"text-red-600 break-all"} data-testid="error-message">
+          {errorMessage}
+        </p>
+        <p className={"text-green-600 break-all"} data-testid="success-message">
+          {successMessage}
+        </p>
       </div>
 
       <div className="w-100 h-20 max-w-screen-lg px-4 mt-6 mx-auto ">
