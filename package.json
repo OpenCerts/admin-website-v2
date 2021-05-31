@@ -1,6 +1,6 @@
 {
-  "name": "my-vue-app",
-  "version": "0.0.0",
+  "name": "admin-website-v2",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && npm run build:css && vite build",
