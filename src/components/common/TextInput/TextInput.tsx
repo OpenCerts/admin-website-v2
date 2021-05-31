@@ -34,9 +34,7 @@ export const TextInput: FunctionComponent<ButtonProp> = ({
   value,
   dataTestId,
 }) => {
-  const _onChange: (event: ChangeEvent<HTMLInputElement>) => void = ({
-    target,
-  }) => {
+  const _onChange: (event: ChangeEvent<HTMLInputElement>) => void = ({ target }) => {
     return onChange(target.value === "" ? "" : target.value);
   };
 

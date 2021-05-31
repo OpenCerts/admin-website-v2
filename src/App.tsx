@@ -42,11 +42,7 @@ const App: FunctionComponent = () => {
   return (
     <div className="App">
       <Header />
-      <div
-        className={
-          "container max-w-screen-lg px-4 md:mx-auto mt-16 text-center sm:text-left"
-        }
-      >
+      <div className={"container max-w-screen-lg px-4 md:mx-auto mt-16 text-center sm:text-left"}>
         <h2>Administrator Portal</h2>
       </div>
 
@@ -76,20 +72,14 @@ const App: FunctionComponent = () => {
             })}
           </BlockNavigationStyle>
 
-          {block === "issue" && (
-            <IssueBlock documentStoreAddress={documentStoreAddress} />
-          )}
+          {block === "issue" && <IssueBlock documentStoreAddress={documentStoreAddress} />}
 
-          {block === "revoke" && (
-            <RevokeBlock documentStoreAddress={documentStoreAddress} />
-          )}
+          {block === "revoke" && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
         </>
       )}
 
       {!documentStoreStatus && (
-        <p className="text-center mt-14 text-gray-700">
-          Please enter valid document store address
-        </p>
+        <p className="text-center mt-14 text-gray-700">Please enter valid document store address</p>
       )}
     </div>
   );

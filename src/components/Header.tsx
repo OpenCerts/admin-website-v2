@@ -72,11 +72,7 @@ export const Header: FunctionComponent = () => {
         )}
 
         {!isConnected && (
-          <OrangeButton
-            onClick={getWalletDetails}
-            className="text-sm font-medium"
-            dataTestId="connectToWallet"
-          >
+          <OrangeButton onClick={getWalletDetails} className="text-sm font-medium" dataTestId="connectToWallet">
             Connect Metamask
           </OrangeButton>
         )}

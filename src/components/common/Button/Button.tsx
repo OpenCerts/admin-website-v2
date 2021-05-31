@@ -34,13 +34,7 @@ interface ButtonProp {
   onClick: () => void;
 }
 
-export const Button: FunctionComponent<ButtonProp> = ({
-  children,
-  className,
-  custom,
-  dataTestId,
-  onClick,
-}) => {
+export const Button: FunctionComponent<ButtonProp> = ({ children, className, custom, dataTestId, onClick }) => {
   return (
     <button
       className={`${className} ${css(base, custom)} focus:outline-none`}
@@ -62,12 +56,7 @@ const orange = css`
   }
 `;
 
-export const OrangeButton: FunctionComponent<ButtonProp> = ({
-  children,
-  className,
-  dataTestId,
-  onClick,
-}) => {
+export const OrangeButton: FunctionComponent<ButtonProp> = ({ children, className, dataTestId, onClick }) => {
   return (
     <Button
       className={className}
@@ -90,12 +79,7 @@ const grey = css`
   }
 `;
 
-export const GreyButton: FunctionComponent<ButtonProp> = ({
-  children,
-  className,
-  dataTestId,
-  onClick,
-}) => {
+export const GreyButton: FunctionComponent<ButtonProp> = ({ children, className, dataTestId, onClick }) => {
   return (
     <Button
       className={className}

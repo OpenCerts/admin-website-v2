@@ -86,9 +86,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
 
       <Modal toggleOpen={showModal}>
         <div className="sm:items-start w-full">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Deploy Document Store
-          </h3>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">Deploy Document Store</h3>
           <TextInput
             className={"w-full mt-3"}
             onChange={(value) => setDocumentStoreName(value)}
@@ -97,16 +95,10 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           />
         </div>
         <div className="sm:flex pt-5">
-          <GreyButton
-            onClick={() => setShowModal(false)}
-            className="w-full mr-5 text-sm font-medium"
-          >
+          <GreyButton onClick={() => setShowModal(false)} className="w-full mr-5 text-sm font-medium">
             Cancel
           </GreyButton>
-          <OrangeButton
-            onClick={deployDocumentStore}
-            className="w-full inline-flex justify-center text-sm font-medium"
-          >
+          <OrangeButton onClick={deployDocumentStore} className="w-full inline-flex justify-center text-sm font-medium">
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             Deploy
           </OrangeButton>
@@ -114,13 +106,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         <div className="w-100 mt-3 text-sm ">
           <hr />
           <p className={"my-2 text-gray-700"}>Status </p>
-          <textarea
-            className={
-              "w-full h-16 bg-gray-100 p-2 resize-none overflow-scroll"
-            }
-            disabled
-            value={logs}
-          />
+          <textarea className={"w-full h-16 bg-gray-100 p-2 resize-none overflow-scroll"} disabled value={logs} />
         </div>
       </Modal>
     </>
