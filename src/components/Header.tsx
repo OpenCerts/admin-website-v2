@@ -39,8 +39,10 @@ export const Header: FunctionComponent = () => {
     setIsConnected(true);
   };
 
-  if (window.ethereum.isConnected()) {
-    getWalletDetails();
+  if (window.ethereum) {
+    if (window.ethereum.isConnected()) {
+      getWalletDetails();
+    }
   }
 
   return (
