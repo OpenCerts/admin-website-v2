@@ -41,9 +41,9 @@ jobs:
       - name: Run Jest Test
         run: npm run test
         
-      - name: Run Integration Test
-        uses: mujo-code/puppeteer-headful@master
-        env:
-          CI: 'true'
-        with:
-          args: npm run integration:dappeteer
+      # - name: Run Integration Test
+      #   uses: mujo-code/puppeteer-headful@master
+      #   env:
+      #     CI: 'true'
+      #   with:
+      #     args: npm run integration:dappeteer
