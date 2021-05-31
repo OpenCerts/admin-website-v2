@@ -30,22 +30,25 @@ export const Header: FunctionComponent = () => {
       window.ethereum.on("connect", function () {
         getWalletDetails();
       });
+
+      if (window.ethereum.isConnected()) {
+        getWalletDetails();
+      }
+    } else {
+      alert("Please download MetaMask extension in chrome.");
+      window.open("https://metamask.io/download", "_blank");
     }
   });
 
   const getWalletDetails = async () => {
     const walletDetails = await getWalletData();
-    setWalletAddress(walletDetails.address);
-    setWalletNetwork(walletDetails.network);
-    setWalletBalance(walletDetails.balance);
-    setIsConnected(true);
-  };
-
-  if (window.ethereum) {
-    if (window.ethereum.isConnected()) {
-      getWalletDetails();
+    if (walletDetails !== undefined) {
+      setWalletAddress(walletDetails.address);
+      setWalletNetwork(walletDetails.network);
+      setWalletBalance(walletDetails.balance);
+      setIsConnected(true);
     }
-  }
+  };
 
   return (
     <div className={`shadow-md flex flex-wrap items-center text-sm px-4 py-2 `}>

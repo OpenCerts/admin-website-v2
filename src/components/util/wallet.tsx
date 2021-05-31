@@ -19,15 +19,20 @@ export const getSigner = async (): Promise<providers.JsonRpcSigner> => {
   return signer;
 };
 
-export const getWalletDetails = async (): Promise<WalletDetails> => {
-  const signer = await getSigner();
+export const getWalletDetails = async (): Promise<WalletDetails | undefined> => {
+  if (window.ethereum) {
+    const signer = await getSigner();
 
-  const wallet: WalletDetails = {
-    address: await signer.getAddress(),
-    balance: ethers.utils.formatEther(await signer.getBalance()),
-    network: (await signer.provider.getNetwork()).name,
-  };
-  return wallet;
+    const wallet: WalletDetails = {
+      address: await signer.getAddress(),
+      balance: ethers.utils.formatEther(await signer.getBalance()),
+      network: (await signer.provider.getNetwork()).name,
+    };
+    return wallet;
+  } else {
+    alert("Please download MetaMask extension in chrome.");
+    window.open("https://metamask.io/download", "_blank");
+  }
 };
 
 export const getWalletNetwork = async (): Promise<string> => {
