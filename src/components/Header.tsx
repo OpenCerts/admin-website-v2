@@ -16,19 +16,21 @@ export const Header: FunctionComponent = () => {
   const [walletBalance, setWalletBalance] = useState("-");
 
   useEffect(() => {
-    window.ethereum.on("accountsChanged", function (accounts: Array<string>) {
-      if (accounts.length > 0) {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", function (accounts: Array<string>) {
+        if (accounts.length > 0) {
+          getWalletDetails();
+        }
+      });
+
+      window.ethereum.on("chainChanged", function () {
         getWalletDetails();
-      }
-    });
+      });
 
-    window.ethereum.on("chainChanged", function () {
-      getWalletDetails();
-    });
-
-    window.ethereum.on("connect", function () {
-      getWalletDetails();
-    });
+      window.ethereum.on("connect", function () {
+        getWalletDetails();
+      });
+    }
   });
 
   const getWalletDetails = async () => {
