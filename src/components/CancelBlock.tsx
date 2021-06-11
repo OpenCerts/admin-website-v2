@@ -67,6 +67,9 @@ export const CancelBlock: FunctionComponent = () => {
               dataTestId="revoke-certificate"
               onChange={validateTransactionHash}
             />
+            <p className={"text-red-600 break-all"} data-testid="error-message">
+              {errorMessage}
+            </p>
           </label>
           <label className="inline-block w-6/12 text-left mt-3">
             <p>Transaction Nonce</p>
@@ -87,11 +90,6 @@ export const CancelBlock: FunctionComponent = () => {
             <span>Cancel Transaction</span>
           </OrangeButton>
         </div>
-      </div>
-      <div className={`max-w-screen-lg px-4 mx-auto`}>
-        <p className={"text-red-600 break-all"} data-testid="error-message">
-          {errorMessage}
-        </p>
       </div>
 
       <div className="w-100 h-20 max-w-screen-lg px-4 mt-6 mx-auto ">

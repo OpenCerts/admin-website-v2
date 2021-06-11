@@ -16,6 +16,7 @@ const BlockNavigationStyle = styled.div`
     font-weight: 500;
     color: #000000;
     margin-left: 20px;
+    margin-left: 20px;
 
     &.active {
       color: #ff9933;
@@ -70,7 +71,7 @@ const App: FunctionComponent = () => {
                 showBlock(blockData["trigger"]);
               }}
               data-testid={`show-${blockData["trigger"]}-btn`}
-              className={block === blockData["trigger"] ? `active` : ""}
+              className={block === blockData["trigger"] ? `w-full active` : "w-full "}
             >
               {blockData["text"]}
             </a>
