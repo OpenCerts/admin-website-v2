@@ -30,7 +30,7 @@ jobs:
       - name: Install Dependencies
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
-        run: npm ci
+        run: npm i
       
       - name: Check Lint
         run: npm run lint
