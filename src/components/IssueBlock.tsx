@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from "react";
 import { TextInput } from "./common/TextInput";
 import { OrangeButton } from "./common/Button";
 import { Spinner } from "./common/Spinner";
-import { isValidCertificateHash, getEtherscanAddress } from "./util/util";
+import { isValidHash, getEtherscanAddress } from "./util/util";
 import { issueCertificateHash as issue } from "./util/issue";
 import { getWalletNetwork } from "./util/wallet";
 
@@ -22,7 +22,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
   const validateCertificateHash = (value: string) => {
     if (value === "") {
       setValidateStatus("");
-    } else if (isValidCertificateHash(value)) {
+    } else if (isValidHash(value)) {
       setCertificateHash(value);
       setValidateStatus("valid");
     } else {

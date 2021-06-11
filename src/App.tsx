@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import React, { FunctionComponent, useState } from "react";
 import "./App.css";
+import { CancelBlock } from "./components/CancelBlock";
 import { Header } from "./components/Header";
 import { IssueBlock } from "./components/IssueBlock";
 import { RevokeBlock } from "./components/RevokeBlock";
@@ -32,10 +33,17 @@ const App: FunctionComponent = () => {
     {
       trigger: "issue",
       text: "Issue Certificates",
+      position: "internal",
     },
     {
       trigger: "revoke",
       text: "Revoke Certificate",
+      position: "internal",
+    },
+    {
+      trigger: "cancel",
+      text: "Cancel Pending Transaction",
+      position: "external",
     },
   ];
   const [block, showBlock] = useState(blocks[0].trigger);
@@ -53,34 +61,36 @@ const App: FunctionComponent = () => {
       />
       <hr className={`mt-16 max-w-screen-lg mx-auto px-4`} />
 
+      <BlockNavigationStyle className={"container max-w-screen-lg mx-auto"}>
+        {blocks.map((blockData, index) => {
+          return (
+            <a
+              key={index}
+              onClick={() => {
+                showBlock(blockData["trigger"]);
+              }}
+              data-testid={`show-${blockData["trigger"]}-btn`}
+              className={block === blockData["trigger"] ? `active` : ""}
+            >
+              {blockData["text"]}
+            </a>
+          );
+        })}
+      </BlockNavigationStyle>
+
       {documentStoreStatus && (
         <>
-          <BlockNavigationStyle className={"container max-w-screen-lg mx-auto"}>
-            {blocks.map((blockData, index) => {
-              return (
-                <a
-                  key={index}
-                  onClick={() => {
-                    showBlock(blockData["trigger"]);
-                  }}
-                  data-testid={`show-${blockData["trigger"]}-btn`}
-                  className={block === blockData["trigger"] ? `active` : ""}
-                >
-                  {blockData["text"]}
-                </a>
-              );
-            })}
-          </BlockNavigationStyle>
-
           {block === "issue" && <IssueBlock documentStoreAddress={documentStoreAddress} />}
 
           {block === "revoke" && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
         </>
       )}
 
-      {!documentStoreStatus && (
+      {!documentStoreStatus && block !== "cancel" && (
         <p className="text-center mt-14 text-gray-700">Please enter valid document store address</p>
       )}
+
+      {block === "cancel" && <CancelBlock />}
     </div>
   );
 };
