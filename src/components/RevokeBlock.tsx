@@ -87,6 +87,12 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
             dataTestId="revoke-certificate"
             onChange={validateCertificateHash}
           />
+          <p className={"text-red-600 break-all"} data-testid="error-message">
+            {errorMessage}
+          </p>
+          <p className={"text-green-600 break-all"} data-testid="success-message">
+            {successMessage}
+          </p>
         </label>
         <div className="w-auto md:w-fit md:ml-auto mt-9">
           <OrangeButton
@@ -99,15 +105,6 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           </OrangeButton>
         </div>
       </div>
-      <div className={`max-w-screen-lg px-4 mx-auto`}>
-        <p className={"text-red-600 break-all"} data-testid="error-message">
-          {errorMessage}
-        </p>
-        <p className={"text-green-600 break-all"} data-testid="success-message">
-          {successMessage}
-        </p>
-      </div>
-
       <div className="w-100 h-20 max-w-screen-lg w-full px-4 mt-6 mx-auto ">
         <p className={"my-2 text-sm text-gray-700"}>Status </p>
         <LoggerStyle className={"w-full h-16 bg-gray-100 p-2 overflow-scroll break-all"} data-testid="revoke-log">

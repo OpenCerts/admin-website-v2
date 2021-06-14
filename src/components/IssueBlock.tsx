@@ -55,6 +55,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
 
     if (certificateHash !== "") {
       const transaction = await issue(documentStoreAddress, certificateHash, setLogs);
+      console.log(transaction);
       if (transaction) {
         const etherscanNetwork = getEtherscanAddress({
           network: await getWalletNetwork(),
@@ -63,7 +64,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
         setSuccessMessage(
           `Document/Document Batch with hash ${certificateHash} has been issued on ${documentStoreAddress}`
         );
-
+        console.log(transaction.transactionHash);
         setLogs(
           `Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
         );
