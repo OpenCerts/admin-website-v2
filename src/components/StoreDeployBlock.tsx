@@ -5,9 +5,25 @@ import { Modal } from "./common/Modal";
 import { Spinner } from "./common/Spinner";
 import { isAddress } from "ethers/lib/utils";
 import { getWalletNetwork } from "./util/wallet";
-
+import parse from "html-react-parser";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/util";
+import styled from "@emotion/styled";
+
+const LoggerStyle = styled.p`
+  a {
+    color: blue;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  a:active {
+    color: black;
+  }
+`;
 
 interface DocumentStoreAddressProps {
   documentStoreAddress: string;
@@ -22,20 +38,15 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [processing, setProcessing] = useState(false);
-  const [validateStatus, setValidateStatus] = useState("");
   const [documentStoreName, setDocumentStoreName] = useState("");
   const [logs, setLogs] = useState("");
 
   const validateStorageAddress = (value: string) => {
     setDocumentStoreAddress(value);
-    if (value === "") {
-      setValidateStatus("");
-    } else if (isAddress(value)) {
+    if (isAddress(value)) {
       setDocumentStoreStatus(true);
-      setValidateStatus("valid");
     } else {
       setDocumentStoreStatus(false);
-      setValidateStatus("invalid");
     }
   };
 
@@ -45,10 +56,11 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
       const transaction = await deploy(documentStoreName, setLogs);
       if (transaction) {
         const walletNetwork = await getWalletNetwork();
+        const etherscanNetwork = getEtherscanAddress({
+          network: walletNetwork,
+        });
         setLogs(
-          `Document Store Deployed. Find more details at ${getEtherscanAddress({
-            network: walletNetwork,
-          })}/address/${transaction.contractAddress}`
+          `Document Store Deployed. Find more details at <a href="${etherscanNetwork}/address/${transaction.contractAddress}" target="_blank">${etherscanNetwork}/address/${transaction.contractAddress}</a>.`
         );
         validateStorageAddress(transaction.contractAddress);
         setShowModal(false);
@@ -59,11 +71,11 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
 
   return (
     <>
-      <div className={`md:flex max-w-screen-lg px-4 mt-12 mx-auto`}>
+      <div className={`md:flex max-w-screen-lg w-full px-4 mt-12 mx-auto`}>
         <label className="max-w-lg w-full text-left">
           <p>Store Address</p>
           <TextInput
-            className={`${validateStatus} w-full mt-3`}
+            className={`w-full mt-3`}
             placeHolder="Enter existing (0x…), or deploy new instance."
             onChange={validateStorageAddress}
             value={documentStoreAddress}
@@ -90,7 +102,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           <TextInput
             className={"w-full mt-3"}
             onChange={(value) => setDocumentStoreName(value)}
-            placeHolder="Name of organisation."
+            placeHolder="Name of Organisation."
             value={documentStoreName}
           />
         </div>
@@ -106,7 +118,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         <div className="w-100 mt-3 text-sm ">
           <hr />
           <p className={"my-2 text-gray-700"}>Status </p>
-          <textarea className={"w-full h-16 bg-gray-100 p-2 resize-none overflow-scroll"} disabled value={logs} />
+          <LoggerStyle className={"w-full h-16 bg-gray-100 p-2 overflow-scroll break-all"}>{parse(logs)}</LoggerStyle>
         </div>
       </Modal>
     </>

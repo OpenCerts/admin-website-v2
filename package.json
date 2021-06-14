@@ -1,6 +1,7 @@
 {
   "name": "admin-website-v2",
   "version": "1.0.0",
+  "hasInstallScript": "true",
   "scripts": {
     "dev": "vite",
     "build": "tsc && npm run build:css && vite build",
@@ -23,7 +24,9 @@
     "@emotion/styled": "^11.3.0",
     "@govtechsg/document-store": "^2.2.0",
     "@govtechsg/open-attestation": "^5.2.3",
+    "esbuild": "^0.12.8",
     "ethers": "^5.1.4",
+    "html-react-parser": "^1.2.6",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },

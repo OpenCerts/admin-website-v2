@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { OrangeButton } from "./common/Button";
 import logo from "../images/logo.svg";
 import { getWalletDetails as getWalletData } from "./util/wallet";
+import { getEtherscanAddress } from "./util/util";
 
 const BreakLine = styled.div`
   flex-basis: 100%;
@@ -34,9 +35,6 @@ export const Header: FunctionComponent = () => {
       if (window.ethereum.isConnected()) {
         getWalletDetails();
       }
-    } else {
-      alert("Please download MetaMask extension in chrome.");
-      window.open("https://metamask.io/download", "_blank");
     }
   });
 
@@ -63,7 +61,20 @@ export const Header: FunctionComponent = () => {
           <>
             <div className="w-auto mb-4 lg:mb-0">
               <p className="font-medium">Current Account</p>
-              <p className="break-all">{walletAddress}</p>
+              <p className="break-all">
+                {walletAddress === "-" && walletAddress}
+                {walletAddress !== "-" && (
+                  <a
+                    href={`${getEtherscanAddress({
+                      network: walletNetwork,
+                    })}/address/${walletAddress}`}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {walletAddress}
+                  </a>
+                )}
+              </p>
             </div>
             <BreakLine className="md:hidden" />
             <div className="w-auto md:ml-12 mb-4 lg:mb-0">

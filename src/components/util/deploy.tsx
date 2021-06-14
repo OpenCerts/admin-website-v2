@@ -7,11 +7,11 @@ export const deployDocumentStore = async (
   log?: Dispatch<string>
 ): Promise<{ contractAddress: string } | undefined> => {
   try {
-    log ? log("Decrypting wallet") : null;
+    log ? log("Decrypting wallet.") : null;
     const signer = await getSigner();
-    log ? log("Wallet successfully decrypted") : null;
+    log ? log("Wallet successfully decrypted.") : null;
     const factory = new DocumentStoreFactory(signer);
-    log ? log(`Deploying document store ${storeName}`) : null;
+    log ? log(`Deploying document store "${storeName}".`) : null;
     const transaction = await factory.deploy(storeName);
     return transaction.deployTransaction.wait();
   } catch (e) {

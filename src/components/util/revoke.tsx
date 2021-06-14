@@ -10,9 +10,9 @@ export const revokeCertificateHash = async (
 ): Promise<TransactionReceipt | undefined> => {
   try {
     const documentStore = await connect(documentStoreAddress, await getSigner());
-    log ? log(`Sending transaction to pool`) : null;
+    log ? log(`Sending transaction to waiting room (Mempool).`) : null;
     const transaction = await documentStore.revoke(certificateHash);
-    log ? log(`Waiting for transaction ${certificateHash} to be mined`) : null;
+    log ? log(`Waiting for transaction ${transaction.deployTransaction.hash} to be processed.`) : null;
     return transaction.wait();
   } catch (e) {
     log ? log(e.message) : null;
