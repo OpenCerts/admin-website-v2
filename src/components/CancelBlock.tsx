@@ -84,7 +84,7 @@ export const CancelBlock: FunctionComponent = () => {
     <div className={"max-w-screen-lg w-full px-4 mx-auto mt-12"}>
       <p className={"text-red-600"}>
         *The new gas price is default set 2 times the current gas price. <br />
-        The new gas price can be manually modified in the New Gas Price's text input.
+        The new gas price can be manually modified in the New Gas Price text input.
       </p>
       <div className={`md:flex`}>
         <div className="mt-6 max-w-lg w-full">
