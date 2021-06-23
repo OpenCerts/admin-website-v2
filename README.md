@@ -2,7 +2,7 @@
 
 [![Build Status]](https://github.com/OpenCerts/admin-website-v2/actions/workflows/ci.yml/badge.svg)
 
-Administration Website v2 will be removing ledger flow. Users that are 
+Administration Website v2 will be removing ledger flow. For users that continue using the hardware ledger, you could link the hardware ledgers using the Metamask chrome extension plugin and perform the functionality as per normal.
 
 See also:
 
@@ -17,4 +17,3 @@ npm run lint
 npm run dev
 ```
 
-## Setup ledger in metamask
