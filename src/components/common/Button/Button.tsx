@@ -1,30 +1,4 @@
-import { css } from "@emotion/css";
 import React, { FunctionComponent } from "react";
-
-const base = css`
-  cursor: pointer;
-  border: none;
-  padding: 10px 30px;
-  user-select: none;
-  text-decoration: none;
-  min-width: 6rem;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  border-radius: 30px;
-  background-color: white;
-  color: black;
-  -webkit-transition: background-color 0.3s ease-out;
-  -moz-transition: background-color 0.3s ease-out;
-  -o-transition: background-color 0.3s ease-out;
-  transition: background-color 0.3s ease-out;
-
-  :disabled,
-  [disabled] {
-    cursor: not-allowed;
-    opacity: 0.5;
-    filter: alpha(opacity=50);
-  }
-`;
 
 interface ButtonProp {
   children: React.ReactNode;
@@ -34,10 +8,10 @@ interface ButtonProp {
   onClick: () => void;
 }
 
-export const Button: FunctionComponent<ButtonProp> = ({ children, className, custom, dataTestId, onClick }) => {
+export const Button: FunctionComponent<ButtonProp> = ({ children, className, dataTestId, onClick }) => {
   return (
     <button
-      className={`${className} ${css(base, custom)} focus:outline-none`}
+      className={`py-2.5 px-10 cursor-pointer select-none no-underline border-0 rounded-3xl transition-colors ease-out focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${className} `}
       data-testid={dataTestId}
       onClick={() => {
         onClick();
@@ -48,19 +22,10 @@ export const Button: FunctionComponent<ButtonProp> = ({ children, className, cus
   );
 };
 
-const orange = css`
-  color: white;
-  background-color: #ff6a33;
-  :hover {
-    background-color: #de8b38;
-  }
-`;
-
 export const OrangeButton: FunctionComponent<ButtonProp> = ({ children, className, dataTestId, onClick }) => {
   return (
     <Button
-      className={className}
-      custom={orange}
+      className={`${className} bg-primary-default hover:bg-primary-hover text-white`}
       dataTestId={dataTestId}
       onClick={() => {
         onClick();
@@ -71,19 +36,10 @@ export const OrangeButton: FunctionComponent<ButtonProp> = ({ children, classNam
   );
 };
 
-const grey = css`
-  color: white;
-  background-color: #878787;
-  :hover {
-    background-color: #616161;
-  }
-`;
-
 export const GreyButton: FunctionComponent<ButtonProp> = ({ children, className, dataTestId, onClick }) => {
   return (
     <Button
-      className={className}
-      custom={grey}
+      className={`${className} bg-secondary-default hover:bg-secondary-hover text-white`}
       dataTestId={dataTestId}
       onClick={() => {
         onClick();

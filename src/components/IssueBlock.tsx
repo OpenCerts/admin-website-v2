@@ -1,27 +1,8 @@
 import React, { FunctionComponent, useState } from "react";
-import { TextInput } from "./common/TextInput";
-import { OrangeButton } from "./common/Button";
-import { Spinner } from "./common/Spinner";
-import { isValidHash, getEtherscanAddress } from "./util/util";
+import { TextInput, OrangeButton, Spinner, Logger } from "./common";
+import { isValidHash, getEtherscanAddress } from "./util/common";
 import { issueCertificateHash as issue } from "./util/issue";
 import { getWalletNetwork } from "./util/wallet";
-import parse from "html-react-parser";
-import styled from "@emotion/styled";
-
-const LoggerStyle = styled.p`
-  a {
-    color: blue;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  a:active {
-    color: black;
-  }
-`;
 
 interface DocumentStoreAddressProp {
   documentStoreAddress: string;
@@ -48,7 +29,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
     setProcessing(true);
 
     if (certificateHash === "") {
-      setErrorMessage("*Please enter valid merkle root hash (32 character).");
+      setErrorMessage("*Please enter valid merkle root hash (32 characters).");
       setProcessing(false);
       return;
     }
@@ -62,7 +43,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
         });
 
         setSuccessMessage(
-          `Document/Document Batch with hash ${certificateHash} has been issued on ${documentStoreAddress}`
+          `Document/Document Batch with hash ${certificateHash} has been issued to ${documentStoreAddress}`
         );
         console.log(transaction.transactionHash);
         setLogs(
@@ -104,12 +85,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
         </div>
       </div>
 
-      <div className="w-100 h-20 max-w-screen-lg w-full px-4 mt-6 mx-auto ">
-        <p className={"my-2 text-sm text-gray-700"}>Status </p>
-        <LoggerStyle className={"w-full h-16 bg-gray-100 p-2 overflow-scroll break-all"} data-testid="issue-log">
-          {parse(logs)}
-        </LoggerStyle>
-      </div>
+      <Logger log={logs} className="px-4" />
     </div>
   );
 };

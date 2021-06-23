@@ -1,10 +1,10 @@
 declare let window: any;
 import React, { FunctionComponent, useEffect, useState } from "react";
-import styled from "@emotion/styled";
-import { OrangeButton } from "./common/Button";
-import logo from "../images/logo.svg";
+import { OrangeButton } from "./common";
 import { getWalletDetails as getWalletData } from "./util/wallet";
-import { getEtherscanAddress } from "./util/util";
+import { getEtherscanAddress } from "./util/common";
+import logo from "../images/logo.svg";
+import styled from "@emotion/styled";
 
 const BreakLine = styled.div`
   flex-basis: 100%;
@@ -12,9 +12,11 @@ const BreakLine = styled.div`
 
 export const Header: FunctionComponent = () => {
   const [isConnected, setIsConnected] = useState(false);
-  const [walletAddress, setWalletAddress] = useState("-");
-  const [walletNetwork, setWalletNetwork] = useState("-");
-  const [walletBalance, setWalletBalance] = useState("-");
+  const [wallet, setWalletInfo] = useState({
+    walletAddress: "-",
+    walletNetwork: "-",
+    walletBalance: "-",
+  });
 
   useEffect(() => {
     if (window.ethereum) {
@@ -41,9 +43,11 @@ export const Header: FunctionComponent = () => {
   const getWalletDetails = async () => {
     const walletDetails = await getWalletData();
     if (walletDetails !== undefined) {
-      setWalletAddress(walletDetails.address);
-      setWalletNetwork(walletDetails.network);
-      setWalletBalance(walletDetails.balance);
+      setWalletInfo({
+        walletAddress: walletDetails.address,
+        walletNetwork: walletDetails.network,
+        walletBalance: walletDetails.balance,
+      });
       setIsConnected(true);
     }
   };
@@ -62,16 +66,16 @@ export const Header: FunctionComponent = () => {
             <div className="w-auto mb-4 lg:mb-0">
               <p className="font-medium">Current Account</p>
               <p className="break-all">
-                {walletAddress === "-" && walletAddress}
-                {walletAddress !== "-" && (
+                {wallet.walletAddress === "-" && wallet.walletAddress}
+                {wallet.walletAddress !== "-" && (
                   <a
                     href={`${getEtherscanAddress({
-                      network: walletNetwork,
-                    })}/address/${walletAddress}`}
+                      network: wallet.walletNetwork,
+                    })}/address/${wallet.walletAddress}`}
                     rel="noreferrer"
                     target="_blank"
                   >
-                    {walletAddress}
+                    {wallet.walletAddress}
                   </a>
                 )}
               </p>
@@ -79,12 +83,12 @@ export const Header: FunctionComponent = () => {
             <BreakLine className="md:hidden" />
             <div className="w-auto md:ml-12 mb-4 lg:mb-0">
               <p className="font-medium">Network</p>
-              <p className="capitalize">{walletNetwork}</p>
+              <p className="capitalize">{wallet.walletNetwork}</p>
             </div>
             <BreakLine className="md:hidden" />
             <div className="w-auto md:ml-12 mb-4 lg:mb-0">
               <p className="font-medium">Account Balance</p>
-              <p>{walletBalance} ETH</p>
+              <p>{wallet.walletBalance} ETH</p>
             </div>
           </>
         )}

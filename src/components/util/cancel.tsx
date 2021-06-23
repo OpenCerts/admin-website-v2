@@ -1,5 +1,5 @@
-import { getSigner, getWalletDetails } from "./wallet";
 import { Dispatch } from "react";
+import { getSigner, getWalletDetails } from "./wallet";
 import { ethers, BigNumber } from "ethers";
 
 interface pendingTransactionProps {

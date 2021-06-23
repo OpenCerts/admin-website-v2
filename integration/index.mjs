@@ -12,10 +12,10 @@ const main = async () => {
     slowMo: 10,
   });
   const metamask = await dappeteer.getMetamask(browser, {
-    seed:"indicate swing place chair flight used hammer soon photo region volume shuffle"
+    seed: "indicate swing place chair flight used hammer soon photo region volume shuffle",
   });
   await metamask.switchNetwork("localhost");
-  
+
   await issue(metamask, browser);
   await revoke(metamask, browser);
 

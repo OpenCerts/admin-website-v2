@@ -5,7 +5,6 @@ export const issue = async (metamask, browser) => {
     const page = await browser.newPage();
     await page.goto("http://localhost:5000/");
 
-
     // START - approve application once, subsequent tests no longer need
     await page.waitForSelector("[data-testid='connectToWallet']", { visible: true });
     await page.click("[data-testid='connectToWallet']");
@@ -20,15 +19,12 @@ export const issue = async (metamask, browser) => {
     await page.focus("[data-testid='document-store']");
     await page.keyboard.type("0xC84b0719A82626417c40f3168513dFABDB6A9079");
 
-
     // Test user successfully issue the transaction
     await page.waitForSelector("[data-testid='issue-certificate']", {
       visible: true,
     });
     await page.focus("[data-testid='issue-certificate']");
-    await page.keyboard.type(
-      "0xbabf7285760d279e6dfa9c37d97bd3f77025a0be0e74119ff24ac9ee0739c60b"
-    );
+    await page.keyboard.type("0xbabf7285760d279e6dfa9c37d97bd3f77025a0be0e74119ff24ac9ee0739c60b");
 
     await page.waitForSelector("[data-testid='issue-certificate-btn']", {
       visible: true,

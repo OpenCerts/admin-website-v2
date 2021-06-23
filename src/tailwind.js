@@ -1,7 +1,5 @@
-const _ = require("lodash");
-const commonUiConfig = require("@govtechsg/tradetrust-ui-components/build/tailwind");
+import _ from "lodash";
 
-// https://tailwindcss.com/docs/theme
 const localConfig = {
   purge: {
     content: ["./src/**/*.ts", "./src/**/*.tsx", "./node_modules/@govtechsg/tradetrust-ui-components/src/**/*.tsx"],
@@ -18,6 +16,6 @@ const localConfig = {
     extend: {},
   },
 };
-const finalConfig = _.merge(commonUiConfig, localConfig); // deep merge
+const finalConfig = localConfig;
 
-module.exports = finalConfig;
+export default finalConfig;

@@ -1,6 +1,8 @@
 # Certificate Web UI
 
-[![Build Status](https://travis-ci.org/GovTechSG/certificate-web-ui.svg?branch=master)](https://travis-ci.org/GovTechSG/certificate-web-ui)
+[![Build Status]](https://github.com/OpenCerts/admin-website-v2/actions/workflows/ci.yml/badge.svg)
+
+Administration Website v2 will be removing ledger flow. Users that are 
 
 See also:
 
@@ -12,15 +14,7 @@ See also:
 ```bash
 npm install
 npm run lint
-
-npm run dev # serves the ui
+npm run dev
 ```
 
-### Setting up web3
-
-If your browser has injected web3 (ie. through Metamask), the application will connect to the injected web3 and will be on the network that provider is connected to. Otherwise, the application will attempt to connect to the local Ethereum node at port `9545`.
-
-Setup 1:
-
-- Install Metamask
-- Connect Metamask
+## Setup ledger in metamask

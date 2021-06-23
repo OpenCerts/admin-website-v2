@@ -1,27 +1,8 @@
 import React, { FunctionComponent, useState } from "react";
-import { TextInput } from "./common/TextInput";
-import { OrangeButton } from "./common/Button";
-import { Spinner } from "./common/Spinner";
-import { isValidHash, getEtherscanAddress } from "./util/util";
+import { TextInput, OrangeButton, Spinner, Logger, ConfirmationModalDialog, GreyButton } from "./common";
+import { isValidHash, getEtherscanAddress } from "./util/common";
 import { revokeCertificateHash as revoke } from "./util/revoke";
 import { getWalletNetwork } from "./util/wallet";
-import parse from "html-react-parser";
-import styled from "@emotion/styled";
-
-const LoggerStyle = styled.p`
-  a {
-    color: blue;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  a:active {
-    color: black;
-  }
-`;
 
 interface DocumentStoreAddressProp {
   documentStoreAddress: string;
@@ -34,6 +15,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
   const [logs, setLogs] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
 
   const validateCertificateHash = (value: string) => {
     if (isValidHash(value)) {
@@ -43,34 +25,32 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
     }
   };
 
-  const revokeCertificateHash = async () => {
+  const revokeConfirmation = async () => {
     setErrorMessage("");
     setSuccessMessage("");
-    setProcessing(true);
 
     if (certificateHash === "") {
-      setErrorMessage("*Please enter valid merkle root hash.");
-      setProcessing(false);
+      setErrorMessage("*Please enter valid merkle root hash (32 characters).");
       return;
     }
+    setShowConfirmationDialog(true);
+  };
 
-    if (confirm("Are you sure you want to revoke this hash?")) {
-      const transaction = await revoke(documentStoreAddress, certificateHash, setLogs);
-      if (transaction) {
-        const etherscanNetwork = getEtherscanAddress({
-          network: await getWalletNetwork(),
-        });
+  const revokeCertificateHash = async () => {
+    setProcessing(true);
+    const transaction = await revoke(documentStoreAddress, certificateHash, setLogs);
+    if (transaction) {
+      const etherscanNetwork = getEtherscanAddress({
+        network: await getWalletNetwork(),
+      });
 
-        setSuccessMessage(
-          `Document/Document Batch with hash ${certificateHash} has been revoked on ${documentStoreAddress}.`
-        );
+      setSuccessMessage(
+        `Document/Document Batch with hash ${certificateHash} has been revoked on ${documentStoreAddress}.`
+      );
 
-        setLogs(
-          `Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
-        );
-      }
-    } else {
-      setLogs("Revoke certificate hash cancelled.");
+      setLogs(
+        `Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
+      );
     }
 
     setProcessing(false);
@@ -96,7 +76,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
         </label>
         <div className="w-auto md:w-fit md:ml-auto mt-9">
           <OrangeButton
-            onClick={() => revokeCertificateHash()}
+            onClick={() => revokeConfirmation()}
             className="tw-full inline-flex justify-center text-sm font-medium"
             dataTestId="revoke-certificate-btn"
           >
@@ -105,12 +85,26 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           </OrangeButton>
         </div>
       </div>
-      <div className="w-100 h-20 max-w-screen-lg w-full px-4 mt-6 mx-auto ">
-        <p className={"my-2 text-sm text-gray-700"}>Status </p>
-        <LoggerStyle className={"w-full h-16 bg-gray-100 p-2 overflow-scroll break-all"} data-testid="revoke-log">
-          {parse(logs)}
-        </LoggerStyle>
-      </div>
+      <Logger log={logs} className="px-4" />
+
+      <ConfirmationModalDialog
+        title="Confirm Revoke Certification Hash ?"
+        message="*Please note that this action is irreversible."
+        toggleOpen={showConfirmationDialog}
+      >
+        <GreyButton onClick={() => setShowConfirmationDialog(false)} className="w-full mr-5 text-sm font-medium">
+          Cancel
+        </GreyButton>
+        <OrangeButton
+          onClick={() => {
+            revokeCertificateHash();
+            setShowConfirmationDialog(false);
+          }}
+          className="w-full inline-flex justify-center text-sm font-medium"
+        >
+          Revoke
+        </OrangeButton>
+      </ConfirmationModalDialog>
     </>
   );
 };

@@ -1,29 +1,9 @@
 import React, { Dispatch, FunctionComponent, useState } from "react";
-import { TextInput } from "./common/TextInput";
-import { GreyButton, OrangeButton } from "./common/Button";
-import { Modal } from "./common/Modal";
-import { Spinner } from "./common/Spinner";
-import { isAddress } from "ethers/lib/utils";
+import { TextInput, GreyButton, OrangeButton, ModalDialog, Spinner, Logger } from "./common";
 import { getWalletNetwork } from "./util/wallet";
-import parse from "html-react-parser";
 import { deployDocumentStore as deploy } from "./util/deploy";
-import { getEtherscanAddress } from "./util/util";
-import styled from "@emotion/styled";
-
-const LoggerStyle = styled.p`
-  a {
-    color: blue;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  a:active {
-    color: black;
-  }
-`;
+import { getEtherscanAddress } from "./util/common";
+import { isAddress } from "ethers/lib/utils";
 
 interface DocumentStoreAddressProps {
   documentStoreAddress: string;
@@ -96,7 +76,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         </div>
       </div>
 
-      <Modal toggleOpen={showModal}>
+      <ModalDialog toggleOpen={showModal}>
         <div className="sm:items-start w-full">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Deploy Document Store</h3>
           <TextInput
@@ -115,12 +95,8 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
             Deploy
           </OrangeButton>
         </div>
-        <div className="w-100 mt-3 text-sm ">
-          <hr />
-          <p className={"my-2 text-gray-700"}>Status </p>
-          <LoggerStyle className={"w-full h-16 bg-gray-100 p-2 overflow-scroll break-all"}>{parse(logs)}</LoggerStyle>
-        </div>
-      </Modal>
+        <Logger log={logs} />
+      </ModalDialog>
     </>
   );
 };

@@ -1,29 +1,9 @@
-import styled from "@emotion/styled";
 import React, { FunctionComponent, useState } from "react";
 import { CancelBlock } from "../components/CancelBlock";
 import { Header } from "../components/Header";
 import { IssueBlock } from "../components/IssueBlock";
 import { RevokeBlock } from "../components/RevokeBlock";
 import { StoreDeployBlock } from "../components/StoreDeployBlock";
-
-const BlockNavigationStyle = styled.div`
-  margin-top: 20px;
-
-  a {
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    color: #000000;
-    margin-left: 20px;
-    margin-left: 20px;
-
-    &.active {
-      color: #ff9933;
-      padding-bottom: 5px;
-      border-bottom: 2px solid #ff9933;
-    }
-  }
-`;
 
 const blocks = [
   {
@@ -43,12 +23,15 @@ const blocks = [
 export const MainPage: FunctionComponent = () => {
   const [documentStoreAddress, setDocumentStoreAddress] = useState("");
   const [documentStoreStatus, setDocumentStoreStatus] = useState(false);
-  const [block, showBlock] = useState(blocks[0].trigger);
+  const [block, showBlock] = useState({
+    trigger: "issue",
+    text: "Issue Certificates",
+  });
 
   return (
     <>
       <Header />
-      <div className={"container max-w-screen-lg px-4 md:mx-auto mt-16 text-center sm:text-left"}>
+      <div className={"container max-w-screen-lg px-4 md:mx-auto mt-4 text-center sm:text-left"}>
         <h2>Administrator Portal</h2>
       </div>
 
@@ -59,36 +42,38 @@ export const MainPage: FunctionComponent = () => {
       />
       <hr className={`mt-16 max-w-screen-lg w-full mx-auto px-4`} />
 
-      <BlockNavigationStyle className={"container max-w-screen-lg mx-auto"}>
+      <div className={"container max-w-screen-lg mx-auto mt-8"}>
         {blocks.map((blockData, index) => {
           return (
             <a
               key={index}
               onClick={() => {
-                showBlock(blockData["trigger"]);
+                showBlock(blockData);
               }}
-              data-testid={`show-${blockData["trigger"]}-btn`}
-              className={block === blockData["trigger"] ? `w-full active` : "w-full "}
+              data-testid={`show-${blockData.trigger}-btn`}
+              className={`w-full cursor-pointer text-base font-medium ml-3 ${
+                block === blockData ? `text-primary pb-1 border-b-2 border-primary` : ""
+              }`}
             >
-              {blockData["text"]}
+              {blockData.text}
             </a>
           );
         })}
-      </BlockNavigationStyle>
+      </div>
 
       {documentStoreStatus && (
         <>
-          {block === "issue" && <IssueBlock documentStoreAddress={documentStoreAddress} />}
+          {block.trigger === "issue" && <IssueBlock documentStoreAddress={documentStoreAddress} />}
 
-          {block === "revoke" && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
+          {block.trigger === "revoke" && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
         </>
       )}
 
-      {!documentStoreStatus && block !== "cancel" && (
+      {!documentStoreStatus && block.trigger !== "cancel" && (
         <p className="text-center mt-14 text-gray-700">Please enter valid document store address</p>
       )}
 
-      {block === "cancel" && <CancelBlock />}
+      {block.trigger === "cancel" && <CancelBlock />}
     </>
   );
 };

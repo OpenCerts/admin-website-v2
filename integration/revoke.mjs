@@ -21,16 +21,14 @@ export const revoke = async (metamask, browser) => {
       visible: true,
     });
     await page.focus("[data-testid='revoke-certificate']");
-    await page.keyboard.type(
-      "0xbabf7285760d279e6dfa9c37d97bd3f77025a0be0e74119ff24ac9ee0739c60b"
-    );
+    await page.keyboard.type("0xbabf7285760d279e6dfa9c37d97bd3f77025a0be0e74119ff24ac9ee0739c60b");
 
     await page.waitForSelector("[data-testid='revoke-certificate-btn']", {
       visible: true,
     });
 
-    await page.on('dialog', async dialog => {
-        await dialog.accept();
+    await page.on("dialog", async (dialog) => {
+      await dialog.accept();
     });
     await page.click("[data-testid='revoke-certificate-btn']");
 
@@ -40,8 +38,7 @@ export const revoke = async (metamask, browser) => {
     await page.waitFor(1500);
 
     await expect(page).toMatchElement("[data-testid='success-message']", {
-      text:
-        "Document/Document Batch with hash 0xbabf7285760d279e6dfa9c37d97bd3f77025a0be0e74119ff24ac9ee0739c60b has been revoked on 0xC84b0719A82626417c40f3168513dFABDB6A9079",
+      text: "Document/Document Batch with hash 0xbabf7285760d279e6dfa9c37d97bd3f77025a0be0e74119ff24ac9ee0739c60b has been revoked on 0xC84b0719A82626417c40f3168513dFABDB6A9079",
       visible: true,
     });
 
