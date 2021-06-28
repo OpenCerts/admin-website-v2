@@ -1,5 +1,5 @@
 import React, { Dispatch, FunctionComponent, useState } from "react";
-import { TextInput, GreyButton, OrangeButton, ModalDialog, Spinner, Logger } from "./common";
+import { TextInput, SecondaryButton, PrimaryButton, ModalDialog, Spinner, Logger } from "./common";
 import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/common";
@@ -64,7 +64,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         </label>
         <p className="text-center my-4 text-gray-400 md:hidden">Or</p>
         <div className="md:ml-auto mt-auto">
-          <OrangeButton
+          <PrimaryButton
             onClick={() => {
               setShowModal(true);
               setDocumentStoreName("");
@@ -72,7 +72,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
             className="text-sm w-full font-medium"
           >
             <span>Deploy New Instance</span>
-          </OrangeButton>
+          </PrimaryButton>
         </div>
       </div>
 
@@ -87,13 +87,16 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           />
         </div>
         <div className="sm:flex pt-5">
-          <GreyButton onClick={() => setShowModal(false)} className="w-full mr-5 text-sm font-medium">
+          <SecondaryButton onClick={() => setShowModal(false)} className="w-full mr-5 text-sm font-medium">
             Cancel
-          </GreyButton>
-          <OrangeButton onClick={deployDocumentStore} className="w-full inline-flex justify-center text-sm font-medium">
+          </SecondaryButton>
+          <PrimaryButton
+            onClick={deployDocumentStore}
+            className="w-full inline-flex justify-center text-sm font-medium"
+          >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             Deploy
-          </OrangeButton>
+          </PrimaryButton>
         </div>
         <Logger log={logs} />
       </ModalDialog>

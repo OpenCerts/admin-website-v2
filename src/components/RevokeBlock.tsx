@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { TextInput, OrangeButton, Spinner, Logger, ConfirmationModalDialog, GreyButton } from "./common";
+import { TextInput, PrimaryButton, Spinner, Logger, ConfirmationModalDialog, SecondaryButton } from "./common";
 import { isValidHash, getEtherscanAddress } from "./util/common";
 import { revokeCertificateHash as revoke } from "./util/revoke";
 import { getWalletNetwork } from "./util/wallet";
@@ -75,14 +75,14 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           </p>
         </label>
         <div className="w-auto md:w-fit md:ml-auto mt-9">
-          <OrangeButton
+          <PrimaryButton
             onClick={() => revokeConfirmation()}
             className="tw-full inline-flex justify-center text-sm font-medium"
             dataTestId="revoke-btn"
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             <span>Revoke</span>
-          </OrangeButton>
+          </PrimaryButton>
         </div>
       </div>
       <Logger log={logs} className="px-4" />
@@ -92,10 +92,10 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
         message="*Please note that this action is irreversible."
         toggleOpen={showConfirmationDialog}
       >
-        <GreyButton onClick={() => setShowConfirmationDialog(false)} className="w-full mr-5 text-sm font-medium">
+        <SecondaryButton onClick={() => setShowConfirmationDialog(false)} className="w-full mr-5 text-sm font-medium">
           Cancel
-        </GreyButton>
-        <OrangeButton
+        </SecondaryButton>
+        <PrimaryButton
           onClick={() => {
             revokeCertificateHash();
             setShowConfirmationDialog(false);
@@ -104,7 +104,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           className="w-full inline-flex justify-center text-sm font-medium"
         >
           Revoke
-        </OrangeButton>
+        </PrimaryButton>
       </ConfirmationModalDialog>
     </>
   );

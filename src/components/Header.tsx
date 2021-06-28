@@ -1,6 +1,6 @@
 declare let window: any;
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { OrangeButton } from "./common";
+import { PrimaryButton } from "./common";
 import { getWalletDetails as getWalletData } from "./util/wallet";
 import { getEtherscanAddress } from "./util/common";
 import logo from "../images/logo.svg";
@@ -94,9 +94,9 @@ export const Header: FunctionComponent = () => {
         )}
 
         {!isConnected && (
-          <OrangeButton onClick={getWalletDetails} className="text-sm font-medium" dataTestId="connectToWallet">
+          <PrimaryButton onClick={getWalletDetails} className="text-sm font-medium" dataTestId="connectToWallet">
             Connect Metamask
-          </OrangeButton>
+          </PrimaryButton>
         )}
       </div>
     </div>
