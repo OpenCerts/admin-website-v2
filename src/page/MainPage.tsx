@@ -1,32 +1,48 @@
 import React, { FunctionComponent, useState } from "react";
-import { CancelBlock } from "../components/CancelBlock";
 import { Header } from "../components/Header";
 import { IssueBlock } from "../components/IssueBlock";
 import { RevokeBlock } from "../components/RevokeBlock";
+import { CancelBlock } from "../components/CancelBlock";
 import { StoreDeployBlock } from "../components/StoreDeployBlock";
 
-const blocks = [
-  {
-    trigger: "issue",
-    text: "Issue Certificates",
-  },
-  {
-    trigger: "revoke",
-    text: "Revoke Certificate",
-  },
-  {
-    trigger: "cancel",
-    text: "Cancel Pending Transaction",
-  },
-];
+interface IssueType {
+  trigger: "issue";
+  text: "Issue Certificates";
+}
+
+interface RevokeType {
+  trigger: "revoke";
+  text: "Revoke Certificate";
+}
+
+interface CancelType {
+  trigger: "cancel";
+  text: "Cancel Pending Transaction";
+}
+
+type blocksType = IssueType | RevokeType | CancelType;
+
+const issue: IssueType = {
+  trigger: "issue",
+  text: "Issue Certificates",
+};
+
+const revoke: RevokeType = {
+  trigger: "revoke",
+  text: "Revoke Certificate",
+};
+
+const cancel: CancelType = {
+  trigger: "cancel",
+  text: "Cancel Pending Transaction",
+};
+
+const blocks: blocksType[] = [issue, revoke, cancel];
 
 export const MainPage: FunctionComponent = () => {
   const [documentStoreAddress, setDocumentStoreAddress] = useState("");
   const [documentStoreStatus, setDocumentStoreStatus] = useState(false);
-  const [block, showBlock] = useState({
-    trigger: "issue",
-    text: "Issue Certificates",
-  });
+  const [block, showBlock] = useState(blocks[0]);
 
   return (
     <>
@@ -61,19 +77,18 @@ export const MainPage: FunctionComponent = () => {
         })}
       </div>
 
-      {documentStoreStatus && (
+      {documentStoreStatus && block !== cancel && (
         <>
-          {block.trigger === "issue" && <IssueBlock documentStoreAddress={documentStoreAddress} />}
-
-          {block.trigger === "revoke" && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
+          {block === issue && <IssueBlock documentStoreAddress={documentStoreAddress} />}
+          {block === revoke && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
         </>
       )}
 
-      {!documentStoreStatus && block.trigger !== "cancel" && (
+      {!documentStoreStatus && block !== cancel && (
         <p className="text-center mt-14 text-gray-700">Please enter valid document store address</p>
       )}
 
-      {block.trigger === "cancel" && <CancelBlock />}
+      {block === cancel && <CancelBlock />}
     </>
   );
 };
