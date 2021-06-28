@@ -22,7 +22,7 @@ export const Button: FunctionComponent<ButtonProp> = ({ children, className, dat
   );
 };
 
-export const OrangeButton: FunctionComponent<ButtonProp> = ({ children, className, dataTestId, onClick }) => {
+export const PrimaryButton: FunctionComponent<ButtonProp> = ({ children, className, dataTestId, onClick }) => {
   return (
     <Button
       className={`${className} bg-primary-default hover:bg-primary-hover text-white`}
@@ -36,7 +36,7 @@ export const OrangeButton: FunctionComponent<ButtonProp> = ({ children, classNam
   );
 };
 
-export const GreyButton: FunctionComponent<ButtonProp> = ({ children, className, dataTestId, onClick }) => {
+export const SecondaryButton: FunctionComponent<ButtonProp> = ({ children, className, dataTestId, onClick }) => {
   return (
     <Button
       className={`${className} bg-secondary-default hover:bg-secondary-hover text-white`}

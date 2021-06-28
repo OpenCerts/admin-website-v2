@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import logo from "../images/logo.svg";
-import { OrangeButton } from "../components/common/Button";
+import { PrimaryButton } from "../components/common/Button";
 
 export const MetaMaskError: FunctionComponent = () => {
   const refreshPage = async () => {
@@ -12,9 +12,9 @@ export const MetaMaskError: FunctionComponent = () => {
       <img className="img-fluid h-12" src={logo} alt="OpenCert" />
       <h2 className="mt-8">Unable to detect Metamask</h2>
       <p className="mb-8">Please download MetaMask extension in google chrome browser.</p>
-      <OrangeButton onClick={refreshPage} className="text-sm font-medium">
+      <PrimaryButton onClick={refreshPage} className="text-sm font-medium">
         Refresh Page
-      </OrangeButton>
+      </PrimaryButton>
     </div>
   );
 };

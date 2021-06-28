@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { TextInput, OrangeButton, Spinner, Logger } from "./common";
+import { TextInput, PrimaryButton, Spinner, Logger } from "./common";
 import { isValidHash, getEtherscanAddress } from "./util/common";
 import { issueCertificateHash as issue } from "./util/issue";
 import { getWalletNetwork } from "./util/wallet";
@@ -74,14 +74,14 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
           </p>
         </label>
         <div className="w-auto md:w-fit md:ml-auto mt-9">
-          <OrangeButton
+          <PrimaryButton
             onClick={() => issueCertificateHash()}
             className="w-full inline-flex justify-center text-sm font-medium"
             dataTestId="issue-certificate-btn"
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             <span>Issue</span>
-          </OrangeButton>
+          </PrimaryButton>
         </div>
       </div>
 
