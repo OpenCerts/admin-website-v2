@@ -5,44 +5,33 @@ import { RevokeBlock } from "../components/RevokeBlock";
 import { CancelBlock } from "../components/CancelBlock";
 import { StoreDeployBlock } from "../components/StoreDeployBlock";
 
-interface IssueType {
-  trigger: "issue";
-  text: "Issue Certificates";
-}
+type Feature = "issue" | "revoke" | "cancel";
+type FeatureType = {
+  feature: Feature;
+  text: string;
+};
 
-interface RevokeType {
-  trigger: "revoke";
-  text: "Revoke Certificate";
-}
-
-interface CancelType {
-  trigger: "cancel";
-  text: "Cancel Pending Transaction";
-}
-
-type blocksType = IssueType | RevokeType | CancelType;
-
-const issue: IssueType = {
-  trigger: "issue",
+const issue: FeatureType = {
+  feature: "issue",
   text: "Issue Certificates",
 };
 
-const revoke: RevokeType = {
-  trigger: "revoke",
+const revoke: FeatureType = {
+  feature: "revoke",
   text: "Revoke Certificate",
 };
 
-const cancel: CancelType = {
-  trigger: "cancel",
+const cancel: FeatureType = {
+  feature: "cancel",
   text: "Cancel Pending Transaction",
 };
 
-const blocks: blocksType[] = [issue, revoke, cancel];
+const blocks: FeatureType[] = [issue, revoke, cancel];
 
 export const MainPage: FunctionComponent = () => {
   const [documentStoreAddress, setDocumentStoreAddress] = useState("");
   const [documentStoreStatus, setDocumentStoreStatus] = useState(false);
-  const [block, showBlock] = useState(blocks[0]);
+  const [activeBlock, setActiveBlock] = useState(blocks[0].feature);
 
   return (
     <>
@@ -64,11 +53,11 @@ export const MainPage: FunctionComponent = () => {
             <a
               key={index}
               onClick={() => {
-                showBlock(blockData);
+                setActiveBlock(blockData.feature);
               }}
-              data-testid={`show-${blockData.trigger}-btn`}
+              data-testid={`show-${blockData.feature}-btn`}
               className={`w-full cursor-pointer text-base font-medium ml-3 ${
-                block === blockData ? `text-primary pb-1 border-b-2 border-primary` : ""
+                activeBlock === blockData.feature ? `text-primary pb-1 border-b-2 border-primary` : ""
               }`}
             >
               {blockData.text}
@@ -77,18 +66,18 @@ export const MainPage: FunctionComponent = () => {
         })}
       </div>
 
-      {documentStoreStatus && block !== cancel && (
+      {documentStoreStatus && activeBlock !== "cancel" && (
         <>
-          {block === issue && <IssueBlock documentStoreAddress={documentStoreAddress} />}
-          {block === revoke && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
+          {activeBlock === "issue" && <IssueBlock documentStoreAddress={documentStoreAddress} />}
+          {activeBlock === "revoke" && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
         </>
       )}
 
-      {!documentStoreStatus && block !== cancel && (
+      {!documentStoreStatus && activeBlock !== "cancel" && (
         <p className="text-center mt-14 text-gray-700">Please enter valid document store address</p>
       )}
 
-      {block === cancel && <CancelBlock />}
+      {activeBlock === "cancel" && <CancelBlock />}
     </>
   );
 };
