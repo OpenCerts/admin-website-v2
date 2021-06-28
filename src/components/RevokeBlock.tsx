@@ -78,7 +78,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           <OrangeButton
             onClick={() => revokeConfirmation()}
             className="tw-full inline-flex justify-center text-sm font-medium"
-            dataTestId="revoke-certificate-btn"
+            dataTestId="revoke-btn"
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             <span>Revoke</span>
@@ -100,6 +100,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
             revokeCertificateHash();
             setShowConfirmationDialog(false);
           }}
+          dataTestId="confirm-revoke-btn"
           className="w-full inline-flex justify-center text-sm font-medium"
         >
           Revoke

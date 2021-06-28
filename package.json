@@ -13,7 +13,7 @@
     "integration:local": "npm run serve",
     "integration:metamask": "npm run integration:wait && npm run integration:transfers",
     "integration:wait": "wait-on -l -i 1000 tcp:8545 http-get://localhost:5000",
-    "integration:transfers": "node ./integration/index.mjs",
+    "integration:transfers": "node --experimental-modules ./integration/index.mjs",
     "integration:dappeteer": "concurrently -k -s first \"npm:integration:blockchain\" \"npm:integration:local\" \"npm:integration:metamask\"",
     "lint": "eslint ./src --ext .js,.ts,.tsx --max-warnings 0 && eslint ./integration --ext .mjs --max-warnings 0",
     "lint:fix": "npm run lint -- --fix"
