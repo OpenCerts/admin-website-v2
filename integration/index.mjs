@@ -2,7 +2,7 @@ import { issue } from "./issue.mjs";
 import { revoke } from "./revoke.mjs";
 import { metamaskInit } from "./metamask-init.mjs";
 
-const main = async () => {
+const issueAndRevoke = async () => {
   const { metamask, browser } = await metamaskInit();
 
   await issue(metamask, browser);
@@ -12,4 +12,4 @@ const main = async () => {
   process.exit(0);
 };
 
-main();
+issueAndRevoke();
