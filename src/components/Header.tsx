@@ -11,19 +11,15 @@ const BreakLine = styled.div`
 `;
 
 interface walletInfoType {
-  walletAddress: string | undefined;
-  walletNetwork: string | undefined;
-  walletBalance: string | undefined;
+  walletAddress?: string;
+  walletNetwork?: string;
+  walletBalance?: string;
 }
 
 export const Header: FunctionComponent = () => {
   const [isConnected, setIsConnected] = useState(false);
 
-  const [wallet, setWalletInfo] = useState({
-    walletAddress: undefined,
-    walletNetwork: undefined,
-    walletBalance: undefined,
-  } as walletInfoType);
+  const [wallet, setWalletInfo] = useState({} as walletInfoType);
 
   useEffect(() => {
     if (window.ethereum) {
