@@ -37,5 +37,5 @@ The speed of the testing can be modified using this options.
 npm run integration:dappeteer 50
 ```
 
-Note that current dappeteer integration test uses mujo-code/puppeteer-headful@master that run on v12.10 node docker. v14 node version is needed to --experimental-modules flag from integration:transfers command.
+Note that current dappeteer integration test uses mujo-code/puppeteer-headful@master that run on v12.10 node docker. v14 node version is required to remove --experimental-modules flag from integration:transfers command.
 
