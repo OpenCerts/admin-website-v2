@@ -10,13 +10,20 @@ const BreakLine = styled.div`
   flex-basis: 100%;
 `;
 
+interface walletInfoType {
+  walletAddress: string | undefined;
+  walletNetwork: string | undefined;
+  walletBalance: string | undefined;
+}
+
 export const Header: FunctionComponent = () => {
   const [isConnected, setIsConnected] = useState(false);
+
   const [wallet, setWalletInfo] = useState({
-    walletAddress: "-",
-    walletNetwork: "-",
-    walletBalance: "-",
-  });
+    walletAddress: undefined,
+    walletNetwork: undefined,
+    walletBalance: undefined,
+  } as walletInfoType);
 
   useEffect(() => {
     if (window.ethereum) {
@@ -66,8 +73,8 @@ export const Header: FunctionComponent = () => {
             <div className="w-auto mb-4 lg:mb-0">
               <p className="font-medium">Current Account</p>
               <p className="break-all">
-                {wallet.walletAddress === "-" && wallet.walletAddress}
-                {wallet.walletAddress !== "-" && (
+                {wallet.walletAddress === undefined && "-"}
+                {wallet.walletAddress !== undefined && wallet.walletNetwork !== undefined && (
                   <a
                     href={`${getEtherscanAddress({
                       network: wallet.walletNetwork,
@@ -83,12 +90,12 @@ export const Header: FunctionComponent = () => {
             <BreakLine className="md:hidden" />
             <div className="w-auto md:ml-12 mb-4 lg:mb-0">
               <p className="font-medium">Network</p>
-              <p className="capitalize">{wallet.walletNetwork}</p>
+              <p className="capitalize">{wallet.walletNetwork === undefined ? "-" : wallet.walletNetwork}</p>
             </div>
             <BreakLine className="md:hidden" />
             <div className="w-auto md:ml-12 mb-4 lg:mb-0">
               <p className="font-medium">Account Balance</p>
-              <p>{wallet.walletBalance} ETH</p>
+              <p>{wallet.walletBalance === undefined ? "-" : wallet.walletBalance} ETH</p>
             </div>
           </>
         )}
