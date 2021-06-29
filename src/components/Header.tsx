@@ -10,13 +10,16 @@ const BreakLine = styled.div`
   flex-basis: 100%;
 `;
 
+interface walletInfoType {
+  walletAddress?: string;
+  walletNetwork?: string;
+  walletBalance?: string;
+}
+
 export const Header: FunctionComponent = () => {
   const [isConnected, setIsConnected] = useState(false);
-  const [wallet, setWalletInfo] = useState({
-    walletAddress: "-",
-    walletNetwork: "-",
-    walletBalance: "-",
-  });
+
+  const [wallet, setWalletInfo] = useState({} as walletInfoType);
 
   useEffect(() => {
     if (window.ethereum) {
@@ -66,8 +69,8 @@ export const Header: FunctionComponent = () => {
             <div className="w-auto mb-4 lg:mb-0">
               <p className="font-medium">Current Account</p>
               <p className="break-all">
-                {wallet.walletAddress === "-" && wallet.walletAddress}
-                {wallet.walletAddress !== "-" && (
+                {!wallet.walletAddress && "-"}
+                {wallet.walletAddress && wallet.walletNetwork && (
                   <a
                     href={`${getEtherscanAddress({
                       network: wallet.walletNetwork,
@@ -83,12 +86,12 @@ export const Header: FunctionComponent = () => {
             <BreakLine className="md:hidden" />
             <div className="w-auto md:ml-12 mb-4 lg:mb-0">
               <p className="font-medium">Network</p>
-              <p className="capitalize">{wallet.walletNetwork}</p>
+              <p className="capitalize">{!wallet.walletNetwork ? "-" : wallet.walletNetwork}</p>
             </div>
             <BreakLine className="md:hidden" />
             <div className="w-auto md:ml-12 mb-4 lg:mb-0">
               <p className="font-medium">Account Balance</p>
-              <p>{wallet.walletBalance} ETH</p>
+              <p>{!wallet.walletBalance ? "-" : wallet.walletBalance} ETH</p>
             </div>
           </>
         )}
