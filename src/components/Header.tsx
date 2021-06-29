@@ -69,8 +69,8 @@ export const Header: FunctionComponent = () => {
             <div className="w-auto mb-4 lg:mb-0">
               <p className="font-medium">Current Account</p>
               <p className="break-all">
-                {wallet.walletAddress === undefined && "-"}
-                {wallet.walletAddress !== undefined && wallet.walletNetwork !== undefined && (
+                {!wallet.walletAddress && "-"}
+                {wallet.walletAddress && wallet.walletNetwork && (
                   <a
                     href={`${getEtherscanAddress({
                       network: wallet.walletNetwork,
@@ -86,12 +86,12 @@ export const Header: FunctionComponent = () => {
             <BreakLine className="md:hidden" />
             <div className="w-auto md:ml-12 mb-4 lg:mb-0">
               <p className="font-medium">Network</p>
-              <p className="capitalize">{wallet.walletNetwork === undefined ? "-" : wallet.walletNetwork}</p>
+              <p className="capitalize">{!wallet.walletNetwork ? "-" : wallet.walletNetwork}</p>
             </div>
             <BreakLine className="md:hidden" />
             <div className="w-auto md:ml-12 mb-4 lg:mb-0">
               <p className="font-medium">Account Balance</p>
-              <p>{wallet.walletBalance === undefined ? "-" : wallet.walletBalance} ETH</p>
+              <p>{!wallet.walletBalance ? "-" : wallet.walletBalance} ETH</p>
             </div>
           </>
         )}
