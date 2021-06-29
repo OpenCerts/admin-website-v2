@@ -11,7 +11,7 @@ interface DocumentStoreAddressProp {
 export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ documentStoreAddress }) => {
   const [processing, setProcessing] = useState(false);
   const [certificateHash, setCertificateHash] = useState("");
-  const [logs, setLogs] = useState("");
+  const [log, setLog] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -35,7 +35,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
     }
 
     if (certificateHash !== "") {
-      const transaction = await issue(documentStoreAddress, certificateHash, setLogs);
+      const transaction = await issue(documentStoreAddress, certificateHash, setLog);
       console.log(transaction);
       if (transaction) {
         const etherscanNetwork = getEtherscanAddress({
@@ -46,7 +46,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
           `Document/Document Batch with hash ${certificateHash} has been issued to ${documentStoreAddress}`
         );
         console.log(transaction.transactionHash);
-        setLogs(
+        setLog(
           `Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
         );
       }
@@ -85,7 +85,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
         </div>
       </div>
 
-      <Logger log={logs} className="px-4" />
+      <Logger log={log} className="px-4" />
     </div>
   );
 };

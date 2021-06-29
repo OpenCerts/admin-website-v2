@@ -19,7 +19,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const [showModal, setShowModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [documentStoreName, setDocumentStoreName] = useState("");
-  const [logs, setLogs] = useState("");
+  const [log, setLog] = useState("");
 
   const validateStorageAddress = (value: string) => {
     setDocumentStoreAddress(value);
@@ -33,13 +33,13 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const deployDocumentStore = async () => {
     if (documentStoreName !== "") {
       setProcessing(true);
-      const transaction = await deploy(documentStoreName, setLogs);
+      const transaction = await deploy(documentStoreName, setLog);
       if (transaction) {
         const walletNetwork = await getWalletNetwork();
         const etherscanNetwork = getEtherscanAddress({
           network: walletNetwork,
         });
-        setLogs(
+        setLog(
           `Document Store Deployed. Find more details at <a href="${etherscanNetwork}/address/${transaction.contractAddress}" target="_blank">${etherscanNetwork}/address/${transaction.contractAddress}</a>.`
         );
         validateStorageAddress(transaction.contractAddress);
@@ -98,7 +98,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
             Deploy
           </PrimaryButton>
         </div>
-        <Logger log={logs} />
+        <Logger log={log} />
       </ModalDialog>
     </>
   );

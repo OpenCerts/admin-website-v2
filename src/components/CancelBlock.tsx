@@ -12,7 +12,7 @@ export const CancelBlock: FunctionComponent = () => {
   const [currentGasPrice, setCurrentGasPrice] = useState(0);
   const [newGasPrice, setNewGasPrice] = useState(0);
 
-  const [logs, setLogs] = useState("");
+  const [log, setLog] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
 
@@ -20,7 +20,7 @@ export const CancelBlock: FunctionComponent = () => {
     setErrorMessage("");
     const trimmed_value = value.trim();
     if (isValidHash(trimmed_value)) {
-      const transactionData = await getPendingTransaction(trimmed_value, setLogs);
+      const transactionData = await getPendingTransaction(trimmed_value, setLog);
       if (transactionData) {
         setNonce(transactionData.nonce);
         setCurrentGasPrice(transactionData.gasPrice.toNumber());
@@ -57,7 +57,7 @@ export const CancelBlock: FunctionComponent = () => {
 
   const cancelPendingTransaction = async () => {
     setProcessing(true);
-    await cancelTransaction(nonce, BigNumber.from(newGasPrice), setLogs);
+    await cancelTransaction(nonce, BigNumber.from(newGasPrice), setLog);
     setProcessing(false);
   };
 
@@ -113,7 +113,7 @@ export const CancelBlock: FunctionComponent = () => {
           </PrimaryButton>
         </div>
       </div>
-      <Logger log={logs} className="px-4" />
+      <Logger log={log} className="px-4" />
       <ConfirmationModalDialog
         title="Cancel Pending Transaction ?"
         message="*Please note that this action is irreversible."
