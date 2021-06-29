@@ -1,5 +1,9 @@
 import React, { Dispatch, FunctionComponent, useState } from "react";
-import { TextInput, SecondaryButton, PrimaryButton, ModalDialog, Spinner, Logger } from "./common";
+import { TextInput } from "./common/TextInput";
+import { SecondaryButton, PrimaryButton } from "./common/Button";
+import { ModalDialog } from "./common/ModalDialog";
+import { Spinner } from "./common/Spinner";
+import { Logger } from "./common/Logger";
 import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/common";

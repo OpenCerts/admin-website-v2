@@ -1,5 +1,8 @@
 import React, { FunctionComponent, useState } from "react";
-import { TextInput, PrimaryButton, Spinner, Logger } from "./common";
+import { TextInput } from "./common/TextInput";
+import { PrimaryButton } from "./common/Button";
+import { Spinner } from "./common/Spinner";
+import { Logger } from "./common/Logger";
 import { isValidHash, getEtherscanAddress } from "./util/common";
 import { issueCertificateHash as issue } from "./util/issue";
 import { getWalletNetwork } from "./util/wallet";

@@ -1,5 +1,9 @@
 import React, { FunctionComponent, useState } from "react";
-import { TextInput, PrimaryButton, Spinner, Logger, ConfirmationModalDialog, SecondaryButton } from "./common";
+import { TextInput } from "./common/TextInput";
+import { SecondaryButton, PrimaryButton } from "./common/Button";
+import { ConfirmationModalDialog } from "./common/ModalDialog";
+import { Spinner } from "./common/Spinner";
+import { Logger } from "./common/Logger";
 import { isValidHash } from "./util/common";
 import { getPendingTransaction, cancelPendingTransaction as cancelTransaction } from "./util/cancel";
 import { BigNumber } from "ethers";
