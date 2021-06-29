@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 const localConfig = {
   purge: {
     content: ["./src/**/*.ts", "./src/**/*.tsx", "./node_modules/@govtechsg/tradetrust-ui-components/src/**/*.tsx"],
