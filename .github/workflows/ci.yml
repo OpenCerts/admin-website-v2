@@ -46,4 +46,4 @@ jobs:
         env:
           CI: "true"
         with:
-          args: npm run integration:dappeteer
+          args: node -v && npm run integration:dappeteer
