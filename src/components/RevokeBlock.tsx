@@ -16,7 +16,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
   const [processing, setProcessing] = useState(false);
 
   const [certificateHash, setCertificateHash] = useState("");
-  const [logs, setLogs] = useState("");
+  const [log, setLog] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
@@ -42,7 +42,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
 
   const revokeCertificateHash = async () => {
     setProcessing(true);
-    const transaction = await revoke(documentStoreAddress, certificateHash, setLogs);
+    const transaction = await revoke(documentStoreAddress, certificateHash, setLog);
     if (transaction) {
       const etherscanNetwork = getEtherscanAddress({
         network: await getWalletNetwork(),
@@ -52,7 +52,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
         `Document/Document Batch with hash ${certificateHash} has been revoked on ${documentStoreAddress}.`
       );
 
-      setLogs(
+      setLog(
         `Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
       );
     }
@@ -89,7 +89,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           </PrimaryButton>
         </div>
       </div>
-      <Logger log={logs} className="px-4" />
+      <Logger log={log} className="px-4" />
 
       <ConfirmationModalDialog
         title="Confirm Revoke Certification Hash ?"
