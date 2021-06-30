@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import logo from "../images/logo.svg";
-import { PrimaryButton } from "../components/common/Button";
+import { PrimaryButton } from "../components/common/button";
 
 export const MetaMaskError: FunctionComponent = () => {
   const refreshPage = async () => {

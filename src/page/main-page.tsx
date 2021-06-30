@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState } from "react";
-import { Header } from "../components/Header";
-import { IssueBlock } from "../components/IssueBlock";
-import { RevokeBlock } from "../components/RevokeBlock";
-import { CancelBlock } from "../components/CancelBlock";
-import { StoreDeployBlock } from "../components/StoreDeployBlock";
+import { Header } from "../components/header";
+import { IssueBlock } from "../components/issue-block";
+import { RevokeBlock } from "../components/revoke-block";
+import { CancelBlock } from "../components/cancel-block";
+import { StoreDeployBlock } from "../components/store-deploy-block";
 
 type Feature = "issue" | "revoke" | "cancel";
 type FeatureType = {
