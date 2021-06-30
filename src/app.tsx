@@ -1,6 +1,6 @@
 declare let window: any;
 import React, { FunctionComponent } from "react";
-import "./App.css";
+import "./app.css";
 import { MainPage } from "./page/main-page";
 import { MetaMaskError } from "./page/metamask-error";
 
