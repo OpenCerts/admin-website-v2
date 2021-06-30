@@ -1,54 +1,42 @@
-import styled from "@emotion/styled";
 import React, { FunctionComponent, useState } from "react";
-import { CancelBlock } from "../components/CancelBlock";
 import { Header } from "../components/Header";
 import { IssueBlock } from "../components/IssueBlock";
 import { RevokeBlock } from "../components/RevokeBlock";
+import { CancelBlock } from "../components/CancelBlock";
 import { StoreDeployBlock } from "../components/StoreDeployBlock";
 
-const BlockNavigationStyle = styled.div`
-  margin-top: 20px;
+type Feature = "issue" | "revoke" | "cancel";
+type FeatureType = {
+  feature: Feature;
+  text: string;
+};
 
-  a {
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    color: #000000;
-    margin-left: 20px;
-    margin-left: 20px;
+const issue: FeatureType = {
+  feature: "issue",
+  text: "Issue Certificates",
+};
 
-    &.active {
-      color: #ff9933;
-      padding-bottom: 5px;
-      border-bottom: 2px solid #ff9933;
-    }
-  }
-`;
+const revoke: FeatureType = {
+  feature: "revoke",
+  text: "Revoke Certificate",
+};
 
-const blocks = [
-  {
-    trigger: "issue",
-    text: "Issue Certificates",
-  },
-  {
-    trigger: "revoke",
-    text: "Revoke Certificate",
-  },
-  {
-    trigger: "cancel",
-    text: "Cancel Pending Transaction",
-  },
-];
+const cancel: FeatureType = {
+  feature: "cancel",
+  text: "Cancel Pending Transaction",
+};
+
+const blocks: FeatureType[] = [issue, revoke, cancel];
 
 export const MainPage: FunctionComponent = () => {
   const [documentStoreAddress, setDocumentStoreAddress] = useState("");
   const [documentStoreStatus, setDocumentStoreStatus] = useState(false);
-  const [block, showBlock] = useState(blocks[0].trigger);
+  const [activeBlock, setActiveBlock] = useState(blocks[0].feature);
 
   return (
     <>
       <Header />
-      <div className={"container max-w-screen-lg px-4 md:mx-auto mt-16 text-center sm:text-left"}>
+      <div className={"container max-w-screen-lg px-4 md:mx-auto mt-4 text-center sm:text-left"}>
         <h2>Administrator Portal</h2>
       </div>
 
@@ -59,36 +47,37 @@ export const MainPage: FunctionComponent = () => {
       />
       <hr className={`mt-16 max-w-screen-lg w-full mx-auto px-4`} />
 
-      <BlockNavigationStyle className={"container max-w-screen-lg mx-auto"}>
+      <div className={"container max-w-screen-lg mx-auto mt-8"}>
         {blocks.map((blockData, index) => {
           return (
             <a
               key={index}
               onClick={() => {
-                showBlock(blockData["trigger"]);
+                setActiveBlock(blockData.feature);
               }}
-              data-testid={`show-${blockData["trigger"]}-btn`}
-              className={block === blockData["trigger"] ? `w-full active` : "w-full "}
+              data-testid={`show-${blockData.feature}-btn`}
+              className={`w-full cursor-pointer text-base font-medium ml-3 ${
+                activeBlock === blockData.feature ? `text-primary pb-1 border-b-2 border-primary` : ""
+              }`}
             >
-              {blockData["text"]}
+              {blockData.text}
             </a>
           );
         })}
-      </BlockNavigationStyle>
+      </div>
 
-      {documentStoreStatus && (
+      {documentStoreStatus && activeBlock !== "cancel" && (
         <>
-          {block === "issue" && <IssueBlock documentStoreAddress={documentStoreAddress} />}
-
-          {block === "revoke" && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
+          {activeBlock === "issue" && <IssueBlock documentStoreAddress={documentStoreAddress} />}
+          {activeBlock === "revoke" && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
         </>
       )}
 
-      {!documentStoreStatus && block !== "cancel" && (
+      {!documentStoreStatus && activeBlock !== "cancel" && (
         <p className="text-center mt-14 text-gray-700">Please enter valid document store address</p>
       )}
 
-      {block === "cancel" && <CancelBlock />}
+      {activeBlock === "cancel" && <CancelBlock />}
     </>
   );
 };

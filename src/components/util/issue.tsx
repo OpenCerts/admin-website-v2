@@ -1,7 +1,7 @@
-import { connect } from "@govtechsg/document-store";
-import { getSigner } from "./wallet";
 import { TransactionReceipt } from "@ethersproject/providers";
+import { connect } from "@govtechsg/document-store";
 import { Dispatch } from "react";
+import { getSigner } from "./wallet";
 
 export const issueCertificateHash = async (
   documentStoreAddress: string,

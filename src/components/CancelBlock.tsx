@@ -1,27 +1,12 @@
 import React, { FunctionComponent, useState } from "react";
 import { TextInput } from "./common/TextInput";
-import { OrangeButton } from "./common/Button";
+import { SecondaryButton, PrimaryButton } from "./common/Button";
+import { ConfirmationModalDialog } from "./common/ModalDialog";
 import { Spinner } from "./common/Spinner";
-import { isValidHash } from "./util/util";
+import { Logger } from "./common/Logger";
+import { isValidHash } from "./util/common";
 import { getPendingTransaction, cancelPendingTransaction as cancelTransaction } from "./util/cancel";
 import { BigNumber } from "ethers";
-import parse from "html-react-parser";
-import styled from "@emotion/styled";
-
-const LoggerStyle = styled.p`
-  a {
-    color: blue;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  a:active {
-    color: black;
-  }
-`;
 
 export const CancelBlock: FunctionComponent = () => {
   const [processing, setProcessing] = useState(false);
@@ -31,14 +16,15 @@ export const CancelBlock: FunctionComponent = () => {
   const [currentGasPrice, setCurrentGasPrice] = useState(0);
   const [newGasPrice, setNewGasPrice] = useState(0);
 
-  const [logs, setLogs] = useState("");
+  const [log, setLog] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
 
   const validateTransactionHash = async (value: string): Promise<boolean> => {
     setErrorMessage("");
     const trimmed_value = value.trim();
     if (isValidHash(trimmed_value)) {
-      const transactionData = await getPendingTransaction(trimmed_value, setLogs);
+      const transactionData = await getPendingTransaction(trimmed_value, setLog);
       if (transactionData) {
         setNonce(transactionData.nonce);
         setCurrentGasPrice(transactionData.gasPrice.toNumber());
@@ -55,9 +41,14 @@ export const CancelBlock: FunctionComponent = () => {
     return false;
   };
 
-  const cancelPendingTransaction = async () => {
+  const cancelPendingConfirmation = async () => {
     setErrorMessage("");
-    setProcessing(true);
+
+    if (transactionHash === "") {
+      setErrorMessage("*Please enter valid transaction hash (32 characters).");
+      setProcessing(false);
+      return;
+    }
 
     if (newGasPrice <= currentGasPrice) {
       setErrorMessage("*New gas price must be higher than current gas price.");
@@ -65,18 +56,12 @@ export const CancelBlock: FunctionComponent = () => {
       return;
     }
 
-    if (transactionHash === "") {
-      setErrorMessage("*Please enter valid transaction hash.");
-      setProcessing(false);
-      return;
-    }
+    setShowConfirmationDialog(true);
+  };
 
-    if (confirm(`Are you sure you want to cancel this pending transaction ?`)) {
-      await cancelTransaction(nonce, BigNumber.from(newGasPrice), setLogs);
-    } else {
-      setLogs("Revoke certificate hash has been cancelled by the user.");
-    }
-
+  const cancelPendingTransaction = async () => {
+    setProcessing(true);
+    await cancelTransaction(nonce, BigNumber.from(newGasPrice), setLog);
     setProcessing(false);
   };
 
@@ -122,26 +107,35 @@ export const CancelBlock: FunctionComponent = () => {
           </label>
         </div>
         <div className="w-auto md:w-fit md:ml-auto mt-14">
-          <OrangeButton
-            onClick={() => cancelPendingTransaction()}
+          <PrimaryButton
+            onClick={() => cancelPendingConfirmation()}
             className="tw-full inline-flex justify-center text-sm font-medium"
             dataTestId="revoke-certificate-btn"
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             <span>Cancel Transaction</span>
-          </OrangeButton>
+          </PrimaryButton>
         </div>
       </div>
-
-      <div className="w-100 h-20 max-w-screen-lg w-full mt-6 mx-auto ">
-        <p className={"my-2 text-sm text-gray-700"}>Status </p>
-        <LoggerStyle
-          className={"w-full h-16 bg-gray-100 p-2 text-sm resize-none overflow-scroll"}
-          data-testid="cancel-log"
+      <Logger log={log} className="px-4" />
+      <ConfirmationModalDialog
+        title="Cancel Pending Transaction ?"
+        message="*Please note that this action is irreversible."
+        toggleOpen={showConfirmationDialog}
+      >
+        <SecondaryButton onClick={() => setShowConfirmationDialog(false)} className="w-full mr-5 text-sm font-medium">
+          Cancel
+        </SecondaryButton>
+        <PrimaryButton
+          onClick={() => {
+            cancelPendingTransaction();
+            setShowConfirmationDialog(false);
+          }}
+          className="w-full inline-flex justify-center text-sm font-medium"
         >
-          {parse(logs)}
-        </LoggerStyle>
-      </div>
+          Cancel Transaction
+        </PrimaryButton>
+      </ConfirmationModalDialog>
     </div>
   );
 };

@@ -23,9 +23,9 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ runner.os }}-build-${{ env.cache-name }}
+            ${{ runner.os }}-build
+            ${{ runner.os }}
             
       - name: Install Dependencies
         env:
@@ -40,10 +40,10 @@ jobs:
       
       - name: Run Jest Test
         run: npm run test
-        
-      # - name: Run Integration Test
-      #   uses: mujo-code/puppeteer-headful@master
-      #   env:
-      #     CI: 'true'
-      #   with:
-      #     args: npm run integration:dappeteer
+
+      - name: Integration - dappeteer
+        uses: mujo-code/puppeteer-headful@master
+        env:
+          CI: "true"
+        with:
+          args: npm run integration:dappeteer
