@@ -1,6 +1,6 @@
 declare let window: any;
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { PrimaryButton } from "./common/Button";
+import { PrimaryButton } from "./common/button";
 import { getWalletDetails as getWalletData } from "./util/wallet";
 import { getEtherscanAddress } from "./util/common";
 import logo from "../images/logo.svg";

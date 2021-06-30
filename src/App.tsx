@@ -1,8 +1,8 @@
 declare let window: any;
 import React, { FunctionComponent } from "react";
 import "./App.css";
-import { MainPage } from "./page/MainPage";
-import { MetaMaskError } from "./page/MetaMaskError";
+import { MainPage } from "./page/main-page";
+import { MetaMaskError } from "./page/metamask-error";
 
 const App: FunctionComponent = () => {
   if (!window.ethereum) {

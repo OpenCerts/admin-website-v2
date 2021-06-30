@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState } from "react";
-import { TextInput } from "./common/TextInput";
-import { SecondaryButton, PrimaryButton } from "./common/Button";
-import { ConfirmationModalDialog } from "./common/ModalDialog";
-import { Spinner } from "./common/Spinner";
-import { Logger } from "./common/Logger";
+import { TextInput } from "./common/text-input";
+import { SecondaryButton, PrimaryButton } from "./common/button";
+import { ConfirmationModalDialog } from "./common/modal-dialog";
+import { Spinner } from "./common/spinner";
+import { Logger } from "./common/logger";
 import { isValidHash } from "./util/common";
 import { getPendingTransaction, cancelPendingTransaction as cancelTransaction } from "./util/cancel";
 import { BigNumber } from "ethers";
