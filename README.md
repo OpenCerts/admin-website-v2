@@ -12,7 +12,7 @@ We develop primarily on a OS / Linux environment so please lodge an issue if you
 
 ```bash
 npm install
-npm run dev
+npm run start
 ```
 
 ## Jest Test
