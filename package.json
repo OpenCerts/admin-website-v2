@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "hasInstallScript": "true",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run build && vite",
     "build": "tsc && npm run build:css && vite build",
     "build:css": "postcss src/tailwind.css -o src/index.css",
     "serve": "npm run build && vite preview",
