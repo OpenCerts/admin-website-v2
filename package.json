@@ -8,7 +8,7 @@
     "start": "npm-run-all -p start:*",
     "start:css": "postcss src/tailwind.css -o src/index.css --watch",
     "start:dev": "sleep 3 && vite",
-    "serve": "vite preview",
+    "serve": "npm run build && vite preview",
     "test": "jest",
     "test:watch": "jest --watch",
     "integration:blockchain": "ganache-cli --mnemonic \"indicate swing place chair flight used hammer soon photo region volume shuffle\"",
