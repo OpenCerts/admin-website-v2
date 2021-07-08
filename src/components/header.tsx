@@ -77,6 +77,7 @@ export const Header: FunctionComponent = () => {
                     })}/address/${wallet.walletAddress}`}
                     rel="noreferrer"
                     target="_blank"
+                    className="text-blue-800 underline"
                   >
                     {wallet.walletAddress}
                   </a>
