@@ -60,7 +60,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
 
   return (
     <div className="mb-16">
-      <div className={`md:flex max-w-screen-lg w-full px-4 mx-auto mt-12`}>
+      <div className={`md:flex max-w-screen-lg w-full px-4 mx-auto mt-8`}>
         <label className="max-w-lg w-full text-left">
           <p>Issue certificates with the Merkle Root Hash</p>
           <TextInput

@@ -5,33 +5,51 @@ import { RevokeBlock } from "../components/revoke-block";
 import { CancelBlock } from "../components/cancel-block";
 import { StoreDeployBlock } from "../components/store-deploy-block";
 
-type Feature = "issue" | "revoke" | "cancel";
+type Feature = "issue-revoke" | "cancel-pending";
+type SubFeature = "issue" | "revoke";
+
 type FeatureType = {
   feature: Feature;
   text: string;
 };
 
-const issue: FeatureType = {
-  feature: "issue",
-  text: "Issue Certificates",
+type SubFeatureType = {
+  subFeature: SubFeature;
+  feature: FeatureType["feature"];
+  text: string;
 };
 
-const revoke: FeatureType = {
-  feature: "revoke",
-  text: "Revoke Certificate",
+const issueAndRevoke: FeatureType = {
+  feature: "issue-revoke",
+  text: "Revoke/Issue Certificate",
 };
 
 const cancel: FeatureType = {
-  feature: "cancel",
+  feature: "cancel-pending",
   text: "Cancel Pending Transaction",
 };
 
-const blocks: FeatureType[] = [issue, revoke, cancel];
+const issue: SubFeatureType = {
+  subFeature: "issue",
+  feature: "issue-revoke",
+  text: "Issue Certificates",
+};
+
+const revoke: SubFeatureType = {
+  subFeature: "revoke",
+  feature: "issue-revoke",
+  text: "Revoke Certificate",
+};
+
+const featureBlocks: FeatureType[] = [issueAndRevoke, cancel];
+const subFeatureBlocks: SubFeatureType[] = [issue, revoke];
 
 export const MainPage: FunctionComponent = () => {
   const [documentStoreAddress, setDocumentStoreAddress] = useState("");
   const [documentStoreStatus, setDocumentStoreStatus] = useState(false);
-  const [activeBlock, setActiveBlock] = useState(blocks[0].feature);
+  const [activeFeatureBlock, setActiveFeatureBlock] = useState(featureBlocks[0].feature);
+  const [activeSubFeatureBlock, setActiveSubFeatureBlock] = useState(subFeatureBlocks[0].subFeature);
+  const subFeatureBlockArray = subFeatureBlocks.filter((blockData) => blockData.feature === activeFeatureBlock);
 
   return (
     <>
@@ -40,24 +58,19 @@ export const MainPage: FunctionComponent = () => {
         <h2>Administrator Portal</h2>
       </div>
 
-      <StoreDeployBlock
-        documentStoreAddress={documentStoreAddress}
-        setDocumentStoreAddress={setDocumentStoreAddress}
-        setDocumentStoreStatus={setDocumentStoreStatus}
-      />
-      <hr className={`mt-16 max-w-screen-lg w-full mx-auto px-4`} />
+      {/* Display Feature Block */}
 
-      <div className={"container max-w-screen-lg mx-auto mt-8"}>
-        {blocks.map((blockData, index) => {
+      <div className={"container max-w-screen-lg mx-auto mt-10"}>
+        {featureBlocks.map((blockData, index) => {
           return (
             <a
               key={index}
               onClick={() => {
-                setActiveBlock(blockData.feature);
+                setActiveFeatureBlock(blockData.feature);
               }}
               data-testid={`show-${blockData.feature}-btn`}
               className={`w-full cursor-pointer text-base font-medium ml-3 ${
-                activeBlock === blockData.feature ? `text-primary pb-1 border-b-2 border-primary` : ""
+                activeFeatureBlock === blockData.feature ? `text-primary pb-1 border-b-2 border-primary` : ""
               }`}
             >
               {blockData.text}
@@ -66,7 +79,51 @@ export const MainPage: FunctionComponent = () => {
         })}
       </div>
 
-      {documentStoreStatus && activeBlock !== "cancel" && (
+      {activeFeatureBlock === "issue-revoke" && (
+        <StoreDeployBlock
+          documentStoreAddress={documentStoreAddress}
+          setDocumentStoreAddress={setDocumentStoreAddress}
+          setDocumentStoreStatus={setDocumentStoreStatus}
+        />
+      )}
+      {activeFeatureBlock === "cancel-pending" && <CancelBlock />}
+
+      {/* Display SubFeature Block */}
+
+      <div className={"container max-w-screen-lg mx-auto mt-8"}>
+        {documentStoreStatus && subFeatureBlockArray.length > 0 && (
+          <hr className={`my-4 mb-8 max-w-screen-lg w-full mx-auto`} />
+        )}
+        {documentStoreStatus &&
+          subFeatureBlockArray.length > 0 &&
+          subFeatureBlockArray.map((blockData, index) => {
+            return (
+              <a
+                key={index}
+                onClick={() => {
+                  setActiveSubFeatureBlock(blockData.subFeature);
+                }}
+                data-testid={`show-${blockData.feature}-btn`}
+                className={`w-full cursor-pointer text-base font-medium ml-3 ${
+                  activeSubFeatureBlock === blockData.subFeature ? `text-primary pb-1 border-b-2 border-primary` : ""
+                }`}
+              >
+                {blockData.text}
+              </a>
+            );
+          })}
+      </div>
+
+      {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "revoke" && (
+        <RevokeBlock documentStoreAddress={documentStoreAddress} />
+      )}
+
+      {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "issue" && (
+        <IssueBlock documentStoreAddress={documentStoreAddress} />
+      )}
+
+      {/* <hr className={`mt-16 max-w-screen-lg w-full mx-auto px-4`} /> */}
+      {/* {documentStoreStatus && activeBlock !== "cancel" && (
         <>
           {activeBlock === "issue" && <IssueBlock documentStoreAddress={documentStoreAddress} />}
           {activeBlock === "revoke" && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
@@ -77,7 +134,7 @@ export const MainPage: FunctionComponent = () => {
         <p className="text-center mt-14 text-gray-700">Please enter valid document store address</p>
       )}
 
-      {activeBlock === "cancel" && <CancelBlock />}
+      {activeBlock === "cancel" && <CancelBlock />} */}
     </>
   );
 };

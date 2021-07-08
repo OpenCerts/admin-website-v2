@@ -117,7 +117,7 @@ export const CancelBlock: FunctionComponent = () => {
           </PrimaryButton>
         </div>
       </div>
-      <Logger log={log} className="px-4" />
+      <Logger log={log} />
       <ConfirmationModalDialog
         title="Cancel Pending Transaction ?"
         message="*Please note that this action is irreversible."
