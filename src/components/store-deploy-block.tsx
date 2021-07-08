@@ -1,5 +1,5 @@
-import React, { Dispatch, FunctionComponent, useState } from "react";
-import { TextInput } from "./common/text-input";
+import React, { Dispatch, FunctionComponent, useEffect, useState } from "react";
+import { DataList, TextInput } from "./common/text-input";
 import { SecondaryButton, PrimaryButton } from "./common/button";
 import { ModalDialog } from "./common/modal-dialog";
 import { Spinner } from "./common/spinner";
@@ -8,6 +8,7 @@ import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/common";
 import { isAddress } from "ethers/lib/utils";
+import { getDocumentStores, validateDocumentStore } from "./util/document-store";
 
 interface DocumentStoreAddressProps {
   documentStoreAddress: string;
@@ -23,11 +24,22 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const [showModal, setShowModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [documentStoreName, setDocumentStoreName] = useState("");
+  const [documentStoreNameArray, setDocumentStoreNameArray] = useState<string[]>();
   const [log, setLog] = useState("");
 
-  const validateStorageAddress = (value: string) => {
+  useEffect(() => {
+    getDocumentStoreList();
+  });
+
+  const getDocumentStoreList = async () => {
+    const documentStoreArray = await getDocumentStores();
+    setDocumentStoreNameArray(documentStoreArray);
+  };
+
+  const validateStorageAddress = async (value: string) => {
     setDocumentStoreAddress(value);
-    if (isAddress(value)) {
+    const storageAddressLowerCase = value.toLowerCase();
+    if (isAddress(storageAddressLowerCase) && (await validateDocumentStore(storageAddressLowerCase))) {
       setDocumentStoreStatus(true);
     } else {
       setDocumentStoreStatus(false);
@@ -58,12 +70,13 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
       <div className={`md:flex max-w-screen-lg w-full px-4 mt-12 mx-auto`}>
         <label className="max-w-lg w-full text-left">
           <p>Store Address</p>
-          <TextInput
+          <DataList
             className={`w-full mt-3`}
             placeHolder="Enter existing (0x…), or deploy new instance."
             onChange={validateStorageAddress}
             value={documentStoreAddress}
             dataTestId="document-store"
+            options={documentStoreNameArray}
           />
         </label>
         <p className="text-center my-4 text-gray-400 md:hidden">Or</p>
