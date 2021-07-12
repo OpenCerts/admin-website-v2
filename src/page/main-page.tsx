@@ -121,20 +121,6 @@ export const MainPage: FunctionComponent = () => {
       {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "issue" && (
         <IssueBlock documentStoreAddress={documentStoreAddress} />
       )}
-
-      {/* <hr className={`mt-16 max-w-screen-lg w-full mx-auto px-4`} /> */}
-      {/* {documentStoreStatus && activeBlock !== "cancel" && (
-        <>
-          {activeBlock === "issue" && <IssueBlock documentStoreAddress={documentStoreAddress} />}
-          {activeBlock === "revoke" && <RevokeBlock documentStoreAddress={documentStoreAddress} />}
-        </>
-      )}
-
-      {!documentStoreStatus && activeBlock !== "cancel" && (
-        <p className="text-center mt-14 text-gray-700">Please enter valid document store address</p>
-      )}
-
-      {activeBlock === "cancel" && <CancelBlock />} */}
     </>
   );
 };
