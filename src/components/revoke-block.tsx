@@ -62,7 +62,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
 
   return (
     <>
-      <div className={`md:flex max-w-screen-lg w-full px-4 mx-auto mt-12`}>
+      <div className={`md:flex max-w-screen-lg w-full px-4 mx-auto mt-8`}>
         <label className="max-w-lg w-full text-left">
           <p>Certificate hash to revoke</p>
           <TextInput

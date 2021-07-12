@@ -55,9 +55,9 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
 
   return (
     <>
-      <div className={`md:flex max-w-screen-lg w-full px-4 mt-12 mx-auto`}>
+      <div className={`md:flex max-w-screen-lg w-full px-4 mt-10 mx-auto`}>
         <label className="max-w-lg w-full text-left">
-          <p>Store Address</p>
+          <p>Document Store Address</p>
           <TextInput
             className={`w-full mt-3`}
             placeHolder="Enter existing (0x…), or deploy new instance."

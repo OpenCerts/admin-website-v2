@@ -39,7 +39,6 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
 
     if (certificateHash !== "") {
       const transaction = await issue(documentStoreAddress, certificateHash, setLog);
-      console.log(transaction);
       if (transaction) {
         const etherscanNetwork = getEtherscanAddress({
           network: await getWalletNetwork(),
@@ -48,7 +47,6 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
         setSuccessMessage(
           `Document/Document Batch with hash ${certificateHash} has been issued to ${documentStoreAddress}`
         );
-        console.log(transaction.transactionHash);
         setLog(
           `Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
         );
@@ -60,7 +58,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
 
   return (
     <div className="mb-16">
-      <div className={`md:flex max-w-screen-lg w-full px-4 mx-auto mt-12`}>
+      <div className={`md:flex max-w-screen-lg w-full px-4 mx-auto mt-8`}>
         <label className="max-w-lg w-full text-left">
           <p>Issue certificates with the Merkle Root Hash</p>
           <TextInput
