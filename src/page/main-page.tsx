@@ -103,7 +103,7 @@ export const MainPage: FunctionComponent = () => {
                 onClick={() => {
                   setActiveSubFeatureBlock(blockData.subFeature);
                 }}
-                data-testid={`show-${blockData.feature}-btn`}
+                data-testid={`show-${blockData.subFeature}-btn`}
                 className={`w-full cursor-pointer text-base font-medium ml-3 ${
                   activeSubFeatureBlock === blockData.subFeature ? `text-primary pb-1 border-b-2 border-primary` : ""
                 }`}
