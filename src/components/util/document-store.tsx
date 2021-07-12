@@ -3,6 +3,9 @@ import { connectWallet, getWalletNetwork } from "./wallet";
 export const getDocumentStores = async (): Promise<Array<string>> => {
   try {
     const provider = await connectWallet();
+
+    // Topics = deploy document store method,
+    // The topics can be found in Etherscan transaction logs
     const logInfo = {
       fromBlock: "earliest",
       toBlock: "latest",
@@ -12,12 +15,14 @@ export const getDocumentStores = async (): Promise<Array<string>> => {
         "0x000000000000000000000000c84b0719a82626417c40f3168513dfabdb6a9079",
       ],
     };
+
     const getLogs = await provider.getLogs(logInfo);
     if (getLogs.length > 0) {
       return getLogs.map((logInformation) => {
         return logInformation.address.toLowerCase();
       });
     }
+
     return [];
   } catch (e) {
     console.error(e.message);
