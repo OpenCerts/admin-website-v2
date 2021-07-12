@@ -78,7 +78,7 @@ export const CancelBlock: FunctionComponent = () => {
             <TextInput
               className={`w-full mt-3`}
               placeHolder="0x..."
-              dataTestId="revoke-certificate"
+              dataTestId="cancel-pending"
               onChange={validateTransactionHash}
             />
             <p className={"text-red-600 break-all"} data-testid="error-message">
@@ -110,7 +110,7 @@ export const CancelBlock: FunctionComponent = () => {
           <PrimaryButton
             onClick={() => cancelPendingConfirmation()}
             className="tw-full inline-flex justify-center text-sm font-medium"
-            dataTestId="revoke-certificate-btn"
+            dataTestId="cancel-pending-btn"
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             <span>Cancel Transaction</span>
