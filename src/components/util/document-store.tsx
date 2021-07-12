@@ -25,9 +25,8 @@ export const getDocumentStores = async (): Promise<Array<string>> => {
   }
 };
 
-export const validateDocumentStore = async (documentStoreAddress: string): Promise<boolean> => {
+export const isDocumentStore = async (documentStoreAddress: string): Promise<boolean> => {
   const documentStoreArray = await getDocumentStores();
-  console.log(await getWalletNetwork());
   return (await getWalletNetwork()).toLowerCase() === "unknown"
     ? true
     : documentStoreArray.indexOf(documentStoreAddress) > -1

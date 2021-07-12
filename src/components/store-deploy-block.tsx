@@ -8,7 +8,7 @@ import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/common";
 import { isAddress } from "ethers/lib/utils";
-import { getDocumentStores, validateDocumentStore } from "./util/document-store";
+import { getDocumentStores, isDocumentStore } from "./util/document-store";
 
 interface DocumentStoreAddressProps {
   documentStoreAddress: string;
@@ -39,7 +39,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const validateStorageAddress = async (value: string) => {
     setDocumentStoreAddress(value);
     const storageAddressLowerCase = value.toLowerCase();
-    if (isAddress(storageAddressLowerCase) && (await validateDocumentStore(storageAddressLowerCase))) {
+    if (isAddress(storageAddressLowerCase) && (await isDocumentStore(storageAddressLowerCase))) {
       setDocumentStoreStatus(true);
     } else {
       setDocumentStoreStatus(false);
