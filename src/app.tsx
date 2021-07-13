@@ -13,6 +13,7 @@ const App: FunctionComponent = () => {
 
   // The documentation and error code referenced from :
   // https://docs.metamask.io/guide/ethereum-provider.html#using-the-provider
+  // https://docs.metamask.io/guide/ethereum-provider.html#errors
   const checkMetaMaskAccount = async () => {
     try {
       const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
