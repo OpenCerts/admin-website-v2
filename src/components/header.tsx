@@ -16,11 +16,11 @@ interface walletInfoType {
   walletBalance?: string;
 }
 
-interface headerProps {
+interface HeaderProps {
   isConnected: boolean;
   setIsConnected: Dispatch<boolean>;
 }
-export const Header: FunctionComponent<headerProps> = ({ isConnected, setIsConnected }) => {
+export const Header: FunctionComponent<HeaderProps> = ({ isConnected, setIsConnected }) => {
   const [wallet, setWalletInfo] = useState({} as walletInfoType);
 
   useEffect(() => {
