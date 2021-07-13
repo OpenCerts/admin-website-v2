@@ -11,7 +11,6 @@ export const issueCertificateHash = async (
   try {
     const documentStore = await connect(documentStoreAddress, await getSigner());
     const transaction = await documentStore.issue(certificateHash);
-    console.log(transaction);
     log ? log(`Waiting for transaction ${transaction.hash} to be processed.`) : null;
     return transaction.wait();
   } catch (e) {

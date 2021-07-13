@@ -79,6 +79,7 @@ export const Header: FunctionComponent<headerProps> = ({ isConnected, setIsConne
                     })}/address/${wallet.walletAddress}`}
                     rel="noreferrer"
                     target="_blank"
+                    className="text-blue-800 underline"
                   >
                     {wallet.walletAddress}
                   </a>
