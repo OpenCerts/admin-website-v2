@@ -6,9 +6,6 @@ export const issue = async (metamask, browser) => {
     await page.goto("http://localhost:5000/");
 
     // START - approve application once, subsequent tests no longer need
-    await page.waitForSelector("[data-testid='connectToWallet']", { visible: true });
-    await page.click("[data-testid='connectToWallet']");
-
     await metamask.approve({ allAccounts: true });
     await page.bringToFront();
     // END - approve application once, subsequent tests no longer need

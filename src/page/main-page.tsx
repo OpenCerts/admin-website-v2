@@ -50,76 +50,83 @@ export const MainPage: FunctionComponent = () => {
   const [activeFeatureBlock, setActiveFeatureBlock] = useState(featureBlocks[0].feature);
   const [activeSubFeatureBlock, setActiveSubFeatureBlock] = useState(subFeatureBlocks[0].subFeature);
   const subFeatureBlockArray = subFeatureBlocks.filter((blockData) => blockData.feature === activeFeatureBlock);
+  const [isConnected, setIsConnected] = useState(false);
 
   return (
     <>
-      <Header />
-      <div className={"container max-w-screen-lg px-4 md:mx-auto mt-4 text-center sm:text-left"}>
-        <h2>Administrator Portal</h2>
-      </div>
-
-      {/* Display Feature Block */}
-
-      <div className={"container max-w-screen-lg mx-auto mt-10"}>
-        {featureBlocks.map((blockData, index) => {
-          return (
-            <a
-              key={index}
-              onClick={() => {
-                setActiveFeatureBlock(blockData.feature);
-              }}
-              data-testid={`show-${blockData.feature}-btn`}
-              className={`w-full cursor-pointer text-base font-medium ml-3 ${
-                activeFeatureBlock === blockData.feature ? `text-primary pb-1 border-b-2 border-primary` : ""
-              }`}
-            >
-              {blockData.text}
-            </a>
-          );
-        })}
-      </div>
-
-      {activeFeatureBlock === "issue-revoke" && (
-        <StoreDeployBlock
-          documentStoreAddress={documentStoreAddress}
-          setDocumentStoreAddress={setDocumentStoreAddress}
-          setDocumentStoreStatus={setDocumentStoreStatus}
-        />
+      <Header isConnected={isConnected} setIsConnected={setIsConnected} />
+      {!isConnected && (
+        <h4 className="flex flex-col justify-center items-center align-middle h-full my-auto ">
+          Please connect your metamask wallet.
+        </h4>
       )}
-      {activeFeatureBlock === "cancel-pending" && <CancelBlock />}
+      {isConnected && (
+        <>
+          <div className={"container max-w-screen-lg px-4 md:mx-auto mt-4 text-center sm:text-left"}>
+            <h2>Administrator Portal</h2>
+          </div>
 
-      {/* Display SubFeature Block */}
+          {/* Display Feature Block */}
+          <div className={"container max-w-screen-lg mx-auto mt-10"}>
+            {featureBlocks.map((blockData, index) => {
+              return (
+                <a
+                  key={index}
+                  onClick={() => {
+                    setActiveFeatureBlock(blockData.feature);
+                  }}
+                  data-testid={`show-${blockData.feature}-btn`}
+                  className={`w-full cursor-pointer text-base font-medium ml-3 ${
+                    activeFeatureBlock === blockData.feature ? `text-primary pb-1 border-b-2 border-primary` : ""
+                  }`}
+                >
+                  {blockData.text}
+                </a>
+              );
+            })}
+          </div>
+          {activeFeatureBlock === "issue-revoke" && (
+            <StoreDeployBlock
+              documentStoreAddress={documentStoreAddress}
+              setDocumentStoreAddress={setDocumentStoreAddress}
+              setDocumentStoreStatus={setDocumentStoreStatus}
+            />
+          )}
+          {activeFeatureBlock === "cancel-pending" && <CancelBlock />}
 
-      <div className={"container max-w-screen-lg mx-auto mt-8"}>
-        {documentStoreStatus && subFeatureBlockArray.length > 0 && (
-          <hr className={`my-4 mb-8 max-w-screen-lg w-full mx-auto`} />
-        )}
-        {documentStoreStatus &&
-          subFeatureBlockArray.length > 0 &&
-          subFeatureBlockArray.map((blockData, index) => {
-            return (
-              <a
-                key={index}
-                onClick={() => {
-                  setActiveSubFeatureBlock(blockData.subFeature);
-                }}
-                data-testid={`show-${blockData.subFeature}-btn`}
-                className={`w-full cursor-pointer text-base font-medium ml-3 ${
-                  activeSubFeatureBlock === blockData.subFeature ? `text-primary pb-1 border-b-2 border-primary` : ""
-                }`}
-              >
-                {blockData.text}
-              </a>
-            );
-          })}
-      </div>
-
-      {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "revoke" && (
-        <RevokeBlock documentStoreAddress={documentStoreAddress} />
-      )}
-
-      {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "issue" && (
-        <IssueBlock documentStoreAddress={documentStoreAddress} />
+          {/* Display SubFeature Block */}
+          <div className={"container max-w-screen-lg mx-auto mt-8"}>
+            {documentStoreStatus && subFeatureBlockArray.length > 0 && (
+              <hr className={`my-4 mb-8 max-w-screen-lg w-full mx-auto`} />
+            )}
+            {documentStoreStatus &&
+              subFeatureBlockArray.length > 0 &&
+              subFeatureBlockArray.map((blockData, index) => {
+                return (
+                  <a
+                    key={index}
+                    onClick={() => {
+                      setActiveSubFeatureBlock(blockData.subFeature);
+                    }}
+                    data-testid={`show-${blockData.subFeature}-btn`}
+                    className={`w-full cursor-pointer text-base font-medium ml-3 ${
+                      activeSubFeatureBlock === blockData.subFeature
+                        ? `text-primary pb-1 border-b-2 border-primary`
+                        : ""
+                    }`}
+                  >
+                    {blockData.text}
+                  </a>
+                );
+              })}
+          </div>
+          {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "revoke" && (
+            <RevokeBlock documentStoreAddress={documentStoreAddress} />
+          )}
+          {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "issue" && (
+            <IssueBlock documentStoreAddress={documentStoreAddress} />
+          )}
+        </>
       )}
     </>
   );
