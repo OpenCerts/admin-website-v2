@@ -13,12 +13,12 @@ export const issue = async (metamask, browser) => {
     await page.bringToFront();
     // END - approve application once, subsequent tests no longer need
 
-    await page.waitForSelector("[data-testid='document-store']", {
+    await page.waitForSelector("[aria-label='document-store']", {
       visible: true,
     });
-    await page.focus("[data-testid='document-store']");
+    await page.focus("[aria-label='document-store']");
     await page.keyboard.type("0xC84b0719A82626417c40f3168513dFABDB6A9079");
-
+    await page.keyboard.press(String.fromCharCode(13));
     // Test user successfully issue the transaction
     await page.waitForSelector("[data-testid='issue-certificate']", {
       visible: true,

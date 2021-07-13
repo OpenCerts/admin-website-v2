@@ -1,10 +1,5 @@
-import styled from "@emotion/styled";
 import React, { ChangeEvent, FunctionComponent } from "react";
-import Creatable, { makeCreatableSelect } from "react-select/creatable";
-
-const DataListStyle = styled.datalist`
-  width: 100%;
-`;
+import Creatable from "react-select/creatable";
 
 interface ButtonProp {
   className?: string;
@@ -31,7 +26,7 @@ export const TextInput: FunctionComponent<ButtonProp> = ({ className, placeHolde
   );
 };
 
-export const DataList: FunctionComponent<ButtonProp> = ({ placeHolder, onChange, dataTestId, options }) => {
+export const DataList: FunctionComponent<ButtonProp> = ({ placeHolder, onChange, dataTestId, options, value }) => {
   const _onChange = (newValue: any): void => {
     return onChange(newValue.value);
   };
@@ -40,9 +35,11 @@ export const DataList: FunctionComponent<ButtonProp> = ({ placeHolder, onChange,
     <Creatable
       options={options}
       allowCreateWhileLoading={false}
-      data-testid={dataTestId}
       placeholder={placeHolder}
-      formatCreateLabel={(value) => `Enter ${value}`}
+      backspaceRemovesValue={true}
+      defaultInputValue={value}
+      aria-label={dataTestId}
+      formatCreateLabel={(newValue) => `Enter ${newValue}`}
       onChange={_onChange}
     />
   );

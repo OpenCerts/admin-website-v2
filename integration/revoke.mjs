@@ -5,11 +5,12 @@ export const revoke = async (metamask, browser) => {
     const page = await browser.newPage();
     await page.goto("http://localhost:5000/");
 
-    await page.waitForSelector("[data-testid='document-store']", {
+    await page.waitForSelector("[aria-label='document-store']", {
       visible: true,
     });
-    await page.focus("[data-testid='document-store']");
+    await page.focus("[aria-label='document-store']");
     await page.keyboard.type("0xC84b0719A82626417c40f3168513dFABDB6A9079");
+    await page.keyboard.press(String.fromCharCode(13));
 
     await page.waitForSelector("[data-testid='show-revoke-btn']", {
       visible: true,
