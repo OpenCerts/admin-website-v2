@@ -24,7 +24,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const [showModal, setShowModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [documentStoreName, setDocumentStoreName] = useState("");
-  const [documentStoreNameArray, setDocumentStoreNameArray] = useState<string[]>();
+  const [documentStoreNameArray, setDocumentStoreNameArray] = useState<Record<string, unknown>[]>();
   const [log, setLog] = useState("");
 
   useEffect(() => {

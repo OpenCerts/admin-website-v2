@@ -1,6 +1,6 @@
 import { connectWallet, getWalletNetwork } from "./wallet";
 
-export const getDocumentStores = async (): Promise<Array<string>> => {
+export const getDocumentStores = async (): Promise<Array<Record<string, unknown>>> => {
   try {
     const provider = await connectWallet();
 
@@ -19,7 +19,7 @@ export const getDocumentStores = async (): Promise<Array<string>> => {
     const getLogs = await provider.getLogs(logInfo);
     if (getLogs.length > 0) {
       return getLogs.map((logInformation) => {
-        return logInformation.address.toLowerCase();
+        return { value: logInformation.address.toLowerCase(), label: logInformation.address.toLowerCase() };
       });
     }
 
@@ -32,9 +32,8 @@ export const getDocumentStores = async (): Promise<Array<string>> => {
 
 export const isDocumentStore = async (documentStoreAddress: string): Promise<boolean> => {
   const documentStoreArray = await getDocumentStores();
-  return (await getWalletNetwork()).toLowerCase() === "unknown"
-    ? true
-    : documentStoreArray.indexOf(documentStoreAddress) > -1
-    ? true
-    : false;
+  documentStoreArray.filter((documentStore) => {
+    return documentStore.value === documentStoreAddress;
+  });
+  return (await getWalletNetwork()).toLowerCase() === "unknown" ? true : documentStoreArray.length > 0 ? true : false;
 };
