@@ -1,5 +1,5 @@
 declare let window: any;
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { Dispatch, FunctionComponent, useEffect, useState } from "react";
 import { PrimaryButton } from "./common/button";
 import { getWalletDetails as getWalletData } from "./util/wallet";
 import { getEtherscanAddress } from "./util/common";
@@ -16,9 +16,11 @@ interface walletInfoType {
   walletBalance?: string;
 }
 
-export const Header: FunctionComponent = () => {
-  const [isConnected, setIsConnected] = useState(false);
-
+interface headerProps {
+  isConnected: boolean;
+  setIsConnected: Dispatch<boolean>;
+}
+export const Header: FunctionComponent<headerProps> = ({ isConnected, setIsConnected }) => {
   const [wallet, setWalletInfo] = useState({} as walletInfoType);
 
   useEffect(() => {
