@@ -29,7 +29,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
 
   useEffect(() => {
     getDocumentStoreList();
-  });
+  }, []);
 
   const getDocumentStoreList = async () => {
     const documentStoreArray = await getDocumentStores();
