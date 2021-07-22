@@ -6,7 +6,7 @@ import { Spinner } from "./common/spinner";
 import { Logger } from "./common/logger";
 import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
-import { getEtherscanAddress } from "./util/common";
+import { getEtherscanAddress, isValidContract } from "./util/common";
 import { isAddress } from "ethers/lib/utils";
 import { getDocumentStores, isDocumentStore } from "./util/document-store";
 
@@ -39,7 +39,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const validateStorageAddress = async (value: string) => {
     setDocumentStoreAddress(value);
     const storageAddressLowerCase = value.toLowerCase();
-    if (isAddress(storageAddressLowerCase) && (await isDocumentStore(storageAddressLowerCase))) {
+    if (isAddress(storageAddressLowerCase) && (await isValidContract(storageAddressLowerCase))) {
       setDocumentStoreStatus(true);
     } else {
       setDocumentStoreStatus(false);
