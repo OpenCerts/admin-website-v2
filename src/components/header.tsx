@@ -41,7 +41,7 @@ export const Header: FunctionComponent = () => {
         getWalletDetails();
       }
     }
-  });
+  }, []);
 
   const getWalletDetails = async () => {
     const walletDetails = await getWalletData();
