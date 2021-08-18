@@ -1,3 +1,4 @@
+declare let window: any;
 import React, { Dispatch, FunctionComponent, useEffect, useState } from "react";
 import { DataList, TextInput } from "./common/text-input";
 import { SecondaryButton, PrimaryButton } from "./common/button";
@@ -28,7 +29,25 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const [log, setLog] = useState("");
 
   useEffect(() => {
-    getDocumentStoreList();
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", function (accounts: Array<string>) {
+        if (accounts.length > 0) {
+          getDocumentStoreList();
+        }
+      });
+
+      window.ethereum.on("chainChanged", function () {
+        getDocumentStoreList();
+      });
+
+      window.ethereum.on("connect", function () {
+        getDocumentStoreList();
+      });
+
+      if (window.ethereum.isConnected()) {
+        getDocumentStoreList();
+      }
+    }
   }, []);
 
   const getDocumentStoreList = async () => {
