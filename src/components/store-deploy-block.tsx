@@ -8,7 +8,7 @@ import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress, isValidContract } from "./util/common";
 import { isAddress } from "ethers/lib/utils";
-import { getDocumentStores, isDocumentStore } from "./util/document-store";
+import { getDocumentStores } from "./util/document-store";
 
 interface DocumentStoreAddressProps {
   documentStoreAddress: string;

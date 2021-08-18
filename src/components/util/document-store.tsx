@@ -29,11 +29,3 @@ export const getDocumentStores = async (): Promise<Array<Record<string, unknown>
     return [];
   }
 };
-
-export const isDocumentStore = async (documentStoreAddress: string): Promise<boolean> => {
-  const documentStoreArray = await getDocumentStores();
-  documentStoreArray.filter((documentStore) => {
-    return documentStore.value === documentStoreAddress;
-  });
-  return (await getWalletNetwork()).toLowerCase() === "unknown" ? true : documentStoreArray.length > 0 ? true : false;
-};
