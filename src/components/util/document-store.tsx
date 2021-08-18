@@ -1,4 +1,4 @@
-import { connectWallet, getSigner, getWalletNetwork } from "./wallet";
+import { connectWallet, getSigner } from "./wallet";
 
 export const getDocumentStores = async (): Promise<Array<Record<string, unknown>>> => {
   try {
