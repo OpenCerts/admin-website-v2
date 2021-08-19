@@ -30,6 +30,9 @@ module.exports = {
       width: {
         fit: "fit-content",
       },
+      minHeight: {
+        12: "3rem",
+      },
       backgroundColor: ["active"],
     },
   },
