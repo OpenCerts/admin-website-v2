@@ -47,10 +47,14 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           `Document Store Deployed. Find more details at <a href="${etherscanNetwork}/address/${transaction.contractAddress}" target="_blank">${etherscanNetwork}/address/${transaction.contractAddress}</a>.`
         );
         validateStorageAddress(transaction.contractAddress);
-        setShowModal(false);
       }
     }
     setProcessing(false);
+  };
+
+  const clearDeployStatus = () => {
+    setLog("");
+    setShowModal(false);
   };
 
   return (
@@ -91,7 +95,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           />
         </div>
         <div className="sm:flex pt-5">
-          <SecondaryButton onClick={() => setShowModal(false)} className="w-full mr-5 text-sm font-medium">
+          <SecondaryButton onClick={() => clearDeployStatus()} className="w-full mr-5 text-sm font-medium">
             Cancel
           </SecondaryButton>
           <PrimaryButton
