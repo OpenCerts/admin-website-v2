@@ -39,6 +39,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
       setProcessing(true);
       const transaction = await deploy(documentStoreName, setLog);
       if (transaction) {
+        setShowModal(true);
         const walletNetwork = await getWalletNetwork();
         const etherscanNetwork = getEtherscanAddress({
           network: walletNetwork,

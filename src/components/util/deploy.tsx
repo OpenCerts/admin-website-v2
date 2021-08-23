@@ -11,7 +11,11 @@ export const deployDocumentStore = async (
     const signer = await getSigner();
     log ? log("Wallet successfully decrypted.") : null;
     const factory = new DocumentStoreFactory(signer);
-    log ? log(`Deploying document store "${storeName}".`) : null;
+    log
+      ? log(
+          `Deploying document store "${storeName}". It may take awhile, You can stay on the page or leave until it's successfully deployed.`
+        )
+      : null;
     const transaction = await factory.deploy(storeName);
     return transaction.deployTransaction.wait();
   } catch (e) {
