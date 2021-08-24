@@ -4,6 +4,7 @@ import { IssueBlock } from "../components/issue-block";
 import { RevokeBlock } from "../components/revoke-block";
 import { CancelBlock } from "../components/cancel-block";
 import { StoreDeployBlock } from "../components/store-deploy-block";
+import { DeployPanel, IssuePanel, RevokePanel } from "../components/guides/information-panels";
 
 type Feature = "issue-revoke" | "cancel-pending";
 type SubFeature = "issue" | "revoke";
@@ -120,12 +121,20 @@ export const MainPage: FunctionComponent = () => {
                 );
               })}
           </div>
+
           {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "revoke" && (
-            <RevokeBlock documentStoreAddress={documentStoreAddress} />
+            <>
+              <RevokeBlock documentStoreAddress={documentStoreAddress} />
+              <RevokePanel />
+            </>
           )}
           {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "issue" && (
-            <IssueBlock documentStoreAddress={documentStoreAddress} />
+            <>
+              <IssueBlock documentStoreAddress={documentStoreAddress} />
+              <IssuePanel />
+            </>
           )}
+          {!documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock && <DeployPanel />}
         </>
       )}
     </>
