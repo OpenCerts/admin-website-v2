@@ -97,12 +97,13 @@ export const CancelBlock: FunctionComponent = () => {
             <p>New Gas Price (Wei)</p>
             <input
               className={`w-full mt-3 pl-2 border-2`}
-              type="number"
-              min="1000000000"
+              type="string"
               value={newGasPrice}
               onChange={(e) => {
-                setNewGasPrice(Number(e.currentTarget.value));
+                const inputValue = e.currentTarget.value;
+                !isNaN(+inputValue) ? setNewGasPrice(Number(inputValue)) : undefined;
               }}
+              disabled={currentGasPrice ? false : true}
             />
           </label>
         </div>
