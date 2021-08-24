@@ -5,7 +5,7 @@ export const RevokePanel: FunctionComponent = () => {
     <>
       <hr className="max-w-screen-lg w-full px-4 mt-10 mx-auto" />
       <div className={`max-w-screen-lg w-full text-left px-4 my-10 mx-auto`}>
-        <h3 className="">Guides to Issue Certificate Hash</h3>
+        <h3 className="">Guides to Revoke Certificate Hash</h3>
         <ol className="mt-4 ml-5 list-outside list-decimal">
           <li className="mb-2">
             Revoking document require targetHash. targetHash can be found in the field of one of the previously wrapped
