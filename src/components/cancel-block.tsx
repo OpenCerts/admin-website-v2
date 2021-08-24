@@ -98,6 +98,7 @@ export const CancelBlock: FunctionComponent = () => {
             <input
               className={`w-full mt-3 pl-2 border-2`}
               type="string"
+              inputMode="numeric"
               value={newGasPrice}
               onChange={(e) => {
                 const inputValue = e.currentTarget.value;
