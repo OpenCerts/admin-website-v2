@@ -41,7 +41,7 @@ export const IssuePanel: FunctionComponent = () => {
             href="https://www.openattestation.com/docs/verifiable-document/issuing-document"
             className="text-blue-900 underline"
           >
-            Document Store Documentation
+            Issue Documentation
           </a>
         </p>
       </div>

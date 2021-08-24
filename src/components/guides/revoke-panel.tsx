@@ -32,7 +32,7 @@ export const RevokePanel: FunctionComponent = () => {
             href="https://www.openattestation.com/docs/verifiable-document/revoking-document"
             className="text-blue-900 underline"
           >
-            Document Store Documentation
+            Revoke Documentation
           </a>
         </p>
       </div>
