@@ -1,4 +1,4 @@
-import React, { Dispatch, FunctionComponent, useCallback, useEffect, useState } from "react";
+import React, { Dispatch, FunctionComponent, useState } from "react";
 import { PrimaryButton } from "./common/button";
 import { getWalletDetails as getWalletData } from "./util/wallet";
 import { getEtherscanAddress } from "./util/common";
