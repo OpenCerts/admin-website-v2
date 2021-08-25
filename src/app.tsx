@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import "./app.css";
-import "./definition.ts";
-
 import { MainPage } from "./page/main-page";
 import { MetaMaskError } from "./page/metamask-error";
 import { MetaMaskPending } from "./page/metamask-pending";
