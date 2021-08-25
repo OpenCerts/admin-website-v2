@@ -1,5 +1,4 @@
-declare let window: any;
-import React, { Dispatch, FunctionComponent, useEffect, useState } from "react";
+import React, { Dispatch, FunctionComponent, useCallback, useEffect, useState } from "react";
 import { PrimaryButton } from "./common/button";
 import { getWalletDetails as getWalletData } from "./util/wallet";
 import { getEtherscanAddress } from "./util/common";
@@ -23,9 +22,21 @@ interface HeaderProps {
 export const Header: FunctionComponent<HeaderProps> = ({ isConnected, setIsConnected }) => {
   const [wallet, setWalletInfo] = useState({} as walletInfoType);
 
+  const getWalletDetails = useCallback(async () => {
+    const walletDetails = await getWalletData();
+    if (walletDetails) {
+      setWalletInfo({
+        walletAddress: walletDetails.address,
+        walletNetwork: walletDetails.network,
+        walletBalance: walletDetails.balance,
+      });
+      setIsConnected(true);
+    }
+  }, [setIsConnected]);
+
   useEffect(() => {
     if (window.ethereum) {
-      window.ethereum.on("accountsChanged", function (accounts: Array<string>) {
+      window.ethereum.on("accountsChanged ", function (accounts: Array<string>) {
         if (accounts.length > 0) {
           getWalletDetails();
         }
@@ -38,24 +49,8 @@ export const Header: FunctionComponent<HeaderProps> = ({ isConnected, setIsConne
       window.ethereum.on("connect", function () {
         getWalletDetails();
       });
-
-      if (window.ethereum.isConnected()) {
-        getWalletDetails();
-      }
     }
-  });
-
-  const getWalletDetails = async () => {
-    const walletDetails = await getWalletData();
-    if (walletDetails !== undefined) {
-      setWalletInfo({
-        walletAddress: walletDetails.address,
-        walletNetwork: walletDetails.network,
-        walletBalance: walletDetails.balance,
-      });
-      setIsConnected(true);
-    }
-  };
+  }, [getWalletDetails]);
 
   return (
     <div className={`shadow-md flex flex-wrap items-center text-sm px-4 py-2 `}>

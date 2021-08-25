@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FunctionComponent } from "react";
 
-interface ButtonProp {
+interface TextInputProp {
   className?: string;
   placeHolder?: string;
   onChange: (value: any) => void;
@@ -8,7 +8,7 @@ interface ButtonProp {
   dataTestId?: string;
 }
 
-export const TextInput: FunctionComponent<ButtonProp> = ({ className, placeHolder, onChange, value, dataTestId }) => {
+export const TextInput: FunctionComponent<TextInputProp> = ({ className, placeHolder, onChange, value, dataTestId }) => {
   const _onChange: (event: ChangeEvent<HTMLInputElement>) => void = ({ target }) => {
     return onChange(target.value === "" ? "" : target.value);
   };
