@@ -1,4 +1,4 @@
-import React, { Dispatch, FunctionComponent, useState } from "react";
+import React, { Dispatch, FunctionComponent, useEffect, useState } from "react";
 import { TextInput } from "./common/text-input";
 import { SecondaryButton, PrimaryButton } from "./common/button";
 import { ModalDialog } from "./common/modal-dialog";
@@ -8,6 +8,8 @@ import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/common";
 import { isAddress } from "ethers/lib/utils";
+import { retrieveDocumentStoreInformation, setDocumentStoreInformation } from "./util/document-store";
+import { AutoCompleteInput } from "./common/autocomplete-input";
 
 interface DocumentStoreAddressProps {
   documentStoreAddress: string;
@@ -23,6 +25,8 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const [showModal, setShowModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [documentStoreName, setDocumentStoreName] = useState("");
+  const [localDocumentStores, setLocalDocumentStores] = useState<string[]>([]);
+  const [filteredSuggestion, setFilteredSuggestion] = useState<string[]>([]);
   const [log, setLog] = useState("");
 
   const validateStorageAddress = (value: string) => {
@@ -46,6 +50,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         setLog(
           `Document Store Deployed. Find more details at <a href="${etherscanNetwork}/address/${transaction.contractAddress}" target="_blank">${etherscanNetwork}/address/${transaction.contractAddress}</a>.`
         );
+        setDocumentStoreInformation(documentStoreAddress);
         validateStorageAddress(transaction.contractAddress);
         setShowModal(false);
       }
@@ -53,17 +58,39 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
     setProcessing(false);
   };
 
+  useEffect(() => {
+    async function getLocalStorageDocumentStore() {
+      const documentStoreInformation = await retrieveDocumentStoreInformation();
+      setLocalDocumentStores(documentStoreInformation);
+    }
+
+    getLocalStorageDocumentStore();
+  }, []);
+
+  const onSuggestionsFetchRequested = async (value: string, reason: string): Promise<void> => {
+    setDocumentStoreAddress(value);
+    if (reason == "input-focused") {
+      const documentStoreInformation = await retrieveDocumentStoreInformation();
+      setLocalDocumentStores(documentStoreInformation);
+      setFilteredSuggestion(documentStoreInformation);
+    } else {
+      const filtered = localDocumentStores.filter((documentStore) => documentStore.startsWith(value.trim()));
+      setFilteredSuggestion(filtered);
+    }
+  };
+
   return (
     <>
       <div className={`md:flex max-w-screen-lg w-full px-4 mt-10 mx-auto`}>
         <label className="max-w-lg w-full text-left">
           <p>Document Store Address</p>
-          <TextInput
-            className={`w-full mt-3`}
+
+          <AutoCompleteInput
+            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+            filteredSuggestion={filteredSuggestion}
+            inputValue={documentStoreAddress}
+            inputOnChange={validateStorageAddress}
             placeHolder="Enter existing (0x…), or deploy new instance."
-            onChange={validateStorageAddress}
-            value={documentStoreAddress}
-            dataTestId="document-store"
           />
         </label>
         <p className="text-center my-4 text-gray-400 md:hidden">Or</p>
