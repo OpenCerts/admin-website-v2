@@ -22,7 +22,7 @@ interface HeaderProps {
 export const Header: FunctionComponent<HeaderProps> = ({ isConnected, setIsConnected }) => {
   const [wallet, setWalletInfo] = useState({} as walletInfoType);
 
-  const getWalletDetails = useCallback(async () => {
+  const getWalletDetails = async () => {
     const walletDetails = await getWalletData();
     if (walletDetails) {
       setWalletInfo({
@@ -32,25 +32,23 @@ export const Header: FunctionComponent<HeaderProps> = ({ isConnected, setIsConne
       });
       setIsConnected(true);
     }
-  }, [setIsConnected]);
+  };
 
-  useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged ", function (accounts: Array<string>) {
-        if (accounts.length > 0) {
-          getWalletDetails();
-        }
-      });
-
-      window.ethereum.on("chainChanged", function () {
+  if (window.ethereum) {
+    window.ethereum.on("accountsChanged ", function (accounts: Array<string>) {
+      if (accounts.length > 0) {
         getWalletDetails();
-      });
+      }
+    });
 
-      window.ethereum.on("connect", function () {
-        getWalletDetails();
-      });
-    }
-  }, [getWalletDetails]);
+    window.ethereum.on("chainChanged", function () {
+      getWalletDetails();
+    });
+
+    window.ethereum.on("connect", function () {
+      getWalletDetails();
+    });
+  }
 
   return (
     <div className={`shadow-md flex flex-wrap items-center text-sm px-4 py-2 `}>
