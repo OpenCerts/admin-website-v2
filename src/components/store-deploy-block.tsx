@@ -91,6 +91,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
             inputValue={documentStoreAddress}
             inputOnChange={validateStorageAddress}
             placeHolder="Enter existing (0x…), or deploy new instance."
+            id="document-store"
           />
         </label>
         <p className="text-center my-4 text-gray-400 md:hidden">Or</p>

@@ -71,7 +71,7 @@ interface AutoCompleteInputProp {
   onSuggestionsFetchRequested: (value: string, reason: string) => Promise<void>;
   inputValue: string;
   inputOnChange: (value: string) => void;
-  dataTestId?: string;
+  id?: string;
 }
 
 export const AutoCompleteInput: FunctionComponent<AutoCompleteInputProp> = ({
@@ -80,11 +80,12 @@ export const AutoCompleteInput: FunctionComponent<AutoCompleteInputProp> = ({
   inputValue,
   inputOnChange,
   placeHolder,
-  dataTestId,
+  id,
 }) => {
   return (
     <AutoCompleteStyle>
       <Autosuggest
+        id={id}
         suggestions={filteredSuggestion}
         onSuggestionsClearRequested={() => undefined}
         onSuggestionsFetchRequested={({ value, reason }) => onSuggestionsFetchRequested(value, reason)}
@@ -100,7 +101,6 @@ export const AutoCompleteInput: FunctionComponent<AutoCompleteInputProp> = ({
             inputOnChange(newValue);
           },
         }}
-        data-testid={dataTestId}
       />
     </AutoCompleteStyle>
   );
