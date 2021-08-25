@@ -8,7 +8,13 @@ interface TextInputProp {
   dataTestId?: string;
 }
 
-export const TextInput: FunctionComponent<TextInputProp> = ({ className, placeHolder, onChange, value, dataTestId }) => {
+export const TextInput: FunctionComponent<TextInputProp> = ({
+  className,
+  placeHolder,
+  onChange,
+  value,
+  dataTestId,
+}) => {
   const _onChange: (event: ChangeEvent<HTMLInputElement>) => void = ({ target }) => {
     return onChange(target.value === "" ? "" : target.value);
   };
