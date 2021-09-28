@@ -97,7 +97,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         </div>
         <div className="sm:flex pt-5">
           <SecondaryButton onClick={() => clearDeployStatus()} className="w-full mr-5 text-sm font-medium">
-            Cancel
+            Close
           </SecondaryButton>
           <PrimaryButton
             onClick={deployDocumentStore}

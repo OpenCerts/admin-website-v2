@@ -19,7 +19,7 @@ export const deployDocumentStore = async (
     });
     log
       ? log(
-          `Deploying document store "${storeName}". Waiting for transaction ${transactioHash} to be processed. It may take awhile, You can stay on the page or leave until it's successfully deployed. Find more details at <a href="${etherscanNetwork}/tx/${transactioHash}" target="_blank">${etherscanNetwork}/tx/${transactioHash}</a>. `
+          `Deploying document store "${storeName}". Waiting for transaction ${transactioHash} to be processed. It may take awhile, You can stay on the page or close the popup until it's successfully deployed. Find more details at <a href="${etherscanNetwork}/tx/${transactioHash}" target="_blank">${etherscanNetwork}/tx/${transactioHash}</a>. `
         )
       : null;
     return transaction.deployTransaction.wait();
