@@ -31,7 +31,7 @@ module.exports = {
         fit: "fit-content",
       },
       minHeight: {
-        12: "3rem",
+        20: "5rem",
       },
       backgroundColor: ["active"],
     },
