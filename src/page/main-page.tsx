@@ -4,7 +4,7 @@ import { IssueBlock } from "../components/issue-block";
 import { RevokeBlock } from "../components/revoke-block";
 import { CancelBlock } from "../components/cancel-block";
 import { StoreDeployBlock } from "../components/store-deploy-block";
-import { DeployPanel, IssuePanel, RevokePanel } from "../components/guides/information-panels";
+import { IssueInformationPanel, RevokeInformationPanel } from "../components/guides/information-panels";
 
 type Feature = "issue-revoke" | "cancel-pending";
 type SubFeature = "issue" | "revoke";
@@ -52,7 +52,6 @@ export const MainPage: FunctionComponent = () => {
   const [activeSubFeatureBlock, setActiveSubFeatureBlock] = useState(subFeatureBlocks[0].subFeature);
   const subFeatureBlockArray = subFeatureBlocks.filter((blockData) => blockData.feature === activeFeatureBlock);
   const [isConnected, setIsConnected] = useState(false);
-
   return (
     <>
       <Header isConnected={isConnected} setIsConnected={setIsConnected} />
@@ -87,11 +86,13 @@ export const MainPage: FunctionComponent = () => {
             })}
           </div>
           {activeFeatureBlock === "issue-revoke" && (
-            <StoreDeployBlock
-              documentStoreAddress={documentStoreAddress}
-              setDocumentStoreAddress={setDocumentStoreAddress}
-              setDocumentStoreStatus={setDocumentStoreStatus}
-            />
+            <>
+              <StoreDeployBlock
+                documentStoreAddress={documentStoreAddress}
+                setDocumentStoreAddress={setDocumentStoreAddress}
+                setDocumentStoreStatus={setDocumentStoreStatus}
+              />
+            </>
           )}
           {activeFeatureBlock === "cancel-pending" && <CancelBlock />}
 
@@ -125,16 +126,15 @@ export const MainPage: FunctionComponent = () => {
           {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "revoke" && (
             <>
               <RevokeBlock documentStoreAddress={documentStoreAddress} />
-              <RevokePanel />
+              <RevokeInformationPanel />
             </>
           )}
           {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "issue" && (
             <>
               <IssueBlock documentStoreAddress={documentStoreAddress} />
-              <IssuePanel />
+              <IssueInformationPanel />
             </>
           )}
-          {!documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock && <DeployPanel />}
         </>
       )}
     </>

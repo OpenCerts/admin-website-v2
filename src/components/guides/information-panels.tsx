@@ -1,3 +1,3 @@
-export { DeployPanel } from "./deploy-panel";
-export { IssuePanel } from "./issue-panel";
-export { RevokePanel } from "./revoke-panel";
+export { DeployInformationPanel } from "./deploy-panel";
+export { IssueInformationPanel } from "./issue-panel";
+export { RevokeInformationPanel } from "./revoke-panel";
