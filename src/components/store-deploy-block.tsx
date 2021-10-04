@@ -8,6 +8,7 @@ import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/common";
 import { isAddress } from "ethers/lib/utils";
+import { DeployInformationPanel } from "./guides/deploy-panel";
 
 interface DocumentStoreAddressProps {
   documentStoreAddress: string;
@@ -23,6 +24,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const [showModal, setShowModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [documentStoreName, setDocumentStoreName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [log, setLog] = useState("");
 
   const validateStorageAddress = (value: string) => {
@@ -35,6 +37,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   };
 
   const deployDocumentStore = async () => {
+    setErrorMessage("");
     if (documentStoreName !== "") {
       setProcessing(true);
       const transaction = await deploy(documentStoreName, setLog);
@@ -50,14 +53,16 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         setShowModal(false);
       }
     }
+    setErrorMessage("Please fill in your organisation name");
     setProcessing(false);
   };
 
   return (
     <>
       <div className={`md:flex max-w-screen-lg w-full px-4 mt-10 mx-auto`}>
-        <label className="max-w-lg w-full text-left">
-          <p>Document Store Address</p>
+        <div className="max-w-lg w-full text-left">
+          <label className="inline">Document Store Address</label>
+          <DeployInformationPanel />
           <TextInput
             className={`w-full mt-3`}
             placeHolder="Enter existing (0x…), or deploy new instance."
@@ -65,7 +70,8 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
             value={documentStoreAddress}
             dataTestId="document-store"
           />
-        </label>
+        </div>
+
         <p className="text-center my-4 text-gray-400 md:hidden">Or</p>
         <div className="md:ml-auto mt-auto">
           <PrimaryButton
@@ -73,7 +79,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
               setShowModal(true);
               setDocumentStoreName("");
             }}
-            className="text-sm w-full font-medium"
+            className="text-sm w-full font-medium shepherd-deploy-modal-btn"
           >
             <span>Deploy New Instance</span>
           </PrimaryButton>
@@ -84,11 +90,14 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         <div className="sm:items-start w-full">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Deploy Document Store</h3>
           <TextInput
-            className={"w-full mt-3"}
+            className={"w-full mt-3 shepherd-organisation-txt"}
             onChange={(value) => setDocumentStoreName(value)}
             placeHolder="Name of Organisation."
             value={documentStoreName}
           />
+          <p className={"text-red-600 break-all"} data-testid="error-message">
+            {errorMessage}
+          </p>
         </div>
         <div className="sm:flex pt-5">
           <SecondaryButton onClick={() => setShowModal(false)} className="w-full mr-5 text-sm font-medium">
@@ -96,13 +105,13 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           </SecondaryButton>
           <PrimaryButton
             onClick={deployDocumentStore}
-            className="w-full inline-flex justify-center text-sm font-medium"
+            className="w-full inline-flex justify-center text-sm font-medium shepherd-deploy-btn"
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             Deploy
           </PrimaryButton>
         </div>
-        <Logger log={log} />
+        <Logger log={log} className={"shepherd-deploy-log"} />
       </ModalDialog>
     </>
   );

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 interface ButtonProp {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   custom?: string;
   dataTestId?: string;
@@ -47,5 +47,18 @@ export const SecondaryButton: FunctionComponent<ButtonProp> = ({ children, class
     >
       {children}
     </Button>
+  );
+};
+
+export const InformationButton: FunctionComponent<ButtonProp> = ({ onClick }) => {
+  return (
+    <button
+      className="inline-flex items-center justify-center rounded-full font-mono font-bold border-2 text-gray-400 text-sm border-gray-400 w-5 h-5 focus:outline-none hover:text-gray-700 hover:border-gray-700 ml-3"
+      onClick={() => {
+        onClick();
+      }}
+    >
+      ?
+    </button>
   );
 };

@@ -1,6 +1,7 @@
 module.exports = {
   purge: ["./src/**/*.{vue,js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
+  important: true,
   theme: {
     fontFamily: {
       sans: ["Roboto", "sans-serif"],
