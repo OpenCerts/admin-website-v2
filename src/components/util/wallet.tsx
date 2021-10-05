@@ -7,7 +7,9 @@ export interface WalletDetails {
 }
 
 export const connectWallet = async (): Promise<providers.Web3Provider> => {
-  await window.ethereum.request({ method: "eth_requestAccounts" });
+  if (window.ethereum.request) {
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+  }
   const provider = new providers.Web3Provider(window.ethereum);
   return provider;
 };

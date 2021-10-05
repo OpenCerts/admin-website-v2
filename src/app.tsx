@@ -15,8 +15,10 @@ const App: FunctionComponent = () => {
   // https://docs.metamask.io/guide/ethereum-provider.html#errors
   const checkMetaMaskAccount = async () => {
     try {
-      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-      accounts.length > 0 ? setMetamaskConnected(true) : setMetamaskConnected(false);
+      if (window.ethereum.request) {
+        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        accounts.length > 0 ? setMetamaskConnected(true) : setMetamaskConnected(false);
+      }
     } catch (e) {
       e.code === 4001 ? setMetamaskConnected(true) : console.debug(e);
     }

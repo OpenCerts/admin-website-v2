@@ -1,8 +1,6 @@
 import { providers } from "ethers";
 
-interface Ethereum extends providers.ExternalProvider, providers.BaseProvider {
-  request: (request: { method: string; params?: Array<any> }) => Promise<any>;
-}
+type Ethereum = providers.ExternalProvider & providers.BaseProvider;
 
 declare global {
   interface Window {
