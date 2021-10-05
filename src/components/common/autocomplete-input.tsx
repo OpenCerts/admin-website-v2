@@ -38,7 +38,7 @@ const AutoCompleteStyle = styled.div`
     top: 51px;
     width: 100%;
     max-height: 200px;
-    overflow: scroll;
+    overflow: auto;
     border: 1px solid #aaa;
     background-color: #fff;
     font-family: Helvetica, sans-serif;
@@ -87,7 +87,6 @@ export const AutoCompleteInput: FunctionComponent<AutoCompleteInputProp> = ({
       <Autosuggest
         id={id}
         suggestions={filteredSuggestion}
-        onSuggestionsClearRequested={() => undefined}
         onSuggestionsFetchRequested={({ value, reason }) => onSuggestionsFetchRequested(value, reason)}
         shouldRenderSuggestions={(): boolean => {
           return true;

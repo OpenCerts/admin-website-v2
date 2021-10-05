@@ -6,7 +6,7 @@ import { Logger } from "./common/logger";
 import { isValidHash, getEtherscanAddress } from "./util/common";
 import { issueCertificateHash as issue } from "./util/issue";
 import { getWalletNetwork } from "./util/wallet";
-import { setDocumentStoreInformation } from "./util/document-store";
+import { storeDocumentStoreInLocalStorage } from "./util/document-store";
 
 interface DocumentStoreAddressProp {
   documentStoreAddress: string;
@@ -44,7 +44,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
         const etherscanNetwork = getEtherscanAddress({
           network: await getWalletNetwork(),
         });
-        setDocumentStoreInformation(documentStoreAddress);
+        storeDocumentStoreInLocalStorage(documentStoreAddress);
         setSuccessMessage(
           `Document/Document Batch with hash ${certificateHash} has been issued to ${documentStoreAddress}`
         );

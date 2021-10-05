@@ -1,28 +1,22 @@
 import { getWalletDetails } from "./wallet";
 
-export const setDocumentStoreInformation = async (documentStoreAddress: string): Promise<void> => {
+export const storeDocumentStoreInLocalStorage = async (documentStoreAddress: string): Promise<void> => {
   const walletDetails = await getWalletDetails();
   if (walletDetails) {
-    const storedInformation = localStorage.getItem(`
-    ${walletDetails.network}-${walletDetails.address.toLowerCase()}`);
-
-    let documentStoreArray: string[] = [];
-    if (storedInformation != null) {
-      documentStoreArray = JSON.parse(storedInformation);
-    }
+    const localStorageIdentifier = `${walletDetails.network.toLowerCase()}-${walletDetails.address.toLowerCase()}`;
+    const storedInformation = localStorage.getItem(localStorageIdentifier);
+    const documentStoreArray = storedInformation?.split(",") ?? [];
     documentStoreArray.push(documentStoreAddress);
-    localStorage.setItem(
-      `${walletDetails.network}-${walletDetails.address.toLowerCase()}`,
-      JSON.stringify(documentStoreArray)
-    );
+    localStorage.setItem(localStorageIdentifier, documentStoreArray.join(","));
   }
 };
 
-export const retrieveDocumentStoreInformation = async (): Promise<Array<string>> => {
+export const retrieveDocumentStoreInLocalStorage = async (): Promise<Array<string>> => {
   const walletDetails = await getWalletDetails();
   if (walletDetails) {
-    const storedInformation = localStorage.getItem(`${walletDetails.network}-${walletDetails.address.toLowerCase()}`);
-    return storedInformation ? JSON.parse(storedInformation) : [];
+    const localStorageIdentifier = `${walletDetails.network.toLowerCase()}-${walletDetails.address.toLowerCase()}`;
+    const storedInformation = localStorage.getItem(localStorageIdentifier);
+    return storedInformation?.split(",") ?? [];
   }
   return [];
 };

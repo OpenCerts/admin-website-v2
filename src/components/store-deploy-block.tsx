@@ -1,4 +1,4 @@
-import React, { Dispatch, FunctionComponent, useEffect, useState } from "react";
+import React, { Dispatch, FunctionComponent, useState } from "react";
 import { TextInput } from "./common/text-input";
 import { SecondaryButton, PrimaryButton } from "./common/button";
 import { ModalDialog } from "./common/modal-dialog";
@@ -8,7 +8,7 @@ import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/common";
 import { isAddress } from "ethers/lib/utils";
-import { retrieveDocumentStoreInformation, setDocumentStoreInformation } from "./util/document-store";
+import { retrieveDocumentStoreInLocalStorage, storeDocumentStoreInLocalStorage } from "./util/document-store";
 import { AutoCompleteInput } from "./common/autocomplete-input";
 
 interface DocumentStoreAddressProps {
@@ -50,7 +50,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         setLog(
           `Document Store Deployed. Find more details at <a href="${etherscanNetwork}/address/${transaction.contractAddress}" target="_blank">${etherscanNetwork}/address/${transaction.contractAddress}</a>.`
         );
-        setDocumentStoreInformation(documentStoreAddress);
+        storeDocumentStoreInLocalStorage(transaction.contractAddress);
         validateStorageAddress(transaction.contractAddress);
         setShowModal(false);
       }
@@ -58,19 +58,10 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
     setProcessing(false);
   };
 
-  useEffect(() => {
-    async function getLocalStorageDocumentStore() {
-      const documentStoreInformation = await retrieveDocumentStoreInformation();
-      setLocalDocumentStores(documentStoreInformation);
-    }
-
-    getLocalStorageDocumentStore();
-  }, []);
-
   const onSuggestionsFetchRequested = async (value: string, reason: string): Promise<void> => {
     setDocumentStoreAddress(value);
     if (reason == "input-focused") {
-      const documentStoreInformation = await retrieveDocumentStoreInformation();
+      const documentStoreInformation = await retrieveDocumentStoreInLocalStorage();
       setLocalDocumentStores(documentStoreInformation);
       setFilteredSuggestion(documentStoreInformation);
     } else {
@@ -84,7 +75,6 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
       <div className={`md:flex max-w-screen-lg w-full px-4 mt-10 mx-auto`}>
         <label className="max-w-lg w-full text-left">
           <p>Document Store Address</p>
-
           <AutoCompleteInput
             onSuggestionsFetchRequested={onSuggestionsFetchRequested}
             filteredSuggestion={filteredSuggestion}
