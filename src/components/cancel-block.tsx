@@ -102,7 +102,7 @@ export const CancelBlock: FunctionComponent = () => {
               value={newGasPrice}
               onChange={(e) => {
                 const inputValue = e.currentTarget.value;
-                !isNaN(+inputValue) ? setNewGasPrice(Number(inputValue)) : undefined;
+                !isNaN(parseInt(inputValue, 10)) ? setNewGasPrice(parseInt(inputValue, 10)) : undefined;
               }}
               disabled={currentGasPrice ? false : true}
             />
