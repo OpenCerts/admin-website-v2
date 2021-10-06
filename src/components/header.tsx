@@ -35,24 +35,24 @@ export const Header: FunctionComponent<HeaderProps> = ({ isConnected, setIsConne
   }, [setIsConnected]);
 
   useEffect(() => {
+    const handleAccountsChanged = (accounts: Array<string>) => {
+      accounts.length > 0 ? getWalletDetails() : null;
+    };
+
+    const handleGetWalletDetails = () => {
+      getWalletDetails();
+    };
+
     if (window.ethereum) {
-      window.ethereum.on("accountsChanged ", function (accounts: Array<string>) {
-        if (accounts.length > 0) {
-          getWalletDetails();
-        }
-      });
-
-      window.ethereum.on("chainChanged", function () {
-        getWalletDetails();
-      });
-
-      window.ethereum.on("connect", function () {
-        getWalletDetails();
-      });
+      window.ethereum.on("accountsChanged ", handleAccountsChanged);
+      window.ethereum.on("chainChanged", handleGetWalletDetails);
+      window.ethereum.on("connect", handleGetWalletDetails);
     }
     return () => {
       if (window.ethereum) {
-        window.ethereum.removeAllListeners();
+        window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+        window.ethereum.removeListener("chainChanged", handleGetWalletDetails);
+        window.ethereum.removeListener("connect", handleGetWalletDetails);
       }
     };
   }, [getWalletDetails]);
