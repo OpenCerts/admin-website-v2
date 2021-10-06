@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import React, { FunctionComponent } from "react";
 
 const SpinnerStyle = styled.div`
-  border-top-color: #3498db;
+  border-top-color: #3498db !important;
 `;
 
 interface SpinnerProp {

@@ -8,34 +8,32 @@ module.exports = {
       display: ["Roboto", "sans-serif"],
       body: ["Roboto", "sans-serif"],
     },
-    backgroundColor: (theme) => ({
-      ...theme("colors"),
-      primary: {
-        default: "#FF6A33",
-        hover: "#E65F2E",
-      },
-      secondary: {
-        default: "#8C939E",
-        hover: "#6D727A",
-      },
-    }),
-    borderColor: (theme) => ({
-      ...theme("colors"),
-      primary: "#FF6A33",
-    }),
-    textColor: (theme) => ({
-      ...theme("colors"),
-      primary: "#FF6A33",
-    }),
     extend: {
+      backgroundColor: {
+        primary: {
+          default: "#FF6A33",
+          hover: "#E65F2E",
+        },
+        secondary: {
+          default: "#8C939E",
+          hover: "#6D727A",
+        },
+      },
+      borderColor: {
+        primary: "#FF6A33",
+      },
+      textColor: {
+        primary: "#FF6A33",
+      },
       width: {
         fit: "fit-content",
       },
-      backgroundColor: ["active"],
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ["active"],
+    },
   },
   plugins: [],
 };
