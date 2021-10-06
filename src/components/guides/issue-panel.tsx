@@ -1,50 +1,135 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useContext } from "react";
+import { ShepherdOptionsWithType, ShepherdTour, ShepherdTourContext, Tour } from "react-shepherd";
+import { InformationButton } from "../common/button";
+
+const Button = () => {
+  const tour = useContext(ShepherdTourContext);
+  return tour && <InformationButton onClick={tour.start} />;
+};
 
 export const IssueInformationPanel: FunctionComponent = () => {
+  const guideSteps: Array<ShepherdOptionsWithType> = [introduction, stepOne, stepTwo, stepThree, stepComplete];
+  const tourOptions: Tour.TourOptions = {
+    defaultStepOptions: {
+      cancelIcon: {
+        enabled: true,
+      },
+      scrollTo: {
+        behavior: "smooth",
+        block: "center",
+      },
+      popperOptions: {
+        modifiers: [{ name: "offset", options: { offset: [0, 12] } }],
+      },
+    },
+    useModalOverlay: true,
+  };
+
   return (
-    <>
-      <hr className="max-w-screen-lg w-full px-4 mt-10 mx-auto" />
-      <div className={`max-w-screen-lg w-full text-left px-4 my-10 mx-auto`}>
-        <h3 className="">Guide to Issue Certificate Hash</h3>
-        <ol className="mt-4 ml-5 list-outside list-decimal">
-          <li className="mb-2">
-            Certificate hash can be retrieve by following{" "}
-            <a
-              href="https://www.openattestation.com/docs/verifiable-document/raw-document"
-              className="text-blue-900 underline"
-            >
-              OpenAttestation guide
-            </a>{" "}
-            on Configuration DNS, Creating Raw Document and Wrapping Documents.
-          </li>
-          <li className="mb-2">
-            After wrapping the documents and obtaining a certificate hash (merkle root), the documents are ready to be
-            issued on the document store smart contract. Enter the merkle root into the text input.
-          </li>
-          <li className="mb-2">Select the Issue button</li>
-          <li className="mb-2">
-            There will be a prompt from Metamask chrome extension that display transaction details.
-          </li>
-          <li className="mb-2">Select Confirm button on the prompt to confirm the transaction.</li>
-          <li className="mb-2">The log status should display transaction is being processed.</li>
-          <li className="mb-2">
-            The dialog status log will show completed message with the transaction details upon completion.
-          </li>
-          <li className="mb-2">
-            You have successfully issued your document merkle root into blockchain. You can now verify the document
-            using OpenCerts verifier.
-          </li>
-        </ol>
-        <p className="mt-5">
-          For more information on issuing documents, Please visit OpenAttestation{" "}
-          <a
-            href="https://www.openattestation.com/docs/verifiable-document/issuing-document"
-            className="text-blue-900 underline"
-          >
-            Issue Documentation
-          </a>
-        </p>
-      </div>
-    </>
+    <ShepherdTour steps={guideSteps} tourOptions={tourOptions}>
+      <Button />
+    </ShepherdTour>
   );
+};
+
+const introduction = {
+  title: "Guide to Issue Certificate Hash",
+  text: `
+      <p> After wrapping the documents and obtaining a certificate hash (merkle root), the documents are ready to be issued on the document store smart contract. </p>
+      <p> In this guide, we will show you step by step instructions to issue the wrapped document.</p>
+  `,
+  buttons: [
+    {
+      classes: "w-full inline-flex justify-center text-sm font-medium bg-secondary-default hover:bg-secondary-hover",
+      text: "Exit",
+      type: "cancel",
+    },
+    {
+      classes: "w-full inline-flex justify-center text-sm font-medium bg-primary-default hover:bg-primary-hover",
+      text: "Start",
+      type: "next",
+    },
+  ],
+};
+
+const stepOne = {
+  title: "Guide to Issue Certificate Hash ( Step 1 )",
+  text: `
+      <p>Enter the certificate hash (merkle root) into the field, note that this issuance only needs to be done once for all documents in a batch. </p>
+      <p> Proceed to next step.</p>
+  `,
+  attachTo: { element: ".shepard-issue-txt", on: "right" },
+  buttons: [
+    {
+      classes: "w-full inline-flex justify-center text-sm font-medium bg-secondary-default hover:bg-secondary-hover",
+      text: "Back",
+      type: "back",
+    },
+    {
+      classes: "w-full inline-flex justify-center text-sm font-medium bg-primary-default hover:bg-primary-hover",
+      text: "Next",
+      type: "next",
+    },
+  ],
+};
+
+const stepTwo = {
+  title: "Guide to Issue Certificate Hash ( Step 2 )",
+  text: `
+      <p>Click on the "Issue" button to start the process.</p>
+  `,
+  attachTo: { element: ".shepard-issue-btn", on: "left" },
+  buttons: [
+    {
+      classes: "w-full inline-flex justify-center text-sm font-medium bg-secondary-default hover:bg-secondary-hover",
+      text: "Back",
+      type: "back",
+    },
+  ],
+  advanceOn: { selector: ".shepard-issue-btn", event: "click" },
+};
+
+const stepThree = {
+  title: "Guide to Issue Certificate Hash ( Step 3 )",
+  text: `
+      <p>Metamask extension will display a notification that shows the transaction information.</p>
+      <p>Click on the "Confirm" button and the status log will show the transaction progress.</p>
+  `,
+  attachedTo: { element: ".shepherd-issue-log", on: "top" },
+  buttons: [
+    {
+      classes: "w-full inline-flex justify-center text-sm font-medium bg-secondary-default hover:bg-secondary-hover",
+      text: "Back",
+      type: "back",
+    },
+    {
+      classes: "w-full inline-flex justify-center text-sm font-medium bg-primary-default hover:bg-primary-hover",
+      text: "Next",
+      type: "next",
+    },
+  ],
+};
+
+const stepComplete = {
+  title: "Guide to Issue Certificate Hash ( Complete )",
+  text: `
+      <p>You have successfully issued your document</p>
+      <p>For more information on issuing documents, Please visit   
+        <a href="https://www.openattestation.com/docs/verifiable-document/issuing-document" class="text-blue-900 underline" target="_blank"> 
+          OpenAttestation Documentation.
+        </a>
+      </p>
+  `,
+  buttons: [
+    {
+      classes: "w-full inline-flex justify-center text-sm font-medium bg-secondary-default hover:bg-secondary-hover ",
+      text: "Back",
+      type: "back",
+    },
+    {
+      classes: "w-full inline-flex justify-center text-sm font-medium bg-primary-default hover:bg-primary-hover ",
+      text: "Done",
+      type: "cancel",
+    },
+  ],
 };

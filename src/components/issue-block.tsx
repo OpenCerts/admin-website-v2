@@ -6,6 +6,7 @@ import { Logger } from "./common/logger";
 import { isValidHash, getEtherscanAddress } from "./util/common";
 import { issueCertificateHash as issue } from "./util/issue";
 import { getWalletNetwork } from "./util/wallet";
+import { IssueInformationPanel } from "./guides/information-panels";
 
 interface DocumentStoreAddressProp {
   documentStoreAddress: string;
@@ -59,10 +60,11 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
   return (
     <div className="mb-16">
       <div className={`md:flex max-w-screen-lg w-full px-4 mx-auto mt-8`}>
-        <label className="max-w-lg w-full text-left">
-          <p>Issue certificates with the Merkle Root Hash</p>
+        <div className={"max-w-lg w-full text-left"}>
+          <label className="inline">Issue certificates with the Merkle Root Hash</label>
+          <IssueInformationPanel />
           <TextInput
-            className={`w-full mt-3`}
+            className={`w-full mt-3 shepard-issue-txt`}
             placeHolder="0x..."
             onChange={validateCertificateHash}
             dataTestId="issue-certificate"
@@ -73,11 +75,11 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
           <p className={"text-green-600 break-all"} data-testid="success-message">
             {successMessage}
           </p>
-        </label>
+        </div>
         <div className="w-auto md:w-fit md:ml-auto mt-9">
           <PrimaryButton
             onClick={() => issueCertificateHash()}
-            className="w-full inline-flex justify-center text-sm font-medium"
+            className="w-full inline-flex justify-center text-sm font-medium shepard-issue-btn"
             dataTestId="issue-certificate-btn"
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
@@ -86,7 +88,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
         </div>
       </div>
 
-      <Logger log={log} className="px-4" />
+      <Logger log={log} className="px-4 shepherd-issue-log" />
     </div>
   );
 };

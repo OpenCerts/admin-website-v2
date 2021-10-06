@@ -130,10 +130,7 @@ export const MainPage: FunctionComponent = () => {
             </>
           )}
           {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "issue" && (
-            <>
-              <IssueBlock documentStoreAddress={documentStoreAddress} />
-              <IssueInformationPanel />
-            </>
+            <IssueBlock documentStoreAddress={documentStoreAddress} />
           )}
         </>
       )}
