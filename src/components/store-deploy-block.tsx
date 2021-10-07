@@ -43,6 +43,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
       setProcessing(true);
       const transaction = await deploy(documentStoreName, setLog);
       if (transaction) {
+        setShowModal(true);
         const walletNetwork = await getWalletNetwork();
         const etherscanNetwork = getEtherscanAddress({
           network: walletNetwork,
@@ -52,7 +53,6 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         );
         storeDocumentStoreInLocalStorage(transaction.contractAddress);
         validateStorageAddress(transaction.contractAddress);
-        setShowModal(false);
       }
     }
     setProcessing(false);
@@ -68,6 +68,11 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
       const filtered = localDocumentStores.filter((documentStore) => documentStore.startsWith(value.trim()));
       setFilteredSuggestion(filtered);
     }
+  };
+
+  const clearDeployStatus = () => {
+    setLog("");
+    setShowModal(false);
   };
 
   return (
@@ -109,8 +114,8 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           />
         </div>
         <div className="sm:flex pt-5">
-          <SecondaryButton onClick={() => setShowModal(false)} className="w-full mr-5 text-sm font-medium">
-            Cancel
+          <SecondaryButton onClick={() => clearDeployStatus()} className="w-full mr-5 text-sm font-medium">
+            Close
           </SecondaryButton>
           <PrimaryButton
             onClick={deployDocumentStore}

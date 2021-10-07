@@ -1,5 +1,4 @@
-declare let window: any;
-import React, { Dispatch, FunctionComponent, useEffect, useState } from "react";
+import React, { Dispatch, FunctionComponent, useState, useEffect, useCallback } from "react";
 import { PrimaryButton } from "./common/button";
 import { getWalletDetails as getWalletData } from "./util/wallet";
 import { getEtherscanAddress } from "./util/common";
@@ -23,31 +22,9 @@ interface HeaderProps {
 export const Header: FunctionComponent<HeaderProps> = ({ isConnected, setIsConnected }) => {
   const [wallet, setWalletInfo] = useState({} as walletInfoType);
 
-  useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", function (accounts: Array<string>) {
-        if (accounts.length > 0) {
-          getWalletDetails();
-        }
-      });
-
-      window.ethereum.on("chainChanged", function () {
-        getWalletDetails();
-      });
-
-      window.ethereum.on("connect", function () {
-        getWalletDetails();
-      });
-
-      if (window.ethereum.isConnected()) {
-        getWalletDetails();
-      }
-    }
-  });
-
-  const getWalletDetails = async () => {
+  const getWalletDetails = useCallback(async () => {
     const walletDetails = await getWalletData();
-    if (walletDetails !== undefined) {
+    if (walletDetails) {
       setWalletInfo({
         walletAddress: walletDetails.address,
         walletNetwork: walletDetails.network,
@@ -55,7 +32,30 @@ export const Header: FunctionComponent<HeaderProps> = ({ isConnected, setIsConne
       });
       setIsConnected(true);
     }
-  };
+  }, [setIsConnected]);
+
+  useEffect(() => {
+    const handleAccountsChanged = (accounts: Array<string>) => {
+      accounts.length > 0 ? getWalletDetails() : null;
+    };
+
+    const handleGetWalletDetails = () => {
+      getWalletDetails();
+    };
+
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged ", handleAccountsChanged);
+      window.ethereum.on("chainChanged", handleGetWalletDetails);
+      window.ethereum.on("connect", handleGetWalletDetails);
+    }
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+        window.ethereum.removeListener("chainChanged", handleGetWalletDetails);
+        window.ethereum.removeListener("connect", handleGetWalletDetails);
+      }
+    };
+  }, [getWalletDetails]);
 
   return (
     <div className={`shadow-md flex flex-wrap items-center text-sm px-4 py-2 `}>

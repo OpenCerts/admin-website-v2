@@ -1,4 +1,3 @@
-declare let window: any;
 import { ethers, providers } from "ethers";
 
 export interface WalletDetails {
@@ -8,7 +7,9 @@ export interface WalletDetails {
 }
 
 export const connectWallet = async (): Promise<providers.Web3Provider> => {
-  await window.ethereum.enable();
+  if (window.ethereum.request) {
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+  }
   const provider = new providers.Web3Provider(window.ethereum);
   return provider;
 };
