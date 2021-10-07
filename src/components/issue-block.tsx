@@ -82,6 +82,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
             onClick={() => issueCertificateHash()}
             className="w-full inline-flex justify-center text-sm font-medium shepard-issue-btn"
             dataTestId="issue-certificate-btn"
+            disabled={processing}
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             <span>Issue</span>

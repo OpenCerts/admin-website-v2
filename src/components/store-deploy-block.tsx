@@ -130,6 +130,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           <PrimaryButton
             onClick={deployDocumentStore}
             className="w-full inline-flex justify-center text-sm font-medium shepherd-deploy-btn"
+            disabled={processing}
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             Deploy
