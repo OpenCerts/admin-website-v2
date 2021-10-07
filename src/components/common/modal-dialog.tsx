@@ -9,7 +9,7 @@ interface ModalDialogProp {
 export const ModalDialog: FunctionComponent<ModalDialogProp> = ({ toggleOpen, children }) => {
   return (
     <div
-      className={`fixed z-10 inset-0 overflow-y-auto ease-in-out duration-700 opacity-0 ${
+      className={`fixed z-10 inset-0 overflow-y-auto ease-in-out duration-150 opacity-0 ${
         toggleOpen ? "opacity-100 visible" : "invisible"
       }`}
     >
