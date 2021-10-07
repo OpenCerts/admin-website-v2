@@ -77,7 +77,7 @@ export const CancelBlock: FunctionComponent = () => {
             <p>Pending Transaction</p>
             <TextInput
               className={`w-full mt-3`}
-              placeHolder="0x..."
+              placeHolder="Enter transaction address (0x...)"
               dataTestId="cancel-pending"
               onChange={validateTransactionHash}
             />

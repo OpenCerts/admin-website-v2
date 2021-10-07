@@ -91,7 +91,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
             filteredSuggestion={filteredSuggestion}
             inputValue={documentStoreAddress}
             inputOnChange={validateStorageAddress}
-            placeHolder="Enter existing (0x…), or deploy new document store."
+            placeHolder="Enter document store address (0x...)"
             id="document-store"
           />
         </div>
@@ -116,7 +116,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           <TextInput
             className={"w-full mt-3 shepherd-organisation-txt"}
             onChange={(value) => setDocumentStoreName(value)}
-            placeHolder="Name of Organisation."
+            placeHolder="Enter organisation name."
             value={documentStoreName}
           />
           <p className={"text-red-600 break-all"} data-testid="error-message">

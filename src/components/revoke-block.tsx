@@ -70,7 +70,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           <RevokeInformationPanel />
           <TextInput
             className={`w-full mt-3 shepard-revoke-txt`}
-            placeHolder="0x..."
+            placeHolder="Enter certificate hash (0x...)"
             dataTestId="revoke-certificate"
             onChange={validateCertificateHash}
           />

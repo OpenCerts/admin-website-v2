@@ -66,7 +66,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
           <IssueInformationPanel />
           <TextInput
             className={`w-full mt-3 shepard-issue-txt`}
-            placeHolder="0x..."
+            placeHolder="Enter merkle root hash (0x...)"
             onChange={validateCertificateHash}
             dataTestId="issue-certificate"
           />
