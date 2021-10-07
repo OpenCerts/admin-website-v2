@@ -18,7 +18,6 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
   const [certificateHash, setCertificateHash] = useState("");
   const [log, setLog] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
   const validateCertificateHash = (value: string) => {
     if (isValidHash(value)) {
@@ -29,7 +28,6 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
   };
 
   const issueCertificateHash = async () => {
-    setSuccessMessage("");
     setErrorMessage("");
     setProcessing(true);
 
@@ -46,11 +44,8 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
           network: await getWalletNetwork(),
         });
         storeDocumentStoreInLocalStorage(documentStoreAddress);
-        setSuccessMessage(
-          `Document/Document Batch with hash ${certificateHash} has been issued to ${documentStoreAddress}`
-        );
         setLog(
-          `Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
+          `Document/Document Batch with hash ${certificateHash} has been issued to ${documentStoreAddress}. <br/><br/>Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
         );
       }
     }
@@ -72,9 +67,6 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
           />
           <p className={"text-red-600 break-all"} data-testid="error-message">
             {errorMessage}
-          </p>
-          <p className={"text-green-600 break-all"} data-testid="success-message">
-            {successMessage}
           </p>
         </div>
         <div className="w-auto md:w-fit md:ml-auto mt-9">
