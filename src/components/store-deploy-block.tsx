@@ -57,9 +57,10 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         storeDocumentStoreInLocalStorage(transaction.contractAddress);
         validateStorageAddress(transaction.contractAddress);
       }
+      setProcessing(false);
+    } else {
+      setErrorMessage("Please fill in your organisation name");
     }
-    setErrorMessage("Please fill in your organisation name");
-    setProcessing(false);
   };
 
   const onSuggestionsFetchRequested = async (value: string, reason: string): Promise<void> => {
