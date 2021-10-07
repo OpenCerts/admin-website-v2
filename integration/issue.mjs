@@ -9,6 +9,10 @@ export const issue = async (metamask, browser) => {
     await metamask.approve({ allAccounts: true });
     await page.bringToFront();
     // END - approve application once, subsequent tests no longer need
+    await page.waitForSelector("[data-testid='connectToWallet']", {
+      visible: true,
+    });
+    await page.click("[data-testid='connectToWallet']");
 
     await page.waitForSelector("[aria-controls='react-autowhatever-document-store']", {
       visible: true,

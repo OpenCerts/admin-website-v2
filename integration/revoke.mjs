@@ -5,6 +5,11 @@ export const revoke = async (metamask, browser) => {
     const page = await browser.newPage();
     await page.goto("http://localhost:5000/");
 
+    await page.waitForSelector("[data-testid='connectToWallet']", {
+      visible: true,
+    });
+    await page.click("[data-testid='connectToWallet']");
+
     await page.waitForSelector("[aria-controls='react-autowhatever-document-store']", {
       visible: true,
     });
