@@ -9,8 +9,11 @@ export const revokeCertificateHash = async (
   log?: Dispatch<string>
 ): Promise<TransactionReceipt | undefined> => {
   try {
-    const documentStore = await connect(documentStoreAddress, await getSigner());
-    log ? log(`Sending transaction to waiting room (Mempool).`) : null;
+    log ? log("Decrypting wallet.") : null;
+    const signer = await getSigner();
+    log ? log("Wallet successfully decrypted.") : null;
+    const documentStore = await connect(documentStoreAddress, signer);
+    log ? log(`Please confirm transaction at MetaMask extension.`) : null;
     const transaction = await documentStore.revoke(certificateHash);
     log ? log(`Waiting for transaction ${transaction.hash} to be processed.`) : null;
     return transaction.wait();

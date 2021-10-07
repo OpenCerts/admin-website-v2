@@ -12,6 +12,7 @@ export const deployDocumentStore = async (
     const signer = await getSigner();
     log ? log("Wallet successfully decrypted.") : null;
     const factory = new DocumentStoreFactory(signer);
+    log ? log(`Please confirm transaction at MetaMask extension.`) : null;
     const transaction = await factory.deploy(storeName);
     const transactioHash = transaction.deployTransaction.hash;
     const etherscanNetwork = getEtherscanAddress({
