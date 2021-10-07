@@ -91,7 +91,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
             filteredSuggestion={filteredSuggestion}
             inputValue={documentStoreAddress}
             inputOnChange={validateStorageAddress}
-            placeHolder="Enter existing (0x…), or deploy new instance."
+            placeHolder="Enter existing (0x…), or deploy new document store."
             id="document-store"
           />
         </div>
@@ -105,7 +105,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
             }}
             className="text-sm w-full font-medium shepherd-deploy-modal-btn"
           >
-            <span>Deploy New Instance</span>
+            <span>Deploy New Document Store</span>
           </PrimaryButton>
         </div>
       </div>
