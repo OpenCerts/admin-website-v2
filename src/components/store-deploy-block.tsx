@@ -42,6 +42,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
 
   const deployDocumentStore = async () => {
     setErrorMessage("");
+    setLog("");
     if (documentStoreName !== "") {
       setProcessing(true);
       const transaction = await deploy(documentStoreName, setLog);
@@ -73,11 +74,6 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
       const filtered = localDocumentStores.filter((documentStore) => documentStore.startsWith(value.trim()));
       setFilteredSuggestion(filtered);
     }
-  };
-
-  const clearDeployStatus = () => {
-    setLog("");
-    setShowModal(false);
   };
 
   return (
@@ -124,7 +120,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           </p>
         </div>
         <div className="sm:flex pt-5">
-          <SecondaryButton onClick={() => clearDeployStatus()} className="w-full mr-5 text-sm font-medium">
+          <SecondaryButton onClick={() => setShowModal(false)} className="w-full mr-5 text-sm font-medium">
             Close
           </SecondaryButton>
           <PrimaryButton
