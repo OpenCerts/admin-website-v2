@@ -4,14 +4,16 @@ export const revoke = async (metamask, browser) => {
   try {
     const page = await browser.newPage();
     await page.goto("http://localhost:5000/");
+
     await page.waitForSelector("[data-testid='connectToWallet']", {
       visible: true,
     });
     await page.click("[data-testid='connectToWallet']");
-    await page.waitForSelector("[data-testid='document-store']", {
+
+    await page.waitForSelector("[aria-controls='react-autowhatever-document-store']", {
       visible: true,
     });
-    await page.focus("[data-testid='document-store']");
+    await page.focus("[aria-controls='react-autowhatever-document-store']");
     await page.keyboard.type("0xC84b0719A82626417c40f3168513dFABDB6A9079");
 
     await page.waitForSelector("[data-testid='show-revoke-btn']", {

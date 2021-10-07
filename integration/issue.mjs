@@ -13,10 +13,11 @@ export const issue = async (metamask, browser) => {
       visible: true,
     });
     await page.click("[data-testid='connectToWallet']");
-    await page.waitForSelector("[data-testid='document-store']", {
+
+    await page.waitForSelector("[aria-controls='react-autowhatever-document-store']", {
       visible: true,
     });
-    await page.focus("[data-testid='document-store']");
+    await page.focus("[aria-controls='react-autowhatever-document-store']");
     await page.keyboard.type("0xC84b0719A82626417c40f3168513dFABDB6A9079");
 
     // Test user successfully issue the transaction
