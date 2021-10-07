@@ -7,6 +7,7 @@ import { Logger } from "./common/logger";
 import { isValidHash, getEtherscanAddress } from "./util/common";
 import { revokeCertificateHash as revoke } from "./util/revoke";
 import { getWalletNetwork } from "./util/wallet";
+import { RevokeInformationPanel } from "./guides/information-panels";
 
 interface DocumentStoreAddressProp {
   documentStoreAddress: string;
@@ -63,10 +64,11 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
   return (
     <>
       <div className={`md:flex max-w-screen-lg w-full px-4 mx-auto mt-8`}>
-        <label className="max-w-lg w-full text-left">
-          <p>Certificate hash to revoke</p>
+        <div className="max-w-lg w-full text-left">
+          <label className="inline">Certificate hash to revoke</label>
+          <RevokeInformationPanel />
           <TextInput
-            className={`w-full mt-3`}
+            className={`w-full mt-3 shepard-revoke-txt`}
             placeHolder="0x..."
             dataTestId="revoke-certificate"
             onChange={validateCertificateHash}
@@ -77,11 +79,11 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           <p className={"text-green-600 break-all"} data-testid="success-message">
             {successMessage}
           </p>
-        </label>
+        </div>
         <div className="w-auto md:w-fit md:ml-auto mt-9">
           <PrimaryButton
             onClick={() => revokeConfirmation()}
-            className="tw-full inline-flex justify-center text-sm font-medium"
+            className="tw-full inline-flex justify-center text-sm font-medium shepard-revoke-btn"
             dataTestId="revoke-btn"
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
@@ -89,7 +91,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           </PrimaryButton>
         </div>
       </div>
-      <Logger log={log} className="px-4" />
+      <Logger log={log} className="px-4 shepherd-revoke-log" />
 
       <ConfirmationModalDialog
         title="Confirm Revoke Certification Hash ?"
