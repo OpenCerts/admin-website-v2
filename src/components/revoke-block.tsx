@@ -8,6 +8,7 @@ import { isValidHash, getEtherscanAddress } from "./util/common";
 import { revokeCertificateHash as revoke } from "./util/revoke";
 import { getWalletNetwork } from "./util/wallet";
 import { RevokeInformationPanel } from "./guides/information-panels";
+import { storeDocumentStoreInLocalStorage } from "./util/document-store";
 
 interface DocumentStoreAddressProp {
   documentStoreAddress: string;
@@ -48,7 +49,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
       const etherscanNetwork = getEtherscanAddress({
         network: await getWalletNetwork(),
       });
-
+      storeDocumentStoreInLocalStorage(documentStoreAddress);
       setSuccessMessage(
         `Document/Document Batch with hash ${certificateHash} has been revoked on ${documentStoreAddress}.`
       );

@@ -28,6 +28,9 @@ module.exports = {
       width: {
         fit: "fit-content",
       },
+      minHeight: {
+        20: "5rem",
+      },
     },
   },
   variants: {

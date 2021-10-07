@@ -9,6 +9,8 @@ import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/common";
 import { isAddress } from "ethers/lib/utils";
 import { DeployInformationPanel } from "./guides/information-panels";
+import { retrieveDocumentStoreInLocalStorage, storeDocumentStoreInLocalStorage } from "./util/document-store";
+import { AutoCompleteInput } from "./common/autocomplete-input";
 
 interface DocumentStoreAddressProps {
   documentStoreAddress: string;
@@ -25,6 +27,8 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const [processing, setProcessing] = useState(false);
   const [documentStoreName, setDocumentStoreName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [localDocumentStores, setLocalDocumentStores] = useState<string[]>([]);
+  const [filteredSuggestion, setFilteredSuggestion] = useState<string[]>([]);
   const [log, setLog] = useState("");
 
   const validateStorageAddress = (value: string) => {
@@ -42,6 +46,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
       setProcessing(true);
       const transaction = await deploy(documentStoreName, setLog);
       if (transaction) {
+        setShowModal(true);
         const walletNetwork = await getWalletNetwork();
         const etherscanNetwork = getEtherscanAddress({
           network: walletNetwork,
@@ -49,12 +54,29 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         setLog(
           `Document Store Deployed. Find more details at <a href="${etherscanNetwork}/address/${transaction.contractAddress}" target="_blank">${etherscanNetwork}/address/${transaction.contractAddress}</a>.`
         );
+        storeDocumentStoreInLocalStorage(transaction.contractAddress);
         validateStorageAddress(transaction.contractAddress);
-        setShowModal(false);
       }
     }
     setErrorMessage("Please fill in your organisation name");
     setProcessing(false);
+  };
+
+  const onSuggestionsFetchRequested = async (value: string, reason: string): Promise<void> => {
+    setDocumentStoreAddress(value);
+    if (reason == "input-focused") {
+      const documentStoreInformation = await retrieveDocumentStoreInLocalStorage();
+      setLocalDocumentStores(documentStoreInformation);
+      setFilteredSuggestion(documentStoreInformation);
+    } else {
+      const filtered = localDocumentStores.filter((documentStore) => documentStore.startsWith(value.trim()));
+      setFilteredSuggestion(filtered);
+    }
+  };
+
+  const clearDeployStatus = () => {
+    setLog("");
+    setShowModal(false);
   };
 
   return (
@@ -63,12 +85,13 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         <div className="max-w-lg w-full text-left">
           <label className="inline">Document Store Address</label>
           <DeployInformationPanel />
-          <TextInput
-            className={`w-full mt-3`}
+          <AutoCompleteInput
+            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+            filteredSuggestion={filteredSuggestion}
+            inputValue={documentStoreAddress}
+            inputOnChange={validateStorageAddress}
             placeHolder="Enter existing (0x…), or deploy new instance."
-            onChange={validateStorageAddress}
-            value={documentStoreAddress}
-            dataTestId="document-store"
+            id="document-store"
           />
         </div>
 
@@ -100,8 +123,8 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           </p>
         </div>
         <div className="sm:flex pt-5">
-          <SecondaryButton onClick={() => setShowModal(false)} className="w-full mr-5 text-sm font-medium">
-            Cancel
+          <SecondaryButton onClick={() => clearDeployStatus()} className="w-full mr-5 text-sm font-medium">
+            Close
           </SecondaryButton>
           <PrimaryButton
             onClick={deployDocumentStore}
