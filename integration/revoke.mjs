@@ -41,7 +41,7 @@ export const revoke = async (metamask, browser) => {
     await page.bringToFront();
     await page.waitFor(3000);
 
-    await expect(page).toMatchElement("[data-testid='success-message']", {
+    await expect(page).toMatchElement("[data-testid='revoke-log']", {
       text: "Document/Document Batch with hash 0xbabf7285760d279e6dfa9c37d97bd3f77025a0be0e74119ff24ac9ee0739c60b has been revoked on 0xC84b0719A82626417c40f3168513dFABDB6A9079",
       visible: true,
     });

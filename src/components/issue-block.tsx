@@ -82,7 +82,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
         </div>
       </div>
 
-      <Logger log={log} className="px-4 shepherd-issue-log" />
+      <Logger log={log} className="px-4 shepherd-issue-log" dataTestId="issue-log" />
     </div>
   );
 };

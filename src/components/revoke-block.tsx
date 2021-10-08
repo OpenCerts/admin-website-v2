@@ -84,7 +84,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           </PrimaryButton>
         </div>
       </div>
-      <Logger log={log} className="px-4 shepherd-revoke-log" />
+      <Logger log={log} className="px-4 shepherd-revoke-log" dataTestId="revoke-log" />
 
       <ConfirmationModalDialog
         title="Confirm Revoke Certification Hash ?"
