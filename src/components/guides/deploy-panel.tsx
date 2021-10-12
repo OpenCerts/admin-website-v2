@@ -61,7 +61,7 @@ const introduction = {
 
 const stepOne = {
   title: "Guide to Deploy Document Store ( Step 1 )",
-  text: '<p>Click on the "Deploy New Instance", This will open up dialog.</p>',
+  text: '<p>Click on the "Deploy New Document Store", This will open up dialog.</p>',
   attachTo: { element: ".shepherd-deploy-modal-btn", on: "left" },
   buttons: [
     {

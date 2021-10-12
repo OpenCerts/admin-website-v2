@@ -42,6 +42,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
 
   const deployDocumentStore = async () => {
     setErrorMessage("");
+    setLog("");
     if (documentStoreName !== "") {
       setProcessing(true);
       const transaction = await deploy(documentStoreName, setLog);
@@ -57,9 +58,10 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         storeDocumentStoreInLocalStorage(transaction.contractAddress);
         validateStorageAddress(transaction.contractAddress);
       }
+      setProcessing(false);
+    } else {
+      setErrorMessage("Please fill in your organisation name");
     }
-    setErrorMessage("Please fill in your organisation name");
-    setProcessing(false);
   };
 
   const onSuggestionsFetchRequested = async (value: string, reason: string): Promise<void> => {
@@ -74,11 +76,6 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
     }
   };
 
-  const clearDeployStatus = () => {
-    setLog("");
-    setShowModal(false);
-  };
-
   return (
     <>
       <div className={`md:flex max-w-screen-lg w-full px-4 mt-10 mx-auto`}>
@@ -90,7 +87,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
             filteredSuggestion={filteredSuggestion}
             inputValue={documentStoreAddress}
             inputOnChange={validateStorageAddress}
-            placeHolder="Enter existing (0x…), or deploy new instance."
+            placeHolder="Enter document store address (0x...)"
             id="document-store"
           />
         </div>
@@ -104,7 +101,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
             }}
             className="text-sm w-full font-medium shepherd-deploy-modal-btn"
           >
-            <span>Deploy New Instance</span>
+            <span>Deploy New Document Store</span>
           </PrimaryButton>
         </div>
       </div>
@@ -115,7 +112,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           <TextInput
             className={"w-full mt-3 shepherd-organisation-txt"}
             onChange={(value) => setDocumentStoreName(value)}
-            placeHolder="Name of Organisation."
+            placeHolder="Enter organisation name."
             value={documentStoreName}
           />
           <p className={"text-red-600 break-all"} data-testid="error-message">
@@ -123,12 +120,13 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
           </p>
         </div>
         <div className="sm:flex pt-5">
-          <SecondaryButton onClick={() => clearDeployStatus()} className="w-full mr-5 text-sm font-medium">
+          <SecondaryButton onClick={() => setShowModal(false)} className="w-full mr-5 text-sm font-medium">
             Close
           </SecondaryButton>
           <PrimaryButton
             onClick={deployDocumentStore}
             className="w-full inline-flex justify-center text-sm font-medium shepherd-deploy-btn"
+            disabled={processing}
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             Deploy

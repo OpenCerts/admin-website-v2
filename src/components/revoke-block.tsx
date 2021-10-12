@@ -20,7 +20,6 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
   const [certificateHash, setCertificateHash] = useState("");
   const [log, setLog] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
 
   const validateCertificateHash = (value: string) => {
@@ -33,7 +32,6 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
 
   const revokeConfirmation = async () => {
     setErrorMessage("");
-    setSuccessMessage("");
 
     if (certificateHash === "") {
       setErrorMessage("*Please enter valid merkle root hash (32 characters).");
@@ -50,12 +48,8 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
         network: await getWalletNetwork(),
       });
       storeDocumentStoreInLocalStorage(documentStoreAddress);
-      setSuccessMessage(
-        `Document/Document Batch with hash ${certificateHash} has been revoked on ${documentStoreAddress}.`
-      );
-
       setLog(
-        `Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
+        `Document/Document Batch with hash ${certificateHash} has been revoked on ${documentStoreAddress}.<br/><br/>Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
       );
     }
 
@@ -70,15 +64,12 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
           <RevokeInformationPanel />
           <TextInput
             className={`w-full mt-3 shepard-revoke-txt`}
-            placeHolder="0x..."
+            placeHolder="Enter certificate hash (0x...)"
             dataTestId="revoke-certificate"
             onChange={validateCertificateHash}
           />
           <p className={"text-red-600 break-all"} data-testid="error-message">
             {errorMessage}
-          </p>
-          <p className={"text-green-600 break-all"} data-testid="success-message">
-            {successMessage}
           </p>
         </div>
         <div className="w-auto md:w-fit md:ml-auto mt-9">
@@ -86,13 +77,14 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
             onClick={() => revokeConfirmation()}
             className="tw-full inline-flex justify-center text-sm font-medium shepard-revoke-btn"
             dataTestId="revoke-btn"
+            disabled={processing}
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             <span>Revoke</span>
           </PrimaryButton>
         </div>
       </div>
-      <Logger log={log} className="px-4 shepherd-revoke-log" />
+      <Logger log={log} className="px-4 shepherd-revoke-log" dataTestId="revoke-log" />
 
       <ConfirmationModalDialog
         title="Confirm Revoke Certification Hash ?"
