@@ -69,7 +69,7 @@ export const SecondaryButton: FunctionComponent<ButtonProp> = ({
 export const InformationButton: FunctionComponent<ButtonProp> = ({ onClick }) => {
   return (
     <button
-      className="inline-flex items-center justify-center rounded-full font-mono font-bold border-2 text-gray-400 text-sm border-gray-400 w-5 h-5 focus:outline-none hover:text-gray-700 hover:border-gray-700 ml-3"
+      className="inline-flex h-4 w-4 border-2 rounded-full text-gray-400 border-gray-400 font-mono font-bold text-xs flex items-center justify-center focus:outline-none hover:text-gray-700 hover:border-gray-700 ml-3"
       onClick={() => {
         onClick();
       }}
