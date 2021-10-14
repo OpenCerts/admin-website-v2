@@ -94,7 +94,7 @@ const stepTwo: ShepherdOptionsWithType = {
             const errorText = `
                 <p>Enter your organisation name into the field.</p>
                 <p>Proceed to the next step.</p>
-                <p class="text-red-600">Please enter your organisation name*</p>
+                <p class="text-red-600">*Please enter your organisation name.</p>
             `;
             const currentStep = this.getCurrentStep();
             currentStep ? currentStep.updateStepOptions({ text: errorText }) : null;

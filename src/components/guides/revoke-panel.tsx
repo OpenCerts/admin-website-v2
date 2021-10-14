@@ -85,7 +85,7 @@ const stepOne: ShepherdOptionsWithType = {
             const errorText = `
                 <p>Metamask extension will display a notification that shows the transaction information.</p>
                 <p>Click on the "Confirm" button and the status log will show the transaction progress.</p>
-                <p class="text-red-600">Please enter valid targetHash (64 characters)*</p>
+                <p class="text-red-600">*Please enter valid targetHash (64 characters).</p>
             `;
             const currentStep = this.getCurrentStep();
             currentStep ? currentStep.updateStepOptions({ text: errorText }) : null;

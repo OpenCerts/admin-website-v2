@@ -78,7 +78,7 @@ const stepOne: ShepherdOptionsWithType = {
             const errorText = `
                 <p>Enter the certificate hash (merkle root) into the field, note that this issuance only needs to be done once for all documents in a batch. </p>
                 <p>Proceed to the next step.</p>
-                <p class="text-red-600">Please enter valid targetHash (64 characters)*</p>
+                <p class="text-red-600">*Please enter valid targetHash (64 characters).</p>
             `;
             const currentStep = this.getCurrentStep();
             currentStep ? currentStep.updateStepOptions({ text: errorText }) : null;
