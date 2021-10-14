@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext } from "react";
 import { ShepherdOptionsWithType, ShepherdTour, ShepherdTourContext, Tour } from "react-shepherd";
 import { InformationButton } from "../common/button";
+import { isValidHash } from "../util/common";
 
 const Button = () => {
   const tour = useContext(ShepherdTourContext);
@@ -32,7 +33,7 @@ export const RevokeInformationPanel: FunctionComponent = () => {
   );
 };
 
-const introduction = {
+const introduction: ShepherdOptionsWithType = {
   title: "Guide to Revoke Certificate Hash",
   text: `
       <p> After issuing a document, you might want to revoke it for any reason: </p>
@@ -59,10 +60,10 @@ const introduction = {
   ],
 };
 
-const stepOne = {
+const stepOne: ShepherdOptionsWithType = {
   title: "Guide to Revoke Certificate Hash ( Step 1 )",
   text: `
-      <p>Revoking document require the document targetHash. The targetHash can be found in the field of one of the previously issued documents (open one of the document, check for the targetHash under signature).</p>
+      <p>Revoking document require the document targetHash. The targetHash is a unique identifier of a document and can be found in the field of one of the previously issued documents (open one of the document, check for the targetHash under signature).</p>
       <p>Enter the targetHash into the field and proceed to the next step.</p>
   `,
   attachTo: { element: ".shepard-revoke-txt", on: "left" },
@@ -75,12 +76,27 @@ const stepOne = {
     {
       classes: "w-full inline-flex justify-center text-sm font-medium bg-primary-default hover:bg-primary-hover",
       text: "Next",
-      type: "next",
+      action() {
+        const txtRevoke = document.querySelector(".shepard-revoke-txt");
+        if (txtRevoke instanceof HTMLInputElement) {
+          if (txtRevoke.value.length > 0 && isValidHash(txtRevoke.value)) {
+            return this.next();
+          } else {
+            const errorText = `
+                <p>Metamask extension will display a notification that shows the transaction information.</p>
+                <p>Click on the "Confirm" button and the status log will show the transaction progress.</p>
+                <p class="text-red-600">Please enter valid targetHash (64 characters)*</p>
+            `;
+            const currentStep = this.getCurrentStep();
+            currentStep ? currentStep.updateStepOptions({ text: errorText }) : null;
+          }
+        }
+      },
     },
   ],
 };
 
-const stepTwo = {
+const stepTwo: ShepherdOptionsWithType = {
   title: "Guide to Revoke Certificate Hash ( Step 2 )",
   text: `
       <p>Click on the "Revoke" button to start the process.</p>
@@ -96,13 +112,13 @@ const stepTwo = {
   advanceOn: { selector: ".shepard-revoke-btn", event: "click" },
 };
 
-const stepThree = {
+const stepThree: ShepherdOptionsWithType = {
   title: "Guide to Revoke Certificate Hash ( Step 3 )",
   text: `
       <p>Metamask extension will display a notification that shows the transaction information.</p>
       <p>Click on the "Confirm" button and the status log will show the transaction progress.</p>
   `,
-  attachedTo: { element: ".shepherd-revoke-log", on: "top" },
+  attachTo: { element: ".shepherd-revoke-log", on: "top" },
   buttons: [
     {
       classes: "w-full inline-flex justify-center text-sm font-medium bg-secondary-default hover:bg-secondary-hover",
@@ -117,7 +133,7 @@ const stepThree = {
   ],
 };
 
-const stepComplete = {
+const stepComplete: ShepherdOptionsWithType = {
   title: "Guide to Revoke Certificate Hash ( Complete )",
   text: `
       <p>You have successfully revoked your document</p>

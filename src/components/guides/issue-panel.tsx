@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext } from "react";
 import { ShepherdOptionsWithType, ShepherdTour, ShepherdTourContext, Tour } from "react-shepherd";
 import { InformationButton } from "../common/button";
+import { isValidHash } from "../util/common";
 
 const Button = () => {
   const tour = useContext(ShepherdTourContext);
@@ -32,7 +33,7 @@ export const IssueInformationPanel: FunctionComponent = () => {
   );
 };
 
-const introduction = {
+const introduction: ShepherdOptionsWithType = {
   title: "Guide to Issue Certificate Hash",
   text: `
       <p> After wrapping the documents and obtaining a certificate hash (merkle root), the documents are ready to be issued on the document store smart contract. </p>
@@ -52,7 +53,7 @@ const introduction = {
   ],
 };
 
-const stepOne = {
+const stepOne: ShepherdOptionsWithType = {
   title: "Guide to Issue Certificate Hash ( Step 1 )",
   text: `
       <p>Enter the certificate hash (merkle root) into the field, note that this issuance only needs to be done once for all documents in a batch. </p>
@@ -68,12 +69,27 @@ const stepOne = {
     {
       classes: "w-full inline-flex justify-center text-sm font-medium bg-primary-default hover:bg-primary-hover",
       text: "Next",
-      type: "next",
+      action() {
+        const txtIssue = document.querySelector(".shepard-issue-txt");
+        if (txtIssue instanceof HTMLInputElement) {
+          if (txtIssue.value.length > 0 && isValidHash(txtIssue.value)) {
+            return this.next();
+          } else {
+            const errorText = `
+                <p>Enter the certificate hash (merkle root) into the field, note that this issuance only needs to be done once for all documents in a batch. </p>
+                <p>Proceed to the next step.</p>
+                <p class="text-red-600">Please enter valid targetHash (64 characters)*</p>
+            `;
+            const currentStep = this.getCurrentStep();
+            currentStep ? currentStep.updateStepOptions({ text: errorText }) : null;
+          }
+        }
+      },
     },
   ],
 };
 
-const stepTwo = {
+const stepTwo: ShepherdOptionsWithType = {
   title: "Guide to Issue Certificate Hash ( Step 2 )",
   text: `
       <p>Click on the "Issue" button to start the process.</p>
@@ -89,13 +105,13 @@ const stepTwo = {
   advanceOn: { selector: ".shepard-issue-btn", event: "click" },
 };
 
-const stepThree = {
+const stepThree: ShepherdOptionsWithType = {
   title: "Guide to Issue Certificate Hash ( Step 3 )",
   text: `
       <p>Metamask extension will display a notification that shows the transaction information.</p>
       <p>Click on the "Confirm" button and the status log will show the transaction progress.</p>
   `,
-  attachedTo: { element: ".shepherd-issue-log", on: "top" },
+  attachTo: { element: ".shepherd-issue-log", on: "top" },
   buttons: [
     {
       classes: "w-full inline-flex justify-center text-sm font-medium bg-secondary-default hover:bg-secondary-hover",
@@ -110,7 +126,7 @@ const stepThree = {
   ],
 };
 
-const stepComplete = {
+const stepComplete: ShepherdOptionsWithType = {
   title: "Guide to Issue Certificate Hash ( Complete )",
   text: `
       <p>You have successfully issued your document</p>

@@ -32,6 +32,7 @@ export const DeployInformationPanel: FunctionComponent = () => {
     },
     useModalOverlay: true,
   };
+
   return (
     <ShepherdTour steps={guideSteps} tourOptions={tourOptions}>
       <Button />
@@ -59,7 +60,7 @@ const introduction = {
   ],
 };
 
-const stepOne = {
+const stepOne: ShepherdOptionsWithType = {
   title: "Guide to Deploy Document Store ( Step 1 )",
   text: '<p>Click on the "Deploy New Document Store", This will open up pop-up.</p>',
   attachTo: { element: ".shepherd-deploy-modal-btn", on: "left" },
@@ -73,7 +74,7 @@ const stepOne = {
   advanceOn: { selector: ".shepherd-deploy-modal-btn", event: "click" },
 };
 
-const stepTwo = {
+const stepTwo: ShepherdOptionsWithType = {
   title: "Guide to Deploy Document Store ( Step 2 )",
   text: `
       <p>Enter your organisation name into the field.</p>
@@ -84,12 +85,27 @@ const stepTwo = {
     {
       classes: "w-full inline-flex justify-center text-sm font-medium bg-primary-default hover:bg-primary-hover ",
       text: "Next",
-      type: "next",
+      action() {
+        const txtShepherdOrganisation = document.querySelector(".shepherd-organisation-txt");
+        if (txtShepherdOrganisation instanceof HTMLInputElement) {
+          if (txtShepherdOrganisation.value.length > 0) {
+            return this.next();
+          } else {
+            const errorText = `
+                <p>Enter your organisation name into the field.</p>
+                <p>Proceed to the next step.</p>
+                <p class="text-red-600">Please enter your organisation name*</p>
+            `;
+            const currentStep = this.getCurrentStep();
+            currentStep ? currentStep.updateStepOptions({ text: errorText }) : null;
+          }
+        }
+      },
     },
   ],
 };
 
-const stepThree = {
+const stepThree: ShepherdOptionsWithType = {
   title: "Guide to Deploy Document Store ( Step 3 )",
   text: '<p>Click on the "Deploy" button to start the process.</p>',
   attachTo: { element: ".shepherd-deploy-btn", on: "left" },
@@ -103,7 +119,7 @@ const stepThree = {
   advanceOn: { selector: ".shepherd-deploy-btn", event: "click" },
 };
 
-const stepFour = {
+const stepFour: ShepherdOptionsWithType = {
   title: "Guide to Deploy Document Store ( Step 4 )",
   text: `
       <p>Metamask extension will display a notification that shows the transaction information.</p>
@@ -124,7 +140,7 @@ const stepFour = {
   ],
 };
 
-const stepComplete = {
+const stepComplete: ShepherdOptionsWithType = {
   title: "Guide to Deploy Document Store ( Complete )",
   text: `
       <p>You have successfully created your document store, the new document store address will be auto populated.</p>
