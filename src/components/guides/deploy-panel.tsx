@@ -61,7 +61,7 @@ const introduction = {
 
 const stepOne = {
   title: "Guide to Deploy Document Store ( Step 1 )",
-  text: '<p>Click on the "Deploy New Document Store", This will open up dialog.</p>',
+  text: '<p>Click on the "Deploy New Document Store", This will open up pop-up.</p>',
   attachTo: { element: ".shepherd-deploy-modal-btn", on: "left" },
   buttons: [
     {
@@ -77,7 +77,7 @@ const stepTwo = {
   title: "Guide to Deploy Document Store ( Step 2 )",
   text: `
       <p>Enter your organisation name into the field.</p>
-      <p>Proceed to next step.</p>
+      <p>Proceed to the next step.</p>
       `,
   attachTo: { element: ".shepherd-organisation-txt", on: "right" },
   buttons: [
@@ -127,8 +127,8 @@ const stepFour = {
 const stepComplete = {
   title: "Guide to Deploy Document Store ( Complete )",
   text: `
-      <p>You have successfully create your document store, the new document store address will be auto populated.</p>
-      <p>You can begin issue or revoke documents using the new document store.</p> 
+      <p>You have successfully created your document store, the new document store address will be auto populated.</p>
+      <p>You can begin to issue or revoke documents using the new document store.</p> 
       <p>For more information on document store, Please visit 
           <a href="https://www.openattestation.com/docs/verifiable-document/document-store" class="text-blue-900 underline" target="_blank">
             OpenAttestation Document

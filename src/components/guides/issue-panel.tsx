@@ -36,7 +36,7 @@ const introduction = {
   title: "Guide to Issue Certificate Hash",
   text: `
       <p> After wrapping the documents and obtaining a certificate hash (merkle root), the documents are ready to be issued on the document store smart contract. </p>
-      <p> In this guide, we will show you step by step instructions to issue the wrapped document.</p>
+      <p> In this guide, we will show you step by step instructions to issue the certificates or the certificate hash.</p>
   `,
   buttons: [
     {
@@ -56,7 +56,7 @@ const stepOne = {
   title: "Guide to Issue Certificate Hash ( Step 1 )",
   text: `
       <p>Enter the certificate hash (merkle root) into the field, note that this issuance only needs to be done once for all documents in a batch. </p>
-      <p> Proceed to next step.</p>
+      <p>Proceed to the next step.</p>
   `,
   attachTo: { element: ".shepard-issue-txt", on: "right" },
   buttons: [

@@ -62,8 +62,8 @@ const introduction = {
 const stepOne = {
   title: "Guide to Revoke Certificate Hash ( Step 1 )",
   text: `
-      <p>Revoking document require the document targetHash. The targetHash can be found in the field of one of the previously wrapped documents (open one of the document, check for the targetHash under signature).</p>
-      <p>Enter the targetHash into the field and proceed to next step.</p>
+      <p>Revoking document require the document targetHash. The targetHash can be found in the field of one of the previously issued documents (open one of the document, check for the targetHash under signature).</p>
+      <p>Enter the targetHash into the field and proceed to the next step.</p>
   `,
   attachTo: { element: ".shepard-revoke-txt", on: "left" },
   buttons: [
