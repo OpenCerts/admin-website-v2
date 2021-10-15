@@ -77,7 +77,7 @@ export const RevokeBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docum
             onClick={() => revokeConfirmation()}
             className="tw-full inline-flex justify-center text-sm font-medium shepard-revoke-btn"
             dataTestId="revoke-btn"
-            disabled={processing}
+            disabled={processing || !isValidHash(certificateHash)}
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             <span>Revoke</span>
