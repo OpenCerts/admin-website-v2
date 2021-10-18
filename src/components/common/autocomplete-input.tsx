@@ -15,8 +15,9 @@ const AutoCompleteStyle = styled.div`
     font-family: Helvetica, sans-serif;
     font-weight: 300;
     font-size: 16px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
+    border-width: 2px;
+    border-color: rgba(75, 85, 99, 1);
+    border-radius: 0.25em;
   }
 
   .react-autosuggest__input--focused {

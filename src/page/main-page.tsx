@@ -51,7 +51,6 @@ export const MainPage: FunctionComponent = () => {
   const [activeSubFeatureBlock, setActiveSubFeatureBlock] = useState(subFeatureBlocks[0].subFeature);
   const subFeatureBlockArray = subFeatureBlocks.filter((blockData) => blockData.feature === activeFeatureBlock);
   const [isConnected, setIsConnected] = useState(false);
-
   return (
     <>
       <Header isConnected={isConnected} setIsConnected={setIsConnected} />
@@ -86,11 +85,13 @@ export const MainPage: FunctionComponent = () => {
             })}
           </div>
           {activeFeatureBlock === "issue-revoke" && (
-            <StoreDeployBlock
-              documentStoreAddress={documentStoreAddress}
-              setDocumentStoreAddress={setDocumentStoreAddress}
-              setDocumentStoreStatus={setDocumentStoreStatus}
-            />
+            <>
+              <StoreDeployBlock
+                documentStoreAddress={documentStoreAddress}
+                setDocumentStoreAddress={setDocumentStoreAddress}
+                setDocumentStoreStatus={setDocumentStoreStatus}
+              />
+            </>
           )}
           {activeFeatureBlock === "cancel-pending" && <CancelBlock />}
 
@@ -120,6 +121,7 @@ export const MainPage: FunctionComponent = () => {
                 );
               })}
           </div>
+
           {documentStoreStatus && activeFeatureBlock === "issue-revoke" && activeSubFeatureBlock === "revoke" && (
             <RevokeBlock documentStoreAddress={documentStoreAddress} />
           )}

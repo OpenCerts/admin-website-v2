@@ -36,3 +36,11 @@
 button {
   font-size: calc(10px + 2vmin);
 }
+
+p{
+  margin-bottom:10px;
+}
+
+#root {
+  min-height: 100vh;
+}

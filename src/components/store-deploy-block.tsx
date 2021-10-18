@@ -8,6 +8,7 @@ import { getWalletNetwork } from "./util/wallet";
 import { deployDocumentStore as deploy } from "./util/deploy";
 import { getEtherscanAddress } from "./util/common";
 import { isAddress } from "ethers/lib/utils";
+import { DeployInformationPanel } from "./guides/information-panels";
 import { retrieveDocumentStoreInLocalStorage, storeDocumentStoreInLocalStorage } from "./util/document-store";
 import { AutoCompleteInput } from "./common/autocomplete-input";
 
@@ -25,6 +26,7 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   const [showModal, setShowModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [documentStoreName, setDocumentStoreName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [localDocumentStores, setLocalDocumentStores] = useState<string[]>([]);
   const [filteredSuggestion, setFilteredSuggestion] = useState<string[]>([]);
   const [log, setLog] = useState("");
@@ -39,6 +41,8 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
   };
 
   const deployDocumentStore = async () => {
+    setErrorMessage("");
+    setLog("");
     if (documentStoreName !== "") {
       setProcessing(true);
       const transaction = await deploy(documentStoreName, setLog);
@@ -54,8 +58,10 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         storeDocumentStoreInLocalStorage(transaction.contractAddress);
         validateStorageAddress(transaction.contractAddress);
       }
+      setProcessing(false);
+    } else {
+      setErrorMessage("Please fill in your organisation name");
     }
-    setProcessing(false);
   };
 
   const onSuggestionsFetchRequested = async (value: string, reason: string): Promise<void> => {
@@ -70,25 +76,22 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
     }
   };
 
-  const clearDeployStatus = () => {
-    setLog("");
-    setShowModal(false);
-  };
-
   return (
     <>
       <div className={`md:flex max-w-screen-lg w-full px-4 mt-10 mx-auto`}>
-        <label className="max-w-lg w-full text-left">
-          <p>Document Store Address</p>
+        <div className="max-w-lg w-full text-left">
+          <label className="inline">Document Store Address</label>
+          <DeployInformationPanel />
           <AutoCompleteInput
             onSuggestionsFetchRequested={onSuggestionsFetchRequested}
             filteredSuggestion={filteredSuggestion}
             inputValue={documentStoreAddress}
             inputOnChange={validateStorageAddress}
-            placeHolder="Enter existing (0x…), or deploy new instance."
+            placeHolder="Enter document store address (0x...)"
             id="document-store"
           />
-        </label>
+        </div>
+
         <p className="text-center my-4 text-gray-400 md:hidden">Or</p>
         <div className="md:ml-auto mt-auto">
           <PrimaryButton
@@ -96,9 +99,9 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
               setShowModal(true);
               setDocumentStoreName("");
             }}
-            className="text-sm w-full font-medium"
+            className="text-sm w-full font-medium shepherd-deploy-modal-btn"
           >
-            <span>Deploy New Instance</span>
+            <span>Deploy New Document Store</span>
           </PrimaryButton>
         </div>
       </div>
@@ -107,25 +110,29 @@ export const StoreDeployBlock: FunctionComponent<DocumentStoreAddressProps> = ({
         <div className="sm:items-start w-full">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Deploy Document Store</h3>
           <TextInput
-            className={"w-full mt-3"}
+            className={"w-full mt-3 shepherd-organisation-txt"}
             onChange={(value) => setDocumentStoreName(value)}
-            placeHolder="Name of Organisation."
+            placeHolder="Enter organisation name."
             value={documentStoreName}
           />
+          <p className={"text-red-600 break-all"} data-testid="error-message">
+            {errorMessage}
+          </p>
         </div>
         <div className="sm:flex pt-5">
-          <SecondaryButton onClick={() => clearDeployStatus()} className="w-full mr-5 text-sm font-medium">
+          <SecondaryButton onClick={() => setShowModal(false)} className="w-full mr-5 text-sm font-medium">
             Close
           </SecondaryButton>
           <PrimaryButton
             onClick={deployDocumentStore}
-            className="w-full inline-flex justify-center text-sm font-medium"
+            className="w-full inline-flex justify-center text-sm font-medium shepherd-deploy-btn"
+            disabled={processing || documentStoreName.length === 0}
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             Deploy
           </PrimaryButton>
         </div>
-        <Logger log={log} />
+        <Logger log={log} className={"shepherd-deploy-log"} />
       </ModalDialog>
     </>
   );

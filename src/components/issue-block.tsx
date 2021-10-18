@@ -6,6 +6,7 @@ import { Logger } from "./common/logger";
 import { isValidHash, getEtherscanAddress } from "./util/common";
 import { issueCertificateHash as issue } from "./util/issue";
 import { getWalletNetwork } from "./util/wallet";
+import { IssueInformationPanel } from "./guides/information-panels";
 import { storeDocumentStoreInLocalStorage } from "./util/document-store";
 
 interface DocumentStoreAddressProp {
@@ -17,7 +18,6 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
   const [certificateHash, setCertificateHash] = useState("");
   const [log, setLog] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
   const validateCertificateHash = (value: string) => {
     if (isValidHash(value)) {
@@ -28,7 +28,6 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
   };
 
   const issueCertificateHash = async () => {
-    setSuccessMessage("");
     setErrorMessage("");
     setProcessing(true);
 
@@ -45,11 +44,8 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
           network: await getWalletNetwork(),
         });
         storeDocumentStoreInLocalStorage(documentStoreAddress);
-        setSuccessMessage(
-          `Document/Document Batch with hash ${certificateHash} has been issued to ${documentStoreAddress}`
-        );
         setLog(
-          `Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
+          `Document/Document Batch with hash ${certificateHash} has been issued to ${documentStoreAddress}. <br/><br/>Find more details at <a href="${etherscanNetwork}/tx/${transaction.transactionHash}" target="_blank">${etherscanNetwork}/tx/${transaction.transactionHash}</a>.`
         );
       }
     }
@@ -60,26 +56,25 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
   return (
     <div className="mb-16">
       <div className={`md:flex max-w-screen-lg w-full px-4 mx-auto mt-8`}>
-        <label className="max-w-lg w-full text-left">
-          <p>Issue certificates with the Merkle Root Hash</p>
+        <div className={"max-w-lg w-full text-left"}>
+          <label className="inline">Issue certificates with the Merkle Root Hash</label>
+          <IssueInformationPanel />
           <TextInput
-            className={`w-full mt-3`}
-            placeHolder="0x..."
+            className={`w-full mt-3 shepard-issue-txt`}
+            placeHolder="Enter merkle root hash (0x...)"
             onChange={validateCertificateHash}
             dataTestId="issue-certificate"
           />
           <p className={"text-red-600 break-all"} data-testid="error-message">
             {errorMessage}
           </p>
-          <p className={"text-green-600 break-all"} data-testid="success-message">
-            {successMessage}
-          </p>
-        </label>
+        </div>
         <div className="w-auto md:w-fit md:ml-auto mt-9">
           <PrimaryButton
             onClick={() => issueCertificateHash()}
-            className="w-full inline-flex justify-center text-sm font-medium"
+            className="w-full inline-flex justify-center text-sm font-medium shepard-issue-btn"
             dataTestId="issue-certificate-btn"
+            disabled={processing || !isValidHash(certificateHash)}
           >
             {processing && <Spinner className="w-5 h-5 mr-2" />}
             <span>Issue</span>
@@ -87,7 +82,7 @@ export const IssueBlock: FunctionComponent<DocumentStoreAddressProp> = ({ docume
         </div>
       </div>
 
-      <Logger log={log} className="px-4" />
+      <Logger log={log} className="px-4 shepherd-issue-log" dataTestId="issue-log" />
     </div>
   );
 };
