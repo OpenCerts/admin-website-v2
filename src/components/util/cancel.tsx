@@ -5,7 +5,7 @@ import { ethers, BigNumber } from "ethers";
 interface pendingTransactionProps {
   transactionHash: string;
   nonce: number;
-  gasPrice: BigNumber;
+  gasPrice: BigNumber | undefined;
 }
 
 export const getPendingTransaction = async (
