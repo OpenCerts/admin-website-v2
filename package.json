@@ -12,7 +12,7 @@
     "serve": "npm run build && vite preview",
     "test": "jest",
     "test:watch": "jest --watch",
-    "integration:blockchain": "ganache-cli --mnemonic \"indicate swing place chair flight used hammer soon photo region volume shuffle\"",
+    "integration:blockchain": "ganache --mnemonic \"indicate swing place chair flight used hammer soon photo region volume shuffle\"",
     "integration:local": "npm run serve",
     "integration:metamask": "npm-run-all --serial integration:wait \"integration:transfers {1} \" --",
     "integration:wait": "wait-on -l -i 1000 tcp:8545 http-get://localhost:5000",
@@ -30,7 +30,6 @@
     "html-react-parser": "^1.2.6",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "react-scripts": "^5.0.1",
     "react-shepherd": "^3.3.3"
   },
   "devDependencies": {
@@ -59,7 +58,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eth-rpc-errors": "^4.0.3",
     "expect-puppeteer": "^9.0.0",
-    "ganache-cli": "^6.12.2",
+    "ganache": "^7.9.1",
     "jest": "^27.0.4",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.3.5",
@@ -67,6 +66,7 @@
     "prettier": "^2.3.1",
     "puppeteer": "^21.3.5",
     "react-autosuggest": "^10.1.0",
+    "react-scripts": "^5.0.1",
     "tailwindcss": "^2.2.0",
     "typescript": "^4.9.5",
     "vite": "^2.3.7",
