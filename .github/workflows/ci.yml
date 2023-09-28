@@ -42,7 +42,7 @@ jobs:
         run: npm run test
 
       - name: Integration - dappeteer
-        uses: mujo-code/puppeteer-headful@16.6.0
+        uses: mujo-code/puppeteer-headful@master
         env:
           CI: "true"
         with:
