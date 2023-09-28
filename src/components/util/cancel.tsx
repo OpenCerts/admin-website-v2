@@ -5,7 +5,7 @@ import { ethers, BigNumber } from "ethers";
 interface pendingTransactionProps {
   transactionHash: string;
   nonce: number;
-  gasPrice: BigNumber | undefined;
+  gasPrice: BigNumber;
 }
 
 export const getPendingTransaction = async (
@@ -18,12 +18,15 @@ export const getPendingTransaction = async (
       log ? log(`Retrieving Transaction Data.`) : null;
       const defaultProvider = ethers.getDefaultProvider(wallet.network);
       const { gasPrice, nonce } = await defaultProvider.getTransaction(transactionHash);
-      log ? log(`Transaction Data Retrieved.`) : null;
-      return {
-        transactionHash: transactionHash,
-        nonce: nonce,
-        gasPrice: gasPrice,
-      };
+      if (gasPrice && nonce) {
+        log ? log(`Transaction Data Retrieved.`) : null;
+        return {
+          transactionHash: transactionHash,
+          nonce: nonce,
+          gasPrice: gasPrice,
+        };
+      }
+      log ? log("Error in retrieving transaction.") : null;
     } else {
       log ? log("Error in retrieving wallet network.") : null;
     }
