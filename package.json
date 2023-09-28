@@ -17,7 +17,7 @@
     "integration:metamask": "npm-run-all --serial integration:wait \"integration:transfers {1} \" --",
     "integration:wait": "wait-on -l -i 1000 tcp:8545 http-get://localhost:5000",
     "integration:transfers": "node --experimental-modules ./integration/index.mjs",
-    "integration:dappeteer": "npm-run-all --parallel integration:blockchain integration:local \"integration:metamask {1}\" --race --",
+    "integration:dappeteer": "export NODE_OPTIONS=--openssl-legacy-provider && npm-run-all --parallel integration:blockchain integration:local \"integration:metamask {1}\" --race --",
     "lint": "eslint ./src ./integration --ext .js,.ts,.tsx,.mjs --max-warnings 0",
     "lint:fix": "npm run lint -- --fix"
   },
