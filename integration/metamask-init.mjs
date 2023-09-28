@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import dappeteer from "dappeteer";
+import dappeteer from "@chainsafe/dappeteer";
 
 export const metamaskInit = async () => {
   try {
