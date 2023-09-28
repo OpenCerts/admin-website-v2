@@ -13,8 +13,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '18'
-      - if: matrix.node-version >= '17'
-        run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
+      - run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
       - name: Cache Node Modules
         uses: actions/cache@v2
         env:
