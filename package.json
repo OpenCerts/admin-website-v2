@@ -56,6 +56,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eth-rpc-errors": "^4.0.3",
     "expect-puppeteer": "^9.0.0",
     "ganache-cli": "^6.12.2",
     "jest": "^27.0.4",
@@ -66,7 +67,7 @@
     "puppeteer": "^21.3.5",
     "react-autosuggest": "^10.1.0",
     "tailwindcss": "^2.2.0",
-    "typescript": "^4.3.4",
+    "typescript": "^4.9.5",
     "vite": "^2.3.7",
     "wait-on": "^5.3.0"
   },

@@ -31,7 +31,11 @@ export const getPendingTransaction = async (
       log ? log("Error in retrieving wallet network.") : null;
     }
   } catch (e) {
-    log ? log(e.message) : null;
+    if (e instanceof Error) {
+      log ? log(e.message) : null;
+    } else {
+      log ? log("Unable to get transaction") : null;
+    }
   }
 
   return undefined;
@@ -55,6 +59,10 @@ export const cancelPendingTransaction = async (
       log ? log(`Transaction has been successfully cancelled.`) : null;
     }
   } catch (e) {
-    log ? log(e.message) : null;
+    if (e instanceof Error) {
+      log ? log(e.message) : null;
+    } else {
+      log ? log("Unable to cancel transaction") : null;
+    }
   }
 };
