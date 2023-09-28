@@ -15,7 +15,7 @@
     "integration:blockchain": "ganache --mnemonic \"indicate swing place chair flight used hammer soon photo region volume shuffle\"",
     "integration:local": "npm run serve",
     "integration:metamask": "npm-run-all --serial integration:wait \"integration:transfers {1} \" --",
-    "integration:wait": "wait-on -l -i 1000 tcp:8545 http-get://localhost:5000",
+    "integration:wait": "wait-on --timeout 5000 -l -i 1000 tcp:8545 http-get://localhost:4173",
     "integration:transfers": "node --experimental-modules ./integration/index.mjs",
     "integration:dappeteer": "npm-run-all --parallel integration:blockchain integration:local \"integration:metamask {1}\" --race --",
     "lint": "eslint ./src ./integration --ext .js,.ts,.tsx,.mjs --max-warnings 0",
