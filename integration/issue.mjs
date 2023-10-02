@@ -4,7 +4,7 @@ import { sleep, waitForAndClickElement, waitForElement } from "./utils.mjs";
 export const issue = async (metamask, browser) => {
   try {
     const page = await browser.newPage();
-    await page.goto("http://localhost:5173/", { waitUntil: "networkidle" });
+    await page.goto("http://localhost:4173/", { waitUntil: "networkidle" });
 
     // START - approve application once, subsequent tests no longer need
     await metamask.approve();
