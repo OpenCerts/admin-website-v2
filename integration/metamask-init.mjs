@@ -7,7 +7,13 @@ export const metamaskInit = async () => {
     const browser = await dappeteer.launch({
       metaMaskVersion: "v10.31.0",
       automation: "puppeteer",
-      headless: true,
+      headless: false,
+      puppeteerOptions: {
+        args: ["--no-sandbox"],
+        executablePath: process.env.PUPPETEER_EXEC_PATH,
+        defaultViewport: null,
+        slowMo: process.argv[2] || 0,
+      },
     });
 
     await sleep(2000);
