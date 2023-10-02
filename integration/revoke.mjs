@@ -4,7 +4,7 @@ import { sleep, waitForAndClickElement, waitForElement } from "./utils.mjs";
 export const revoke = async (metamask, browser) => {
   try {
     const page = await browser.newPage();
-    await page.goto("http://localhost:4173/");
+    await page.goto("http://localhost:5173/");
 
     await waitForAndClickElement(page, "[data-testid='connectToWallet']");
 
