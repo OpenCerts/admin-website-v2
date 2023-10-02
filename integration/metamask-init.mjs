@@ -42,12 +42,8 @@ export const metamaskInit = async () => {
       }, 2000);
     } catch (e) {
       // ignore error
-      for (const page of pages) {
-        if (page.url().startsWith("chrome-extension")) {
-          await page.reload();
-        }
-      }
     }
+
     await addNetworkPromise;
 
     console.info("✅ Metamask account init success");

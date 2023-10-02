@@ -8,7 +8,6 @@ const issueAndRevoke = async () => {
   await issue(metamask, browser);
   await revoke(metamask, browser);
 
-  await browser.close();
   process.exit(0);
 };
 
