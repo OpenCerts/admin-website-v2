@@ -7,7 +7,7 @@ export const addNetwork = async () => {
         chainName: "Localhost 8545",
         nativeCurrency: {
           name: "ETH",
-          symbol: "ETH", // 2-6 characters long
+          symbol: "ETH",
           decimals: 18,
         },
         rpcUrls: ["http://localhost:8545"],
