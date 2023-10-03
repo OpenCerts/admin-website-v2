@@ -19,9 +19,9 @@ export const revokeCertificateHash = async (
     return transaction.wait();
   } catch (e) {
     if (e instanceof Error) {
-      log ? log(e.message) : null;
+      log ? log(e.message) : console.error(e.message);
     } else {
-      log ? log("Unable to revoke certificate") : null;
+      log ? log(`Unable to revoke certificate ${e}`) : console.error("Unable to revoke certificate", e);
     }
   }
 };

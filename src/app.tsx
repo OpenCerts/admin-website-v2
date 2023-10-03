@@ -22,7 +22,9 @@ const App: FunctionComponent = () => {
       }
     } catch (e) {
       if (e instanceof EthereumProviderError) {
-        e.code === 4001 ? setMetamaskConnected(true) : console.debug(e);
+        e.code === 4001 ? setMetamaskConnected(true) : console.error("Unable to connect to Metamask", e);
+      } else {
+        console.error("Unable to connect to Metamask", e);
       }
     }
   };

@@ -32,9 +32,9 @@ export const getPendingTransaction = async (
     }
   } catch (e) {
     if (e instanceof Error) {
-      log ? log(e.message) : null;
+      log ? log(e.message) : console.error(e.message);
     } else {
-      log ? log("Unable to get transaction") : null;
+      log ? log(`Unable to get transaction ${e}`) : console.error("Unable to get transaction", e);
     }
   }
 
@@ -60,9 +60,9 @@ export const cancelPendingTransaction = async (
     }
   } catch (e) {
     if (e instanceof Error) {
-      log ? log(e.message) : null;
+      log ? log(e.message) : console.error(e.message);
     } else {
-      log ? log("Unable to cancel transaction") : null;
+      log ? log("Unable to cancel transaction") : console.error("Unable to cancel transaction");
     }
   }
 };
