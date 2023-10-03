@@ -3,6 +3,7 @@ import "./app.css";
 import { MainPage } from "./page/main-page";
 import { MetaMaskError } from "./page/metamask-error";
 import { MetaMaskPending } from "./page/metamask-pending";
+import { EthereumProviderError } from "eth-rpc-errors";
 
 const App: FunctionComponent = () => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
@@ -20,7 +21,11 @@ const App: FunctionComponent = () => {
         accounts.length > 0 ? setMetamaskConnected(true) : setMetamaskConnected(false);
       }
     } catch (e) {
-      e.code === 4001 ? setMetamaskConnected(true) : console.debug(e);
+      if (e instanceof EthereumProviderError) {
+        e.code === 4001 ? setMetamaskConnected(true) : console.error("Unable to connect to Metamask", e);
+      } else {
+        console.error("Unable to connect to Metamask", e);
+      }
     }
   };
 

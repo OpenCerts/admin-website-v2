@@ -6,9 +6,9 @@ describe("getEtherscanAddress", () => {
     expect(getEtherscanAddress(input)).toBe("https://etherscan.io");
   });
 
-  test("return ropsten.etherscan when wallet is in ropsten chain", () => {
-    const input = { network: "ropsten" };
-    expect(getEtherscanAddress(input)).toBe("https://ropsten.etherscan.io");
+  test("return sepolia.etherscan when wallet is in sepolia chain", () => {
+    const input = { network: "sepolia" };
+    expect(getEtherscanAddress(input)).toBe("https://sepolia.etherscan.io");
   });
 });
 

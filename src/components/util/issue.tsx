@@ -18,6 +18,10 @@ export const issueCertificateHash = async (
     log ? log(`Waiting for transaction ${transaction.hash} to be processed.`) : null;
     return transaction.wait();
   } catch (e) {
-    log ? log(e.message) : null;
+    if (e instanceof Error) {
+      log ? log(e.message) : console.error(e.message);
+    } else {
+      log ? log(`Unable to issue certificate ${e}`) : console.error("Unable to issue certificate", e);
+    }
   }
 };

@@ -10,10 +10,11 @@ export const deployDocumentStore = async (
   try {
     log ? log("Decrypting wallet.") : null;
     const signer = await getSigner();
+    const signerAddress = await signer.getAddress();
     log ? log("Wallet successfully decrypted.") : null;
     const factory = new DocumentStoreFactory(signer);
     log ? log(`Please confirm transaction at MetaMask extension.`) : null;
-    const transaction = await factory.deploy(storeName);
+    const transaction = await factory.deploy(storeName, signerAddress);
     const transactioHash = transaction.deployTransaction.hash;
     const etherscanNetwork = getEtherscanAddress({
       network: await getWalletNetwork(),
