@@ -34,17 +34,13 @@ export const metamaskInit = async () => {
     // https://github.com/ChainSafe/dappeteer/blob/b79ab4c74fab87747933d8f428624dcbffc3dd19/test/basic.spec.ts#L117-L119
     const dappPage = await browser.newPage();
     await dappPage.goto("https://github.com", { waitUntil: "networkidle" });
+    dappPage.evaluate(addNetwork);
 
-    const addNetworkPromise = dappPage.evaluate(addNetwork);
     try {
-      setTimeout(async () => {
-        await metamask.acceptAddNetwork(true);
-      }, 2000);
+      await metamask.acceptAddNetwork(true);
     } catch (e) {
       // ignore error
     }
-
-    await addNetworkPromise;
 
     console.info("✅ Metamask account init success");
     return { metamask, browser };
