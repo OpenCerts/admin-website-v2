@@ -146,7 +146,7 @@ const stepComplete: ShepherdOptionsWithType = {
       <p>You have successfully created your document store, the new document store address will be auto populated.</p>
       <p>You can begin to issue or revoke documents using the new document store.</p> 
       <p>For more information on document store, Please visit 
-          <a href="https://www.openattestation.com/docs/verifiable-document/document-store" class="text-blue-900 underline" target="_blank">
+          <a href="https://www.openattestation.com/docs/ethereum-section/document-store" class="text-blue-900 underline" target="_blank">
             OpenAttestation Document
           </a>
       </p>`,
