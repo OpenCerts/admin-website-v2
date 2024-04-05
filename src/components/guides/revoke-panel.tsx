@@ -138,7 +138,7 @@ const stepComplete: ShepherdOptionsWithType = {
   text: `
       <p>You have successfully revoked your document</p>
       <p>For more information on revoking documents, Please visit   
-        <a href="https://www.openattestation.com/docs/verifiable-document/revoking-document" class="text-blue-900 underline" target="_blank"> 
+        <a href="https://www.openattestation.com/docs/ethereum-section/revoke-document-eth/revoke-eth" class="text-blue-900 underline" target="_blank"> 
           OpenAttestation Documentation.
         </a>
       </p>

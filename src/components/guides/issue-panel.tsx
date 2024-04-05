@@ -131,7 +131,7 @@ const stepComplete: ShepherdOptionsWithType = {
   text: `
       <p>You have successfully issued your document</p>
       <p>For more information on issuing documents, Please visit   
-        <a href="https://www.openattestation.com/docs/verifiable-document/issuing-document" class="text-blue-900 underline" target="_blank"> 
+        <a href="https://www.openattestation.com/docs/ethereum-section/issue-document" class="text-blue-900 underline" target="_blank"> 
           OpenAttestation Documentation.
         </a>
       </p>
