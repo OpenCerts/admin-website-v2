@@ -4,7 +4,7 @@
   "hasInstallScript": "true",
   "scripts": {
     "dev": "vite --port 4173",
-    "build": "tsc && npm run build:css && vite build",
+    "build": "tsc && npm run build:css && vite build && cp ./_headers ./dist",
     "build:css": "postcss src/tailwind.css -o src/index.css",
     "start": "npm-run-all -p start:*",
     "start:css": "postcss src/tailwind.css -o src/index.css --watch",
