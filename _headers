@@ -1,3 +1,3 @@
 /*
   X-Frame-Options: DENY
-  Content-Security-Policy: default-src 'self'; script-src 'unsafe-eval'; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self' :data; script-src 'self' 'unsafe-eval'; frame-ancestors 'none';
