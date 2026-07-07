@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-// TODO: replace with the real migration guide URL
-const MIGRATION_GUIDE_URL = "https://docs.tradetrust.io/docs/migration-guide/trustvc";
+const MIGRATION_GUIDE_URL = "https://docs.opencerts.io/docs/migrations/oa_to_trustvc";
 
 export const MigrationBanner: FunctionComponent = () => (
   <div
