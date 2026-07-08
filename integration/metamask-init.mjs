@@ -33,7 +33,7 @@ export const metamaskInit = async () => {
     // Add network
     // https://github.com/ChainSafe/dappeteer/blob/b79ab4c74fab87747933d8f428624dcbffc3dd19/test/basic.spec.ts#L117-L119
     const dappPage = await browser.newPage();
-    await dappPage.goto("https://github.com", { waitUntil: "networkidle" });
+    await dappPage.goto("https://github.com", { waitUntil: "networkidle0" });
     dappPage.evaluate(addNetwork);
 
     try {
