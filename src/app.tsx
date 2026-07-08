@@ -4,6 +4,7 @@ import { MainPage } from "./page/main-page";
 import { MetaMaskError } from "./page/metamask-error";
 import { MetaMaskPending } from "./page/metamask-pending";
 import { EthereumProviderError } from "eth-rpc-errors";
+import { MigrationBanner } from "./components/common/migration-banner";
 
 const App: FunctionComponent = () => {
   const [metamaskConnected, setMetamaskConnected] = useState(false);
@@ -30,10 +31,20 @@ const App: FunctionComponent = () => {
   };
 
   if (!window.ethereum) {
-    return <MetaMaskError />;
+    return (
+      <>
+        <MigrationBanner />
+        <MetaMaskError />
+      </>
+    );
   }
 
-  return metamaskConnected ? <MainPage /> : <MetaMaskPending />;
+  return (
+    <>
+      <MigrationBanner />
+      {metamaskConnected ? <MainPage /> : <MetaMaskPending />}
+    </>
+  );
 };
 
 export default App;
