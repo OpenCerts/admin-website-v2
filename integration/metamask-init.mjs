@@ -57,7 +57,12 @@ export const metamaskInit = async () => {
       headless: false,
       puppeteerOptions: {
         args: ["--no-sandbox"],
-        executablePath: process.env.PUPPETEER_EXEC_PATH,
+        // Deliberately NOT using process.env.PUPPETEER_EXEC_PATH here: the
+        // puppeteer-headful Docker image points it at the system's current
+        // google-chrome-stable, which no longer supports the Manifest V2
+        // extension format this pinned MetaMask build uses. Puppeteer's own
+        // bundled Chrome (pinned to a version from when MV2 still worked)
+        // is fetched by the integration:prefetch-chromium script instead.
         defaultViewport: null,
         slowMo: process.argv[2] || 0,
       },
