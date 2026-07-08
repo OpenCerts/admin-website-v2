@@ -5,10 +5,10 @@ import { sleep } from "./utils.mjs";
 // dappeteer's setupMetaMask() waits on a browser "targetcreated" event with no timeout
 // and no fallback if the extension never opens its home.html tab. Wrap it so a stuck
 // extension fails fast with diagnostics instead of hanging until the CI job is killed.
-const withDiagnosticTimeout = (promise, browser, ms) =>
+const withDiagnosticTimeout = (promise, rawBrowser, ms) =>
   new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
-      dumpDiagnostics(browser).finally(() => {
+      dumpDiagnostics(rawBrowser).finally(() => {
         reject(new Error(`Timed out after ${ms}ms waiting for MetaMask setup`));
       });
     }, ms);
@@ -24,21 +24,29 @@ const withDiagnosticTimeout = (promise, browser, ms) =>
     );
   });
 
-const dumpDiagnostics = async (browser) => {
+const dumpDiagnostics = async (rawBrowser) => {
   try {
-    const pages = await browser.pages();
+    const pages = await rawBrowser.pages();
     console.info(`Open pages at timeout (${pages.length}):`);
     for (const [i, page] of pages.entries()) {
       console.info(`  [${i}] ${page.url()}`);
     }
     const lastPage = pages[pages.length - 1];
     if (lastPage) {
-      await lastPage.screenshot({ path: "integration/debug-metamask-timeout.png" });
+      await lastPage.screenshot({ path: "integration/debug-metamask-timeout.png", fullPage: true });
       console.info("Saved screenshot to integration/debug-metamask-timeout.png");
     }
   } catch (diagError) {
     console.error("Failed to capture MetaMask timeout diagnostics:", diagError);
   }
+};
+
+const wireConsoleLogging = (page, label) => {
+  page.on("console", (msg) => console.info(`[console ${label}] ${msg.text()}`));
+  page.on("pageerror", (err) => console.info(`[pageerror ${label}] ${err}`));
+  page.on("requestfailed", (req) => {
+    console.info(`[requestfailed ${label}] ${req.url()} ${req.failure()?.errorText ?? ""}`);
+  });
 };
 
 export const metamaskInit = async () => {
@@ -54,6 +62,21 @@ export const metamaskInit = async () => {
         slowMo: process.argv[2] || 0,
       },
     });
+    const rawBrowser = browser.getSource();
+
+    // Surface every target and its console/page errors as soon as they happen, so a
+    // failed extension load is visible instead of a silent hang.
+    rawBrowser.on("targetcreated", async (target) => {
+      console.info(`[target created] type=${target.type()} url=${target.url()}`);
+      const page = await target.page().catch(() => null);
+      if (page) {
+        wireConsoleLogging(page, target.url());
+      }
+    });
+    for (const page of await rawBrowser.pages()) {
+      console.info(`[existing target] url=${page.url()}`);
+      wireConsoleLogging(page, page.url());
+    }
 
     await sleep(2000);
     const pages = await browser.pages();
@@ -69,7 +92,7 @@ export const metamaskInit = async () => {
         seed: "indicate swing place chair flight used hammer soon photo region volume shuffle",
         showTestNets: true,
       }),
-      browser,
+      rawBrowser,
       45000
     );
 
