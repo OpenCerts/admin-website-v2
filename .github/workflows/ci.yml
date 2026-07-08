@@ -47,3 +47,11 @@ jobs:
           CI: "true"
         with:
           args: npm run integration:dappeteer
+
+      - name: Upload integration debug screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-debug
+          path: integration/debug-metamask-timeout.png
+          if-no-files-found: ignore
